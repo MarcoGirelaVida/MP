@@ -144,7 +144,7 @@ int main()
     cout << "Introduce las posiciones entre las que se va a calcular" 
     "el mayor valor: ";
     cin >> izda >> dcha;
-    while(izda < 0|| izda >= util_v || dcha < 0|| dcha >= util_v || izda > dcha)
+    while(izda<0||izda>=util_v||dcha< 0||dcha>=util_v||izda>dcha)
     {
         cout << "Posiciones inválidas, introdúzcalo de nuevo." << endl;
         cout << "Introduce las posiciones entre las que se va a calcular"
