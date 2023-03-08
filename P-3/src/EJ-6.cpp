@@ -135,27 +135,27 @@ int main()
     cin >> util_v;
     while (util_v < 0 || util_v > TOPE)
     {
-        cout << "Número de casillas inválido, introdúzcalo de nuevo. \n"
+        cout << "Número de casillas inválido, introdúzcalo de nuevo. \n";
         cout << "Introduce el número de casillas que deseas rellenar: ";
         cin >> util_v;
     }
 
     // INPUT: Solicito el rango en el que se buscará el mayor valor.
-    cout << "Introduce las posiciones entre las que se va a calcular 
-    el mayor valor: ";
+    cout << "Introduce las posiciones entre las que se va a calcular" 
+    "el mayor valor: ";
     cin >> izda >> dcha;
     while(izda < 0|| izda >= util_v || dcha < 0|| dcha >= util_v || izda > dcha)
     {
         cout << "Posiciones inválidas, introdúzcalo de nuevo." << endl;
-        cout << "Introduce las posiciones entre las que se va a calcular
-        el mayor valor: ";
+        cout << "Introduce las posiciones entre las que se va a calcular"
+        "el mayor valor: ";
         cin >> izda >> dcha;
     }
 
 /*********************************************************************/
 
     // PROCESAMIENTO: Llamo "RellenaVector" para rellenarlo.
-    RellenaVector(vector, util_v, 0, 100)
+    RellenaVector(vector, util_v, 0, 100);
 
     // PROCESAMIENTO: Llamo "pMayor" para buscar el mayor del intervalo.
     int *pMayor = PosMayor(vector, izda, dcha);
