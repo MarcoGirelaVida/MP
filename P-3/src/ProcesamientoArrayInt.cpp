@@ -11,16 +11,92 @@
 */
 /*********************************************************************/
 
+#include <iostream>
+#include <random>  // para la generaci�n de n�meros pseudoaleatorios
+#include <chrono>  // para la semilla
+
+using namespace std;
+
+/***************************************************************************/
+// Clase: GeneradorAleatorioEnteros
+/*
+	Sirve para generar n�meros aleatorios enteros en un rango de valores.
+	
+	Hay crear un objeto de esta clase. Se dispone de dos constructores: 
+	1) GeneradorAleatorioEnteros()
+	   		El primero no tiene par�metros y establece que �nicamente se 
+			van a generar ceros y unos (este constructor llama al segundo). 
+	2) GeneradorAleatorioEnteros(int min, int max)
+		El segundo tiene dos par�metros, "min" y "max" que delimitan el 
+		rango correspondiente. 
+
+	Finalmente, el m�todo 
+	
+		int Siguiente()
+	
+	devolver� un valor aleatorio en el rango especificado en el constructor.
+*/
+/***************************************************************************/
+/////////////////////////////////////////////////////////////////////////////
+class GeneradorAleatorioEnteros
+{  
+private:
+	
+	mt19937 generador_mersenne;    // Mersenne twister
+	uniform_int_distribution<int>  distribucion_uniforme;
+	
+	/************************************************************************/
+	
+	long long Nanosec(){
+		return (chrono::high_resolution_clock::now().time_since_epoch().count());
+	}
+	
+	/************************************************************************/ 
+	
+public:
+	
+	/************************************************************************/
+		
+	GeneradorAleatorioEnteros() : GeneradorAleatorioEnteros(0, 1) 
+	{ }
+	
+	/************************************************************************/  
+	GeneradorAleatorioEnteros(int min, int max) {
+	
+		const int A_DESCARTAR = 70000;
+		// ACM TOMS Volume 32 Issue 1, March 2006
+		
+		auto semilla = Nanosec();
+		generador_mersenne.seed(semilla);
+		generador_mersenne.discard(A_DESCARTAR);
+		distribucion_uniforme = uniform_int_distribution<int> (min, max);
+	}
+	
+	/************************************************************************/
+	
+	int Siguiente(){
+	  return (distribucion_uniforme(generador_mersenne));
+	}
+	
+	/************************************************************************/
+
+};
 
 
-/*********************************************************************/
+/////////////////////////////////////////////////////////////////////////////
+
+
 // Muestra un vector dado 
-// PRE: 
-
-void MuestraVector (const char *msg, int *p, int n_datos, int datos_linea)
-{
-
-}
+// PRE: Vector y longitud que se quiere mostrar
+    void imprimirVector(int *v, int n)
+    {
+        cout << "El vector final queda de la siguiente manera: " << endl;
+        for (int i = 0; i < n; i++)
+        {
+            cout << *(v+i) << " ";
+        }
+        cout << endl;
+    }
 
 
 
@@ -141,6 +217,29 @@ void OrdenaInsercion (int *v, int pos_inic, int pos_fin)
 
 }
 
+/*********************************************************************/
+// Comprueba la validez de un dato a corde a unos parametros dados
+// PRE:
+//      pv: puntero a una casilla de un vector dado;
+//      izda: límite inferior a partir del que se puede definir.
+//      dcha: límite superior a partir del que se puede definir.
+bool datovalido(int dato, int izda, int dcha)
+{
+    if (dato >= izda)
+    {
+        return true;
+    }
+    else if (dato <= dcha)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+
 
 /*********************************************************************/
 // Devuelve un puntero al mayor val de un intervalo contenido en un vector.
@@ -172,4 +271,23 @@ int * PosMayor(int * pv, int izda, int dcha)
     }
     return pMayor;
 }
+/*
+Nótese que he hecho uso de la sintaxis de corchetes puesto que la
+encuentro más intuitiva, no obstante podría haberlo hecho con sintaxis
+de asteriscos y hubiera quedado de la siguiente manera:
+
+int* PosMayor(int* v, int izda, int dcha)
+{
+    int* pMayor = v + izda;
+    for (int i = izda; i <= dcha; i++)
+    {
+        if (*(v + i) > *pMayor)
+        {
+            pMayor = v + i;
+        }
+    }
+    return pMayor;
+}
+
+*/
 /*********************************************************************/

@@ -8,25 +8,12 @@
 
     PRACTICA 3 - EJERCICIO 7
 */
+///////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include "ProcesamientoArrayInt.h"
-#include "GeneradorAleatorioEnteros.h"
 
 using namespace std;
-
-///////////////////////////////////////////////////////////////////////
-
-//Función para imprimir un n casillas de un vector dado
-
-void imprimirVector(int *v, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        cout << *(v+i) << " ";
-    }
-    cout << endl;
-}
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -37,6 +24,10 @@ int main() {
     int eleccion;
 
 /*********************************************************************/
+// Nótese que las funciones de INPUT ya han sido anteriormente utilizadas
+// en el ej-6, por lo que serían perfectas candidatas a modularización,
+// no obstante debido a que contienen órdenes de cin, cout no lo he hecho,
+// (En FP me dijeron que no había que meter cin, cout en funciones)
 
     // INPUT: Pedimos el número de casillas a rellenar.
     cout << "Introduce el número de casillas que deseas rellenar: ";
@@ -51,7 +42,8 @@ int main() {
     // INPUT: Solicito el rango en el que se ordenará.
     cout << "Introduce las posiciones entre las que se va a reordenar: ";
     cin >> pos_inic >> pos_fin;
-    while(pos_inic<0||pos_inic>=util_v||pos_fin<0||pos_fin>=util_v||pos_inic>pos_fin)
+    while(!datovalido(pos_inic,1,util_v)||!datovalido(pos_fin,1,util_v)|| \
+    pos_inic>pos_fin)
     {
         cout << "Posiciones inválidas, introdúzcalo de nuevo." << endl;
         cout << "Introduce las posiciones entre las que se va a reordenar ";
@@ -92,6 +84,9 @@ int main() {
 
 /*********************************************************************/
 
+    //OUTPUT: Muestro cómo ha quedado el vector ordenado.
     imprimirVector(vector, util_v);
 
 }
+
+///////////////////////////////////////////////////////////////////////

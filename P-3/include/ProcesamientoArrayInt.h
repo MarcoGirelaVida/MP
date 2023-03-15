@@ -14,11 +14,16 @@
 #ifndef INTARRAYMANG
 #define INTARRAYMANG
 
+#include <iostream>
+#include <random> 
+#include <chrono>  
+
+using namespace std;
+
 /*********************************************************************/
 // Muestra un vector dado 
-// PRE: 
-
-void MuestraVector (const char *msg, int *p, int n_datos, int datos_linea);
+// PRE: vector y longuitud que se quiere mostrar
+void imprimirVector(int *v, int n);
 
 /*********************************************************************/
 // Rellena un vector con números aleatorios dado rango en el que se generen los mismos 
@@ -57,4 +62,61 @@ void OrdenaIntercambio (int *v, int pos_inic, int pos_fin);
 
 int * PosMayor(int * pv, int izda, int dcha);
 
-#endif
+/*********************************************************************/
+// Comprueba la validez de un dato a corde a unos parametros dados
+// PRE:
+//      pv: puntero a una casilla de un vector dado;
+//      izda: límite inferior a partir del que se puede definir.
+//      dcha: límite superior a partir del que se puede definir.
+bool datovalido(int dato, int izda, int dcha);
+
+
+/*********************************************************************/
+// Clase para la generación de enteros aleatorios, copiada de prado, 
+// nada que explicar.
+
+class GeneradorAleatorioEnteros
+{  
+private:
+	
+	mt19937 generador_mersenne;    // Mersenne twister
+	uniform_int_distribution<int>  distribucion_uniforme;
+	
+	/************************************************************************/
+	
+	long long Nanosec(){
+		return (chrono::high_resolution_clock::now().time_since_epoch().count());
+	}
+	
+	/************************************************************************/ 
+	
+public:
+	
+	/************************************************************************/
+		
+	GeneradorAleatorioEnteros() : GeneradorAleatorioEnteros(0, 1) 
+	{ }
+	
+	/************************************************************************/  
+	GeneradorAleatorioEnteros(int min, int max) {
+	
+		const int A_DESCARTAR = 70000;
+		// ACM TOMS Volume 32 Issue 1, March 2006
+		
+		auto semilla = Nanosec();
+		generador_mersenne.seed(semilla);
+		generador_mersenne.discard(A_DESCARTAR);
+		distribucion_uniforme = uniform_int_distribution<int> (min, max);
+	}
+	
+	/************************************************************************/
+	
+	int Siguiente(){
+	  return (distribucion_uniforme(generador_mersenne));
+	}
+	
+	/************************************************************************/
+
+};
+
+#endif // GENERADORALEATORIOENTEROS_H

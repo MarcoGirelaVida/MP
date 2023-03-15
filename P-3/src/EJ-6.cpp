@@ -40,87 +40,11 @@ Nota: Modularice la solución con funciones
 
 
 #include <iostream>
-#include "GeneradorAleatorioEnteros.h"
+#include "ProcesamientoArrayInt.h"
 
 using namespace std;
 
-
-
 ///////////////////////////////////////////////////////////////////////
-// Devuelve un puntero al mayor val de un intervalo contenido en un vec.
-// PRE:
-//      pv: puntero a una casilla de un vector dado;
-//      izda: límite inferior a partir de pv desde el que se quiere buscar.
-//      dcha: límite superior a partir de pv desde el que se quiere buscar.
-
-int * PosMayor(int v[], int izda, int dcha)
-{
-// Inicializo el vector 'pMayor' a la primera dirección a partir de la
-// que quiero buscar el mayor.
-
-    int * pMayor = &v[izda];
-
-/*  
-A lo largo del fragmento solicitado comparo el contenido de cada de
-dirección con el del mayor valor hasta el momento (almacenado en el
-puntero 'pMayor').
-Si el contenido comparado es mayor que el contenido de pMayor, este
-se actualiza.
-*/
-    for (int i = izda; i <= dcha; i++)
-    {
-        if (v[i] > *pMayor)
-        {
-            pMayor = &v[i];
-        }
-    }
-    return pMayor;
-}   
-
-/*
-Nótese que he hecho uso de la sintaxis de corchetes puesto que la
-encuentro más intuitiva, no obstante podría haberlo hecho con sintaxis
-de asteriscos y hubiera quedado de la siguiente manera:
-
-int* PosMayor(int* v, int izda, int dcha)
-{
-    int* pMayor = v + izda;
-    for (int i = izda; i <= dcha; i++)
-    {
-        if (*(v + i) > *pMayor)
-        {
-            pMayor = v + i;
-        }
-    }
-    return pMayor;
-}
-
-*/
-
-/*********************************************************************/
-// Rellena un vector con Nºs aleatorios dado rango en el que se generen. 
-// PRE:
-//      p[]: Un puntero al inicio del vector que queremos rellenar
-//      num_datos: Número de datos que queremos rellenar
-//      min_aleat: Mínimo a partir del que se generan los números aleatorios
-//      max_aleat: Máxima a partir del que se generan los números aleatorios.
-
-void RellenaVector(int p[], int num_datos, int min_aleat, int max_aleat)
-{
-    GeneradorAleatorioEnteros generador(min_aleat, max_aleat);
-
-    for (int i = 0; i < num_datos; i++)
-    {
-        p[i] = generador.Siguiente();
-    }
-}
-
-
-
-///////////////////////////////////////////////////////////////////////
-
-
-
 int main()
 {
     // DECLARACIÓN
