@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Ejercicios previos del profesor
+Previo*/
+
+# El vscode
+.vscode/
