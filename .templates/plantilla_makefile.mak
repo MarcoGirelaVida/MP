@@ -8,13 +8,13 @@
 #
 # RELACION DE PROBLEMAS 1
 #
-# makefile_03.mak
+# makefile_.mak
 #
 # makefile para la sesión de prácticas 3
 #
 #############################################################################
 
-PROYECTO = PRACTICA n
+PROYECTO = PRACTICA $(shell basename "$$PWD")
 
 HOME = .
 HOME_CLASES_UTILS = .
@@ -42,7 +42,7 @@ preambulo:
 	@echo
 	@echo ------------------------------------------------------------
 	@echo Ejercicios de la Relación de Problemas I
-	@echo PROYECTO: $(PROYECTO)	
+	@echo PROYECTO: $(shell basename "$$PWD")
 	@echo
 	@echo METODOLOGÍA DE LA PROGRAMACIÓN
 	@echo
