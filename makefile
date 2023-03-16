@@ -30,12 +30,12 @@ nuevo:
 	else \
 		mkdir $(HOME)/MP_sesion$(n); \
 		mkdir $(extras); \
-		cp $(HOME)/makefile $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
+		cp $(HOME)/.templates/plantilla_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
 		echo "Hecho"; \
 	fi; \
 
 	for ((i=0; i<$(p); i++)); do \
-		cp .plantilla.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
+		cp $(HOME)/.templates/plantilla.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
 	done
 
 borrar:
