@@ -9,21 +9,9 @@ OBJ = $(HOME)/obj
 BIN = $(HOME)/bin
 extras = $(HOME)/MP_sesion$(n)/src $(HOME)/MP_sesion$(n)/include $(HOME)/MP_sesion$(n)/lib $(HOME)/MP_sesion$(n)/obj $(HOME)/MP_sesion$(n)/bin
 
-all: $(BIN)/$(n) $(BIN)/$(n)-en-dos-pasos
-	@cho Terminado
-	
 presentacion:
-	@echo Autor = $(AUTOR)
-	
-$(BIN)/$(n): $(SRC)/$(n).cpp
-	g++ -o $(BIN)/$(n) $(SRC)/$(n).cpp
-	
-$(OBJ)/$(n).o: $(SRC)/$(n).cpp
-	g++ -c -o $(OBJ)/$(n).o $(SRC)/$(n).cpp
-	
-$(BIN)/$(n)-en-dos-pasos: $(OBJ)/$(n).o
-	g++ -o $(BIN)/$(n)-en-dos-pasos $(OBJ)/$(n).o
-	
+	@echo Autor: $(AUTOR)
+
 nuevo:
 	if [ -d $(HOME)/MP_sesion$(n) ]; then \
 		echo "El proyecto $(n) ya existe, ¿Quieres continuar? (y/n)"; \
@@ -44,7 +32,11 @@ nuevo:
 		mkdir $(extras); \
 		cp $(HOME)/makefile $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
 		echo "Hecho"; \
-	fi
+	fi; \
+
+	for ((i=0; i<$(p); i++)); do \
+		cp .plantilla.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
+	done
 
 borrar:
 	echo "Estas seguro de que quieres borrar la carpeta MP_sesion$(n)? (y/n)"; \
@@ -65,8 +57,8 @@ mr.proper: clean
 	-rm $(BIN)/*
 	@echo Los ejecutables han sido eliminados
 	-rm $(LIB)/*
-	@echo Las $(LIB)rerias han sido eliminadas
+	@echo Las librerias han sido eliminadas
 	
 clean:
 	-rm $(OBJ)/*
-	@echo $(OBJ)etos borrados
+	@echo Objetos borrados
