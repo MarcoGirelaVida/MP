@@ -193,7 +193,7 @@ int util_v1, int v2[], int util_v2)
 	const int * const p_finalv2 = v2 + util_v2;
 
 	// El while terminará cuando alguno de los dos vectores se vacíe.
-	while (v1 <= (int *) p_finalv1 ||
+	while (v1 <= (int *) p_finalv1 &&
 		   v2 <= (int *) p_finalv2 )
 	{
 
@@ -237,7 +237,6 @@ int util_v1, int v2[], int util_v2)
 			*mezcla = *v1;
 			mezcla++;
 			do{v1++;} while (*v1 == *(v1+1) && v1 != p_finalv1);
-			cout << "Util_mezcla tmp es: " << mezcla - inicio_mezcla << endl << endl;
 		}
 	}
 	else
@@ -247,10 +246,8 @@ int util_v1, int v2[], int util_v2)
 			*mezcla = *v2;
 			mezcla++;
 			do{v2++;} while (*v2 == *(v2+1) && v2 != p_finalv2);
-			cout << "Util_mezcla tmp es: " << mezcla - inicio_mezcla << endl << endl;
 		}
 	}
 
-	cout << "Util_mezcla final es: " << mezcla - inicio_mezcla << endl << endl;
 	return (mezcla - inicio_mezcla);
 }
