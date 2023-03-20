@@ -316,6 +316,131 @@ void MezclaVectoresSimple (int *mezcla, int *v1, int util_v1, int *v2, int util_
 
 /***************************************************************************/
 /***************************************************************************/
+// Mezcla selectiva, guarda solo aquellos números que no se hayan repetido.
+// 
+// Parámetros:
+//		mezcla, dirección de memoria del inicio el vector resultado  
+//		v1, dirección de memoria del inicio del primer vector a mezclar  
+//		util_v1, número de casillas ocupadas en "v1"
+//		v2, dirección de memoria del inicio del segundo vector a mezclar  
+//		util_v2, número de casillas ocupadas en "v2"
+// PRE: "v1" y "v2" están ordenados
+// PRE: "mezcla" tiene suficiente memoria asignada
+// PRE: util_v1, util_v2 >= 0
+/*
+	EJEMPLO DE FUNCIONAMIENTO:
+	Si en v1 hay un 8 y en v2 también, no se mete 8 en "mezcla".
+	Si en v1 hay un 2 y en v2 no, se meterá un 2 en mezcla.
+	Además, si en v1 hay {..., 8, 8, 8, ...} y en v2 no hay ningún 8,
+	entonces solo se meterá UN 8 en "mezcla" (no los tres).
+*/
+
+int MezclaVectoresSelectiva (int mezcla[], int v1[],
+int util_v1, int v2[], int util_v2)
+{
+	int * pv1 = v1;
+	int * pv2 = v2;
+	int * pmez = mezcla;
+	//const int * const inicio_mezcla = mezcla;
+	const int * const p_finalv1 = v1 + util_v1;
+	const int * const p_finalv2 = v2 + util_v2;
+
+	// El while terminará cuando alguno de los dos vectores se vacíe.
+	while (pv1 <= (int *) p_finalv1 &&
+		   pv2 <= (int *) p_finalv2)
+	{
+
+		// Observe que, dado que ambos vectores avanzan "a la par";
+		// el hecho de que uno sea menor que otro es criterio suficiente
+		// para demostrar la unicidad de ese elemento.
+		if (*pv1 > *pv2)
+		{
+			*pmez = *pv2;
+			pmez++;
+			// He optado por esta peculiar notación del dowhile debido a que,
+			// en ponderación, la considerable mejora de legibilidad
+			// compensa la leve pérdida de "estandarización".
+
+			// Estos do_while sirven para evitar copiar elementos repetidos
+			// dentro del propio vector.
+			do{pv2++;} while (*pv2 == *(pv2+1) && pv2 != p_finalv2);
+		}
+		else if (*pv1 < *pv2)
+		{
+			*pmez = *pv1;
+			pmez++;
+			do{pv1++;} while (*pv1 == *(pv1+1) && pv1 != p_finalv1);
+		}
+		else
+		{
+			do{pv1++;} while (*pv1 == *(pv1+1) && pv1 != p_finalv1);
+			do{pv2++;} while (*pv2 == *(pv2+1) && pv2 != p_finalv2);
+		}
+	}
+
+	// A continuación relleno "mezcla" con el vector no vacío
+	// (aquel con el mayor elemento más grande).
+	// Nótese que he ignorado el caso en el que ambos p_finales son iguales
+	// puesto que en tal caso, ambos "while" se ignararán y me ahorro un "elif"
+
+	if (p_finalv1 > p_finalv2)
+	{
+		while (pv1 < p_finalv1)
+		{
+			*pmez = *pv1;
+			pmez++;
+			do{pv1++;} while (*pv1 == *(pv1+1) && pv1 != p_finalv1);
+		}
+	}
+	else
+	{
+		while (pv2 < p_finalv2)
+		{
+			*pmez = *pv2;
+			pmez++;
+			do{pv2++;} while (*pv2 == *(pv2+1) && pv2 != p_finalv2);
+		}
+	}
+
+	return (pmez - mezcla);
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// Mezcla dos vectores de forma selectiva o no selectiva (ver 
+// funcinamiento de ambas funciones encima de esta).
+//
+// Parámetros:
+//		mezcla, dirección de memoria del inicio el vector resultado  
+//		v1, dirección de memoria del inicio del primer vector a mezclar  
+//		util_v1, número de casillas ocupadas en "v1"
+//		v2, dirección de memoria del inicio del segundo vector a mezclar  
+//		util_v2, número de casillas ocupadas en "v2"
+//		util_mezcla proporciona el número de casillas útiles de mezcla
+//		selectiva indica a la función si debe realizar una mezcla selectiva 
+//		o no. El valor por defecto es no.
+// PRE: "v1" y "v2" están ordenados
+// PRE: "mezcla" tiene suficiente memoria asignada
+// PRE: util_v1, util_v2 >= 0
+// PRE: "selectiva" debe ser un valor válido (si/no)
+
+void MezclaVectores (int mezcla[], int &util_mezcla,
+					int v1[], int util_v1, int v2[], int util_v2,
+					const char * selectiva)
+{
+	if (selectiva == "si" || selectiva == "SI" || selectiva == "Si" ||
+		selectiva == "sI")
+	{
+		util_mezcla = MezclaVectoresSelectiva (mezcla, v1, util_v1,
+													   v2, util_v2);
+	}
+	
+	util_mezcla = util_v1 + util_v2;
+	MezclaVectoresSimple(mezcla, v1, util_v1, v2, util_v2);
+}
+
+/***************************************************************************/
+/***************************************************************************/
 // Intercambia los valores cuyas direcciones están en "p1" y "p2"
 
 

@@ -70,20 +70,17 @@ $(BIN)/I_MezclaArrays : $(OBJ)/I_MezclaArrays.o	\
 	       $(OBJ)/ProcesamientoArrayInt.o   \
 		   $(OBJ)/GeneradorAleatorioEnteros.o   \
 
-$(BIN)/ProcesamientoArrayInt : $(OBJ)/ProcesamientoArrayInt.o \
-                    $(OBJ)/GeneradorAleatorioEnteros.o
+$(BIN)/I_MezclaArrays_ref : $(OBJ)/I_MezclaArrays_ref.o	\
+                    $(OBJ)/ProcesamientoArrayInt.o	\
+					$(OBJ)/GeneradorAleatorioEnteros.o	\
+					$(OBJ)/MiCadenaClasica.o        
 	@echo 
-	@echo Creando ejecutable: ProcesamientoArrayInt
+	@echo Creando ejecutable: I_MezclaArrays_ref
 	@echo 
-	g++ -o $(BIN)/ProcesamientoArrayInt $(OBJ)/ProcesamientoArrayInt.o \
-	       $(OBJ)/GeneradorAleatorioEnteros.o \
-
-$(BIN)/GeneradorAleatorioEnteros : $(OBJ)/GeneradorAleatorioEnteros.o
-	@echo 
-	@echo Creando ejecutable: GeneradorAleatorioEnteros
-	@echo 
-	g++ -o $(BIN)/GeneradorAleatorioEnteros $(OBJ)/GeneradorAleatorioEnteros.o \
-
+	g++ -o $(BIN)/I_MezclaArrays_ref $(OBJ)/I_MezclaArrays_ref.o \
+	       $(OBJ)/ProcesamientoArrayInt.o   \
+		   $(OBJ)/GeneradorAleatorioEnteros.o   \
+		   $(OBJ)/MiCadenaClasica.o
 #................................................
 # OBJETOS 
 
@@ -94,6 +91,16 @@ $(OBJ)/I_MezclaArrays.o : $(SRC)/I_MezclaArrays.cpp \
 	@echo Creando objeto: I_MezclaArrays.o
 	@echo 
 	g++ -c -o $(OBJ)/I_MezclaArrays.o $(SRC)/I_MezclaArrays.cpp \
+	    -I$(INCLUDE) -std=c++14
+
+$(OBJ)/I_MezclaArrays_ref.o : $(SRC)/I_MezclaArrays_ref.cpp \
+                      $(INCLUDE)/GeneradorAleatorioEnteros.h \
+                      $(INCLUDE)/ProcesamientoArrayInt.h \
+					  $(INCLUDE)/MiCadenaClasica.h
+	@echo 
+	@echo Creando objeto: I_MezclaArrays_ref.o
+	@echo 
+	g++ -c -o $(OBJ)/I_MezclaArrays_ref.o $(SRC)/I_MezclaArrays_ref.cpp \
 	    -I$(INCLUDE) -std=c++14
 
 $(OBJ)/ProcesamientoArrayInt.o : $(SRC)/ProcesamientoArrayInt.cpp \
@@ -114,13 +121,21 @@ $(OBJ)/GeneradorAleatorioEnteros.o : $(SRC)/GeneradorAleatorioEnteros.cpp \
 	          $(SRC)/GeneradorAleatorioEnteros.cpp \
 	          -I$(INCLUDE) -std=c++14
 
+$(OBJ)/MiCadenaClasica.o : $(SRC)/MiCadenaClasica.cpp \
+						$(INCLUDE)/MiCadenaClasica.h
+	@echo 
+	@echo Creando objeto: MiCadenaClasica.o
+	@echo 
+	g++ -c -o $(OBJ)/MiCadenaClasica.o \
+	          $(SRC)/MiCadenaClasica.cpp \
+	          -I$(INCLUDE) -std=c++14
 #..................................................
 
 $(OBJ)/.o : $(SRC)/.cpp \
                       $(INCLUDE)/.h \
 					  $(INCLUDE)/.h \
 	@echo 
-	@echo Creando objeto: ProcesamientoArrayInt.o
+	@echo Creando objeto: .o
 	@echo 
 	g++ -c -o $(OBJ)/.o \
 	          $(SRC)/.cpp \
@@ -160,7 +175,8 @@ clean-objs:
 	-rm $(OBJ)/I_MezclaArrays.o
 	-rm $(OBJ)/ProcesamientoArrayInt.o
 	-rm $(OBJ)/GeneradorAleatorioEnteros.o
-	-rm $(OBJ)/.o	
+	-rm $(OBJ)/I_MezclaArrays_ref.o	
+	-rm $(OBJ)/MiCadenaClasica.o
 	-rm $(OBJ_CLASES_UTILS)/.o 
 	@echo ...Borrados objetos de $(PROYECTO)
 	@echo 
@@ -176,6 +192,8 @@ clean-bins :
 	-rm $(BIN)/I_MezclaArrays
 	-rm $(BIN)/ProcesamientoArrayInt
 	-rm $(BIN)/GeneradorAleatorioEnteros
+	-rm $(BIN)/I_MezclaArrays_ref
+	-rm $(BIN)/MiCadenaClasica
 	@echo ...Borrados ejecutables de la sesion de $(PROYECTO)
 
 mr.proper:  clean-objs clean-libs clean-bins

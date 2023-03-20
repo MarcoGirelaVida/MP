@@ -4,16 +4,16 @@
 //
 // AUTOR: MARCO GIRELA VIDA
 // GRUPO: 1ºB
-// FECHA: xx/03/2023
+// FECHA: 20/03/2023
 //
 // RELACION DE PROBLEMAS 1
 //
-//  
+// Se crean y rellenan aleatoriamente dos vectores de acuerdo a unos
+// parámetros dados por el usuario, posteriormente se ordenan y
+// por último se crea un vector mezcla donde se guardan aquellos valores
+// únicos de v1 o v2.
 // 
-//
-// Declaraciones en: 
-//
-// Fichero: 
+// Fichero: I_MezclaArrays.cpp
 //
 /***************************************************************************/
 /***************************************************************************/
@@ -23,23 +23,6 @@
 #include <iostream>
 
 using namespace std;
-
-/***************************************************************************/
-/***************************************************************************/
-// Mezcla selectiva, guarda solo aquellos números que no se hayan repetido.
-//
-// Parámetros:
-//		mezcla, dirección de memoria del inicio el vector resultado  
-//		v1, dirección de memoria del inicio del primer vector a mezclar  
-//		util_v1, número de casillas ocupadas en "v1"
-//		v2, dirección de memoria del inicio del segundo vector a mezclar  
-//		util_v2, número de casillas ocupadas en "v2"
-// PRE: "v1" y "v2" están ordenados
-// PRE: "mezcla" tiene suficiente memoria asignada
-// PRE: util_v1, util_v2 >= 0
-
-int MezclaVectoresSelectiva (int mezcla[], int v1[],
-int util_v1, int v2[], int util_v2);
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -164,90 +147,3 @@ int main(int argc, char **argv)
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-
-/***************************************************************************/
-// Mezcla selectiva, guarda solo aquellos números que no se hayan repetido.
-// 
-// Parámetros:
-//		mezcla, dirección de memoria del inicio el vector resultado  
-//		v1, dirección de memoria del inicio del primer vector a mezclar  
-//		util_v1, número de casillas ocupadas en "v1"
-//		v2, dirección de memoria del inicio del segundo vector a mezclar  
-//		util_v2, número de casillas ocupadas en "v2"
-// PRE: "v1" y "v2" están ordenados
-// PRE: "mezcla" tiene suficiente memoria asignada
-// PRE: util_v1, util_v2 >= 0
-/*
-	EJEMPLO DE FUNCIONAMIENTO:
-	Si en v1 hay un 8 y en v2 también, no se mete 8 en "mezcla".
-	Si en v1 hay un 2 y en v2 no, se meterá un 2 en mezcla.
-	Además, si en v1 hay {..., 8, 8, 8, ...} y en v2 no hay ningún 8,
-	entonces solo se meterá UN 8 en "mezcla" (no los tres).
-*/
-
-int MezclaVectoresSelectiva (int mezcla[], int v1[],
-int util_v1, int v2[], int util_v2)
-{
-	const int * const inicio_mezcla = mezcla;
-	const int * const p_finalv1 = v1 + util_v1;
-	const int * const p_finalv2 = v2 + util_v2;
-
-	// El while terminará cuando alguno de los dos vectores se vacíe.
-	while (v1 <= (int *) p_finalv1 &&
-		   v2 <= (int *) p_finalv2 )
-	{
-
-		// Observe que, dado que ambos vectores avanzan "a la par";
-		// el hecho de que uno sea menor que otro es criterio suficiente
-		// para demostrar la unicidad de ese elemento.
-		if (*v1 > *v2)
-		{
-			*mezcla = *v2;
-			mezcla++;
-			// He optado por esta peculiar notación del dowhile debido a que,
-			// en ponderación, la considerable mejora de legibilidad
-			// compensa la leve pérdida de "estandarización".
-
-			// Estos do_while sirven para evitar copiar elementos repetidos
-			// dentro del propio vector.
-			do{v2++;} while (*v2 == *(v2+1) && v2 != p_finalv2);
-		}
-		else if (*v1 < *v2)
-		{
-			*mezcla = *v1;
-			mezcla++;
-			do{v1++;} while (*v1 == *(v1+1) && v1 != p_finalv1);
-		}
-		else
-		{
-			do{v1++;} while (*v1 == *(v1+1) && v1 != p_finalv1);
-			do{v2++;} while (*v2 == *(v2+1) && v2 != p_finalv2);
-		}
-	}
-
-	// A continuación relleno "mezcla" con el vector no vacío
-	// (aquel con el mayor elemento más grande).
-	// Nótese que he ignorado el caso en el que ambos p_finales son iguales
-	// puesto que en tal caso, ambos "while" se ignararán y me ahorro un "elif"
-
-	if (p_finalv1 > p_finalv2)
-	{
-		while (v1 < p_finalv1)
-		{
-			*mezcla = *v1;
-			mezcla++;
-			do{v1++;} while (*v1 == *(v1+1) && v1 != p_finalv1);
-		}
-	}
-	else
-	{
-		while (v2 < p_finalv2)
-		{
-			*mezcla = *v2;
-			mezcla++;
-			do{v2++;} while (*v2 == *(v2+1) && v2 != p_finalv2);
-		}
-	}
-
-	return (mezcla - inicio_mezcla);
-}

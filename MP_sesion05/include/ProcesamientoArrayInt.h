@@ -110,5 +110,23 @@ void Intercambia (int *p1, int *p2);
 
 /***************************************************************************/
 /***************************************************************************/
+// Mezcla dos vectores.
+//
+// Parámetros:
+//		mezcla, dirección de memoria del inicio el vector resultado  
+//		v1, dirección de memoria del inicio del primer vector a mezclar  
+//		util_v1, número de casillas ocupadas en "v1"
+//		v2, dirección de memoria del inicio del segundo vector a mezclar  
+//		util_v2, número de casillas ocupadas en "v2"
+// PRE: "v1" y "v2" están ordenados
+// PRE: "mezcla" tiene suficiente memoria asignada
+// PRE: util_v1, util_v2 >= 0
+
+void MezclaVectores (int mezcla[], int &util_mezcla,
+					int v1[], int util_v1, int v2[], int util_v2,
+					const char * selectiva = "no");
+
+/***************************************************************************/
+/***************************************************************************/
 
 #endif
