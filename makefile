@@ -1,6 +1,4 @@
-#Primer fichero-makefile
-#USO: make objetivo/nombre-deseado n=nombre-deseado
-AUTOR = Marco
+AUTOR = Marco Girela Vida
 HOME = .
 SRC = $(HOME)/src
 INCLUDE = $(HOME)/include
@@ -20,7 +18,11 @@ nuevo:
 			rm -rf $(HOME)/MP_sesion$(n); \
 			mkdir $(HOME)/MP_sesion$(n); \
 			mkdir $(extras); \
-			cp $(HOME)/makefile $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
+			cp $(HOME)/.templates/template_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
+			for ((i=0; i<$(p); i++)); do \
+				cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
+			done; \
+			cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/src/headers.h; \
 			echo "Hecho"; \
 		elif [ "$$respuesta" == "n" ]; then \
 			echo "Saliendo..."; \
@@ -30,13 +32,13 @@ nuevo:
 	else \
 		mkdir $(HOME)/MP_sesion$(n); \
 		mkdir $(extras); \
-		cp $(HOME)/.templates/plantilla_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-		echo "Hecho"; \
+		cp $(HOME)/.templates/template_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
+		for ((i=0; i<$(p); i++)); do \
+			cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
+		done; \
+		cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/src/headers.h; \
 	fi; \
 
-	for ((i=0; i<$(p); i++)); do \
-		cp $(HOME)/.templates/plantilla.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
-	done
 
 borrar:
 	echo "Estas seguro de que quieres borrar la carpeta MP_sesion$(n)? (y/n)"; \
@@ -51,14 +53,3 @@ borrar:
 
 comprimir:
 	tar -cvf MP_sesion$(n).tar MP_sesion$(n)/
-
-	
-mr.proper: clean
-	-rm $(BIN)/*
-	@echo Los ejecutables han sido eliminados
-	-rm $(LIB)/*
-	@echo Las librerias han sido eliminadas
-	
-clean:
-	-rm $(OBJ)/*
-	@echo Objetos borrados

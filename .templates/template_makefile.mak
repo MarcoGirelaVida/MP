@@ -8,9 +8,9 @@
 #
 # RELACION DE PROBLEMAS 1
 #
-# makefile_.mak
+# makefileX_.mak
 #
-# makefile para la sesión de prácticas 3
+# makefile para la sesión de prácticas X
 #
 #############################################################################
 
@@ -62,33 +62,33 @@ final:
 
 $(BIN)/I_ : $(OBJ)/I_.o \
                     $(OBJ)/.o  \
-                    $(LIB_CLASES_UTILS)/lib.a                     
+                    $(LIB_CLASES_UTILS)/libBIBLIDU.a                     
 	@echo 
 	@echo Creando ejecutable: I_
 	@echo 
 	g++ -o $(BIN)/I_ $(OBJ)/I_.o \
 	       $(OBJ)/.o   \
-	       -l -L$(LIB_CLASES_UTILS)
+	       -lBIBLIDU -L$(LIB_CLASES_UTILS)
 
 $(BIN)/I_O : $(OBJ)/I_O \
                     $(OBJ)/.o \
-                    $(LIB_CLASES_UTILS)/lib.a 
+                    $(LIB_CLASES_UTILS)/libBIBLIDU.a 
 	@echo 
 	@echo Creando ejecutable: I_O
 	@echo 
 	g++ -o $(BIN)/I_O $(OBJ)/I_O.o \
 	       $(OBJ)/.o \
-	       -l -L$(LIB_CLASES_UTILS)
+	       -lBIBLIDU -L$(LIB_CLASES_UTILS)
 
 $(BIN)/I_M : $(OBJ)/I_M.o \
                     $(OBJ)/.o \
-                    $(LIB_CLASES_UTILS)/lib.a 
+                    $(LIB_CLASES_UTILS)/libBIBLIDU.a 
 	@echo 
 	@echo Creando ejecutable: I_M
 	@echo 
 	g++ -o $(BIN)/I_M $(OBJ)/I_M.o \
 	       $(OBJ)/.o \
-	       -l -L$(LIB_CLASES_UTILS)
+	       -lBIBLIDU -L$(LIB_CLASES_UTILS)
 
 #................................................
 # OBJETOS 
@@ -135,15 +135,13 @@ $(OBJ)/.o : $(SRC)/.cpp \
 #................................................
 # BIBLIOTECAS 
 
-# (Números aleatorios) ........................
-
 $(LIB_CLASES_UTILS)/lib.a : \
 	$(OBJ_CLASES_UTILS)/.o
 	@echo 
-	@echo Creando biblioteca: lib.a
+	@echo Creando biblioteca: libBIBLIDU.a
 	@echo
-	ar rvs $(LIB_CLASES_UTILS)/lib.a \
-        $(OBJ_CLASES_UTILS)/.o
+	ar rvs $(LIB_CLASES_UTILS)/libBIBLIDU.a \
+        $(OBJ_CLASES_UTILS)/BIBLIDU.o
  
 $(OBJ_CLASES_UTILS)/.o : \
     $(SRC_CLASES_UTILS)/.cpp \
@@ -157,6 +155,9 @@ $(OBJ_CLASES_UTILS)/.o : \
 
 #................................................
 # LIMPEZA
+
+comprimir:
+	tar -cvf MP_sesion$(n).tar src include obj lib bin makefile$(n).mak
 
 clean: clean-objs clean-libs
 
@@ -172,7 +173,7 @@ clean-objs:
 
 clean-libs: 
 	@echo Borrando bibliotecas de $(PROYECTO)...
-	-rm $(LIB_CLASES_UTILS)/lib.a
+	-rm $(LIB_CLASES_UTILS)/libBIBLIDU.a
 	@echo ...Borradas bibliotecas de $(PROYECTO)
 	@echo 
 

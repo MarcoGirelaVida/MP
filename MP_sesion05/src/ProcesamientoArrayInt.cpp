@@ -1,8 +1,12 @@
 /***************************************************************************/
+/***************************************************************************/
 // METODOLOGIA DE LA PROGRAMACION
 //
-// (C) FRANCISCO JOSE CORTIJO BON
-// DEPARTAMENTO DE CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL
+// AUTOR: MARCO GIRELA VIDA
+// GRUPO: 1ºB
+// FECHA: xx/03/2023
+//
+// RELACION DE PROBLEMAS 1
 //
 // Fichero: ProcesamientoArrayInt.cpp
 //
@@ -314,9 +318,10 @@ void MezclaVectoresSimple (int *mezcla, int *v1, int util_v1, int *v2, int util_
 /***************************************************************************/
 // Intercambia los valores cuyas direcciones están en "p1" y "p2"
 
+
 void Intercambia (int * p1, int * p2)
 {
-	int tmp = *p1;
+	int tmp = * p1;
 	*p1 = *p2;
 	*p2 = tmp;
 }

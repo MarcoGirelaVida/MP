@@ -1,31 +1,34 @@
 /***************************************************************************/
 /***************************************************************************/
-// METODOLOGÍA DE LA PROGRAMACIÓN
+// METODOLOGIA DE LA PROGRAMACION
 //
-// (C) FRANCISCO JOSÉ CORTIJO BON
-// DEPARTAMENTO DE CIENCIAS DE LA COMPUTACIÓN E INTELIGENCIA ARTIFICIAL
+// AUTOR: MARCO GIRELA VIDA
+// GRUPO: 1ÂºB
+// FECHA: xx/03/2023
 //
-// Definición de la clase GeneradorAleatorioEnteros
+// RELACION DE PROBLEMAS 1
+//
+// Definiciï¿½n de la clase GeneradorAleatorioEnteros
 //
 // Fichero: GeneradorAleatorioEnteros.cpp
 //
 /*
-	Sirve para generar números aleatorios enteros en un rango de valores.
+	Sirve para generar nï¿½meros aleatorios enteros en un rango de valores.
 	
 	Hay crear un objeto de esta clase. Se dispone de dos constructores: 
 	
 	1) GeneradorAleatorioEnteros();
-	   Se van a generar únicamente valotres binarios (ceros y unos).
+	   Se van a generar ï¿½nicamente valotres binarios (ceros y unos).
 
 	2) GeneradorAleatorioEnteros(int min, int max);
-		El segundo tiene dos parámetros, "min" y "max" que delimitan el 
+		El segundo tiene dos parï¿½metros, "min" y "max" que delimitan el 
 		rango correspondiente. 
 
-	Una vez creado un objeto de la clase, la ejecución sobre él del método 
+	Una vez creado un objeto de la clase, la ejecuciï¿½n sobre ï¿½l del mï¿½todo 
 	
 		int Siguiente()
 	
-	devolverá un valor aleatorio en el rango especificado en el constructor.
+	devolverï¿½ un valor aleatorio en el rango especificado en el constructor.
 */
 /***************************************************************************/
 /***************************************************************************/
@@ -60,7 +63,7 @@ GeneradorAleatorioEnteros :: GeneradorAleatorioEnteros(int min, int max)
 }
 
 /************************************************************************/
-// Devuelve un nuevo número aleatorio
+// Devuelve un nuevo nï¿½mero aleatorio
 
 int GeneradorAleatorioEnteros :: Siguiente()
 {
@@ -69,7 +72,7 @@ int GeneradorAleatorioEnteros :: Siguiente()
 /************************************************************************/
 
 /************************************************************************/
-// MÉTODOS PRIVADOS
+// Mï¿½TODOS PRIVADOS
 /************************************************************************/
 
 long long GeneradorAleatorioEnteros :: Nanosec()

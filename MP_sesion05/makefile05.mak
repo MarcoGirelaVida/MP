@@ -1,65 +1,181 @@
-#Primer fichero-makefile
-#USO: make objetivo/nombre-deseado n=nombre-deseado
-AUTOR = Marco
+#***************************************************************************/
+#***************************************************************************/
+# METODOLOGIA DE LA PROGRAMACION
+#
+# AUTOR: MARCO GIRELA VIDA
+# GRUPO: 1ºB
+# FECHA: xx/03/2023
+#
+# RELACION DE PROBLEMAS 1
+#
+# makefile05_.mak
+#
+# makefile para la sesión de prácticas 5
+#
+#############################################################################
+
+PROYECTO = PRACTICA $(shell basename "$$PWD")
+
 HOME = .
-SRC = $(HOME)/src
-INCLUDE = $(HOME)/include
-LIB = $(HOME)/lib
-OBJ = $(HOME)/obj
+HOME_CLASES_UTILS = .
+
 BIN = $(HOME)/bin
-extras = $(HOME)/MP_sesion$(n)/src $(HOME)/MP_sesion$(n)/include $(HOME)/MP_sesion$(n)/lib $(HOME)/MP_sesion$(n)/obj $(HOME)/MP_sesion$(n)/bin
+SRC = $(HOME)/src
+OBJ = $(HOME)/obj
+LIB = $(HOME)/lib
+INCLUDE = $(HOME)/include
 
-presentacion:
-	@echo Autor: $(AUTOR)
+SRC_CLASES_UTILS =  $(HOME_CLASES_UTILS)/src
+OBJ_CLASES_UTILS =  $(HOME_CLASES_UTILS)/obj
+LIB_CLASES_UTILS =  $(HOME_CLASES_UTILS)/lib
+INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
-nuevo:
-	if [ -d $(HOME)/MP_sesion$(n) ]; then \
-		echo "El proyecto $(n) ya existe, ¿Quieres continuar? (y/n)"; \
-		read -n 1 respuesta; \
-		if [ "$$respuesta" == "y" ]; then \
-			rm -rf $(HOME)/MP_sesion$(n); \
-			mkdir $(HOME)/MP_sesion$(n); \
-			mkdir $(extras); \
-			cp $(HOME)/makefile $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-			echo "Hecho"; \
-		elif [ "$$respuesta" == "n" ]; then \
-			echo "Saliendo..."; \
-		else \
-			echo "Respuesta inválida. Saliendo..."; \
-		fi \
-	else \
-		mkdir $(HOME)/MP_sesion$(n); \
-		mkdir $(extras); \
-		cp $(HOME)/makefile $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-		echo "Hecho"; \
-	fi \
+#................................................
+all:  preambulo \
+      $(BIN)/I_MezclaArrays \
+	  $(BIN)/ProcesamientoArrayInt \
+	  $(BIN)/GeneradorAleatorioEnteros \
+	  final
 
-	@echo "Valor de p: $(p)"
-	for ((i=0; i<$(p); i++)); do \
-		cp plantilla.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
-	done
+#................................................
+preambulo:
+	@echo
+	@echo ------------------------------------------------------------
+	@echo Ejercicios de la Relación de Problemas I
+	@echo PROYECTO: $(shell basename "$$PWD")
+	@echo
+	@echo METODOLOGÍA DE LA PROGRAMACIÓN
+	@echo
+	@echo Autor: Marco Girela Vida
+	@echo Grupo: 1ºB
+	@echo Universidad de Granada
+	@echo ------------------------------------------------------------
+	@echo
 
-borrar:
-	echo "Estas seguro de que quieres borrar la carpeta MP_sesion$(n)? (y/n)"; \
-	read -n 1 respuesta; \
-	if [ "$$respuesta" == "y" ]; then \
-		rm -rf $(HOME)/MP_sesion$(n); \
-	elif [ "$$respuesta" == "n" ]; then \
-		echo "Saliendo..."; \
-	else \
-		echo "Respuesta inválida. Saliendo..."; \
-	fi 
+
+#................................................
+final: 
+	@echo
+
+#................................................
+# EJECUTABLES
+
+$(BIN)/I_MezclaArrays : $(OBJ)/I_MezclaArrays.o	\
+                    $(OBJ)/ProcesamientoArrayInt.o	\
+					$(OBJ)/GeneradorAleatorioEnteros.o            
+	@echo 
+	@echo Creando ejecutable: I_MezclaArrays
+	@echo 
+	g++ -o $(BIN)/I_MezclaArrays $(OBJ)/I_MezclaArrays.o \
+	       $(OBJ)/ProcesamientoArrayInt.o   \
+		   $(OBJ)/GeneradorAleatorioEnteros.o   \
+
+$(BIN)/ProcesamientoArrayInt : $(OBJ)/ProcesamientoArrayInt.o \
+                    $(OBJ)/GeneradorAleatorioEnteros.o
+	@echo 
+	@echo Creando ejecutable: ProcesamientoArrayInt
+	@echo 
+	g++ -o $(BIN)/ProcesamientoArrayInt $(OBJ)/ProcesamientoArrayInt.o \
+	       $(OBJ)/GeneradorAleatorioEnteros.o \
+
+$(BIN)/GeneradorAleatorioEnteros : $(OBJ)/GeneradorAleatorioEnteros.o
+	@echo 
+	@echo Creando ejecutable: GeneradorAleatorioEnteros
+	@echo 
+	g++ -o $(BIN)/GeneradorAleatorioEnteros $(OBJ)/GeneradorAleatorioEnteros.o \
+
+#................................................
+# OBJETOS 
+
+$(OBJ)/I_MezclaArrays.o : $(SRC)/I_MezclaArrays.cpp \
+                      $(INCLUDE)/GeneradorAleatorioEnteros.h \
+                      $(INCLUDE)/ProcesamientoArrayInt.h
+	@echo 
+	@echo Creando objeto: I_MezclaArrays.o
+	@echo 
+	g++ -c -o $(OBJ)/I_MezclaArrays.o $(SRC)/I_MezclaArrays.cpp \
+	    -I$(INCLUDE) -std=c++14
+
+$(OBJ)/ProcesamientoArrayInt.o : $(SRC)/ProcesamientoArrayInt.cpp \
+                  $(INCLUDE)/ProcesamientoArrayInt.h \
+                  $(INCLUDE)/GeneradorAleatorioEnteros.h 
+	@echo 
+	@echo Creando objeto: ProcesamientoArrayInt.o
+	@echo 
+	g++ -c -o $(OBJ)/ProcesamientoArrayInt.o $(SRC)/ProcesamientoArrayInt.cpp \
+	    -I$(INCLUDE) -std=c++14
+
+$(OBJ)/GeneradorAleatorioEnteros.o : $(SRC)/GeneradorAleatorioEnteros.cpp \
+						$(INCLUDE)/GeneradorAleatorioEnteros.h
+	@echo 
+	@echo Creando objeto: GeneradorAleatorioEnteros.o
+	@echo 
+	g++ -c -o $(OBJ)/GeneradorAleatorioEnteros.o \
+	          $(SRC)/GeneradorAleatorioEnteros.cpp \
+	          -I$(INCLUDE) -std=c++14
+
+#..................................................
+
+$(OBJ)/.o : $(SRC)/.cpp \
+                      $(INCLUDE)/.h \
+					  $(INCLUDE)/.h \
+	@echo 
+	@echo Creando objeto: ProcesamientoArrayInt.o
+	@echo 
+	g++ -c -o $(OBJ)/.o \
+	          $(SRC)/.cpp \
+	          -I$(INCLUDE) -std=c++14
+
+#................................................
+# BIBLIOTECAS 
+
+$(LIB_CLASES_UTILS)/lib.a : \
+	$(OBJ_CLASES_UTILS)/.o
+	@echo 
+	@echo Creando biblioteca: libBIBLIDU.a
+	@echo
+	ar rvs $(LIB_CLASES_UTILS)/libBIBLIDU.a \
+        $(OBJ_CLASES_UTILS)/BIBLIDU.o
+ 
+$(OBJ_CLASES_UTILS)/.o : \
+    $(SRC_CLASES_UTILS)/.cpp \
+    $(INCLUDE_CLASES_UTILS)/.h
+	@echo 
+	@echo Creando objeto: .o 
+	@echo
+	g++ -c -o $(OBJ_CLASES_UTILS)/.o \
+        $(SRC_CLASES_UTILS)/.cpp \
+       -I$(INCLUDE_CLASES_UTILS) -std=c++14
+
+#................................................
+# LIMPEZA
 
 comprimir:
-	tar -cvf MP_sesion$(n).tar MP_sesion$(n)/
+	tar -cvf MP_sesion$(n).tar src include obj lib bin makefile$(n).mak
 
-	
-mr.proper: clean
-	-rm $(BIN)/*
-	@echo Los ejecutables han sido eliminados
-	-rm $(LIB)/*
-	@echo Las librerias han sido eliminadas
-	
-clean:
-	-rm $(OBJ)/*
-	@echo Objetos borrados
+clean: clean-objs clean-libs
+
+clean-objs: 
+	@echo Borrando objetos de $(PROYECTO)...
+	-rm $(OBJ)/I_MezclaArrays.o
+	-rm $(OBJ)/ProcesamientoArrayInt.o
+	-rm $(OBJ)/GeneradorAleatorioEnteros.o
+	-rm $(OBJ)/.o	
+	-rm $(OBJ_CLASES_UTILS)/.o 
+	@echo ...Borrados objetos de $(PROYECTO)
+	@echo 
+
+clean-libs: 
+	@echo Borrando bibliotecas de $(PROYECTO)...
+	-rm $(LIB_CLASES_UTILS)/libBIBLIDU.a
+	@echo ...Borradas bibliotecas de $(PROYECTO)
+	@echo 
+
+clean-bins : 
+	@echo Borrando ejecutables de $(PROYECTO)...
+	-rm $(BIN)/I_MezclaArrays
+	-rm $(BIN)/ProcesamientoArrayInt
+	-rm $(BIN)/GeneradorAleatorioEnteros
+	@echo ...Borrados ejecutables de la sesion de $(PROYECTO)
+
+mr.proper:  clean-objs clean-libs clean-bins

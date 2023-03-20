@@ -1,8 +1,12 @@
 /***************************************************************************/
+/***************************************************************************/
 // METODOLOGIA DE LA PROGRAMACION
 //
-// (C) FRANCISCO JOSE CORTIJO BON
-// DEPARTAMENTO DE CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL
+// AUTOR: MARCO GIRELA VIDA
+// GRUPO: 1ºB
+// FECHA: xx/03/2023
+//
+// RELACION DE PROBLEMAS 1
 //
 // Fichero: ProcesamientoArrayInt.h
 //

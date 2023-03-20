@@ -187,11 +187,11 @@ int encuentra_palabras (char ** palabras, char * cadena)
 	// Para ello busco espacios y compruebo que en el caracter sucesivo
 	// hay un caracter (no hay un espacio), si es así, es que hay una palabra.
 
-	// Nótese que resto al fin_cadena.
+	// Nótese que resto 1 al fin_cadena.
 	// El primero para quitar el \0 y el segundo porque
-	// como si hay un espacio en el último término del array es imposible
+	// si hay un espacio en el último término del array es imposible
 	// que haya una palabra detrás.
-	while (cadena < fin_cadena - 2 && num_palabras <= 20)
+	while (cadena < fin_cadena - 1 && num_palabras <= 20)
 	{
 		if (*(cadena) == ' ' && *(cadena+1) != ' ')
 		{

@@ -60,6 +60,8 @@ $(LIB)/libMiCadenaClasica.a : $(OBJ)/MiCadenaClasica.o
 #......................................
 # LIMPIEZA
 
+comprimir:
+	tar -cvf MP_sesion$(n).tar src include obj lib bin makefile$(n).mak
 
 clean:
 	-rm $(OBJ)/*
