@@ -84,7 +84,7 @@ public:
     /***********************************************************************/
     // Devuelve el número de casillas ocupadas
 
-    int TotalUtilizados (void)
+    int TotalUtilizados (void) const
     {
         return (total_utilizados);
     }
@@ -92,7 +92,7 @@ public:
     /***********************************************************************/
     // Devuelve el número de casillas disponibles
 
-    int Capacidad (void)
+    int Capacidad (void) const
     {
         return (TAMANIO);
     }
@@ -158,22 +158,26 @@ public:
 
     /*******************************************************/
     // Devuelve true si la secuencia implícita es igual a "otra"
-    // CUIDADO: ARREGLAR LO DEL CONSNT
-    bool EsIgualA (SecuenciaEnteros & otra)
+    // ATENCIÓN: La función debería ser de tipo const, no obstante
+    // llama a la función VALOR, que no lo es, por lo que no puedo.
+    bool EsIgualA (const SecuenciaEnteros & otra)
     {
         bool es = true;
 
         // Hago una comprobación rápida para comprobar que 
         // ambas tienen la misma lóngitud.
         // Si no es así, no son iguales.
-        if ( otra.TotalUtilizados() = total_utilizados)
+        if ( otra.TotalUtilizados() == total_utilizados)
         {
             es = false;
         }
 
         for (int i = 0; i < total_utilizados && es; i++)
         {
-            if (otra.Valor(i) != Valor(i))
+            // Sé que no es una buena práctica, no obstante dado que el método "Valor"
+            // no es "const", era necesario hacer casting de otra a otra_noconst.
+            SecuenciaEnteros& otra_noconst = const_cast<SecuenciaEnteros&>(otra);
+            if ( otra_noconst.Valor(i) == Valor(i))
             {
                 es = false;
             }

@@ -66,7 +66,7 @@ public:
     /***********************************************************************/
     // Devuelve el número de casillas ocupadas
 
-    int TotalUtilizados (void);
+    int TotalUtilizados (void) const;
 
     /***********************************************************************/
     // Devuelve el número de casillas disponibles
@@ -80,7 +80,7 @@ public:
     // 		El nuevo elemento se coloca al final del vector.
     // 		Si no hay espacio, no se hace nada.
 
-    void Aniade (int nuevo);
+    void Aniade (int nuevo) const;
 
     /***********************************************************************/
     // Eliminar el carácter de la posición dada por "indice".
