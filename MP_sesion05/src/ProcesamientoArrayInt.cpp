@@ -449,9 +449,11 @@ void MezclaVectores (int mezcla[], int &util_mezcla,
 		util_mezcla = MezclaVectoresSelectiva (mezcla, v1, util_v1,
 													   v2, util_v2);
 	}
-	
-	util_mezcla = util_v1 + util_v2;
-	MezclaVectoresSimple(mezcla, v1, util_v1, v2, util_v2);
+	else
+	{
+		util_mezcla = util_v1 + util_v2;
+		MezclaVectoresSimple(mezcla, v1, util_v1, v2, util_v2);
+	}
 }
 
 /***************************************************************************/
