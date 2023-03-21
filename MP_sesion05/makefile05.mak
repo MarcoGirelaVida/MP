@@ -33,8 +33,8 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 #................................................
 all:  preambulo \
       $(BIN)/I_MezclaArrays \
-	  $(BIN)/ProcesamientoArrayInt \
-	  $(BIN)/GeneradorAleatorioEnteros \
+	  $(BIN)/I_MezclaArrays_ref	\
+	  $(BIN)/I_DemoSecuenciaEnteros	\
 	  final
 
 #................................................
@@ -83,14 +83,14 @@ $(BIN)/I_MezclaArrays_ref : $(OBJ)/I_MezclaArrays_ref.o	\
 		   $(OBJ)/MiCadenaClasica.o
 
 $(BIN)/I_DemoSecuenciaEnteros : $(OBJ)/I_DemoSecuenciaEnteros.o	\
-                    $(OBJ_CLASES_UTILS)/SecuenciaEnteros.o	\
-					$(OBJ)/GeneradorAleatorioEnteros.o      
+                    $(OBJ)/SecuenciaEnteros.o	\
+					$(OBJ)/GeneradorAleatorioEnteros.o
 	@echo 
 	@echo Creando ejecutable: I_DemoSecuenciaEnteros
 	@echo 
 	g++ -o $(BIN)/I_DemoSecuenciaEnteros $(OBJ)/I_DemoSecuenciaEnteros.o \
-	       $(OBJ_CLASES_UTILS)/SecuenciaEnteros.o   \
-		   $(OBJ_CLASES_UTILS)/GeneradorAleatorioEnteros.o
+	       $(OBJ)/SecuenciaEnteros.o	\
+		   $(OBJ)/GeneradorAleatorioEnteros.o
 #................................................
 # OBJETOS 
 
@@ -142,56 +142,41 @@ $(OBJ)/MiCadenaClasica.o : $(SRC)/MiCadenaClasica.cpp \
 
 $(OBJ)/I_DemoSecuenciaEnteros.o : $(SRC)/I_DemoSecuenciaEnteros.cpp	\
 						$(INCLUDE)/SecuenciaEnteros.h
-
 	@echo 
 	@echo Creando objeto: I_DemoSecuenciaEnteros.o
 	@echo 
 	g++ -c -o $(OBJ)/I_DemoSecuenciaEnteros.o \
-	          $(SRC)/I_DemoSecuenciaEnteros.cpp \
-	          -I$(INCLUDE) -std=c++14
-#..................................................
+	    $(SRC)/I_DemoSecuenciaEnteros.cpp -I$(INCLUDE) -std=c++14
 
-$(OBJ)/.o : $(SRC)/.cpp \
-                      $(INCLUDE)/.h \
-					  $(INCLUDE)/.h \
+$(OBJ)/SecuenciaEnteros.o : \
+    $(SRC)/SecuenciaEnteros.cpp \
+    $(INCLUDE)/SecuenciaEnteros.h	\
+	$(INCLUDE)/GeneradorAleatorioEnteros.h
 	@echo 
-	@echo Creando objeto: .o
-	@echo 
-	g++ -c -o $(OBJ)/.o \
-	          $(SRC)/.cpp \
-	          -I$(INCLUDE) -std=c++14
-
+	@echo Creando objeto: SecuenciaEnteros.o 
+	@echo
+	g++ -c -o $(OBJ)/SecuenciaEnteros.o \
+        $(SRC)/SecuenciaEnteros.cpp -I$(INCLUDE) -std=c++14
 #................................................
 # BIBLIOTECAS 
 
 $(LIB_CLASES_UTILS)/libSecuenciaEnteros.a : \
-	$(OBJ_CLASES_UTILS)/SecuenciaEnteros.o	\
-	$(OBJ_CLASES_UTILS)/GeneradorAleatorioEnteros.o
+	$(OBJ_CLASES_UTILS)/SecuenciaEnteros.o
 	@echo 
 	@echo Creando biblioteca: libSecuenciaEnteros.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libSecuenciaEnteros.a \
-        $(OBJ_CLASES_UTILS)/SecuenciaEnteros.o	\
-		$(OBJ_CLASES_UTILS)/GeneradorAleatorioEnteros.o
+        $(OBJ_CLASES_UTILS)/SecuenciaEnteros.o
  
 $(OBJ_CLASES_UTILS)/SecuenciaEnteros.o : \
     $(SRC_CLASES_UTILS)/SecuenciaEnteros.cpp \
-    $(INCLUDE_CLASES_UTILS)/SecuenciaEnteros.h
+    $(INCLUDE_CLASES_UTILS)/SecuenciaEnteros.h	\
+	$(INCLUDE_CLASES_UTILS)/GeneradorAleatorioEnteros.h
 	@echo 
 	@echo Creando objeto: SecuenciaEnteros.o 
 	@echo
 	g++ -c -o $(OBJ_CLASES_UTILS)/SecuenciaEnteros.o \
         $(SRC_CLASES_UTILS)/SecuenciaEnteros.cpp \
-       -I$(INCLUDE_CLASES_UTILS) -std=c++14
-
-$(OBJ_CLASES_UTILS)/GeneradorAleatorioEnteros.o : \
-    $(SRC_CLASES_UTILS)/GeneradorAleatorioEnteros.cpp \
-    $(INCLUDE_CLASES_UTILS)/GeneradorAleatorioEnteros.h
-	@echo 
-	@echo Creando objeto: GeneradorAleatorioEnteros.o 
-	@echo
-	g++ -c -o $(OBJ_CLASES_UTILS)/GeneradorAleatorioEnteros.o \
-        $(SRC_CLASES_UTILS)/GeneradorAleatorioEnteros.cpp \
        -I$(INCLUDE_CLASES_UTILS) -std=c++14
 #................................................
 # LIMPEZA
@@ -223,10 +208,7 @@ clean-libs:
 clean-bins : 
 	@echo Borrando ejecutables de $(PROYECTO)...
 	-rm $(BIN)/I_MezclaArrays
-	-rm $(BIN)/ProcesamientoArrayInt
-	-rm $(BIN)/GeneradorAleatorioEnteros
 	-rm $(BIN)/I_MezclaArrays_ref
-	-rm $(BIN)/MiCadenaClasica
 	-rm $(BIN)/I_DemoSecuenciaEnteros
 	@echo ...Borrados ejecutables de la sesion de $(PROYECTO)
 

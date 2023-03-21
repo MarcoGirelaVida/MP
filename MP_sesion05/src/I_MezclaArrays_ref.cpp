@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 {
 	const int TOPE = 100;			// Num. de casillas del vector 
 	int v1[TOPE];
-    int v2[TOPE];
+	int v2[TOPE];
 
 	const int MIN_ALEAT = 0;    // Mínimo valor aleatorio permitido
 	const int MAX_ALEAT = 200;	// Máximo valor aleatorio permitido

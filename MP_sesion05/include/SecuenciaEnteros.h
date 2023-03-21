@@ -14,13 +14,14 @@
 //
 /***************************************************************************/
 
-#ifndef SECUENCIA_ENTEROS_BASICO
-#define SECUENCIA_ENTEROS_BASICO
+#ifndef SECUENCIA_ENTEROS
+#define SECUENCIA_ENTEROS
 
 #include <iostream>
 #include <string>
 #include <cstring>
 #include "GeneradorAleatorioEnteros.h"
+#include "SecuenciaEnteros.h"
 using namespace std;
 
 
@@ -43,7 +44,7 @@ public:
     /***********************************************************************/
     // Constructor sin argumentos
 
-    SecuenciaEnteros (void);
+    SecuenciaEnteros ();
     /*******************************************************/
     // Construye una secuencia con "n_datos" valores
     // PRE: 0 <= n_datos <= TAMANIO
@@ -66,12 +67,12 @@ public:
     /***********************************************************************/
     // Devuelve el número de casillas ocupadas
 
-    int TotalUtilizados (void) const;
+    int TotalUtilizados ();
 
     /***********************************************************************/
     // Devuelve el número de casillas disponibles
 
-    int Capacidad (void);
+    int Capacidad ();
 
     /***********************************************************************/
     // Añade un elemento ("nuevo") al vector.
@@ -80,7 +81,7 @@ public:
     // 		El nuevo elemento se coloca al final del vector.
     // 		Si no hay espacio, no se hace nada.
 
-    void Aniade (int nuevo) const;
+    void Aniade (int nuevo);
 
     /***********************************************************************/
     // Eliminar el carácter de la posición dada por "indice".
