@@ -160,7 +160,7 @@ int main(int argc, char **argv)
 
 	// OUTPUT: Mostrar el vector ordenado
 	MuestraVector ("Mezcla seleccionada por el usuario: ", 
-		           mezcla, util_mezcla, NUM_DATOS_LINEA);  
+		           mezcla, util_mezcla - 1, NUM_DATOS_LINEA);  
 
 
 	return 0;

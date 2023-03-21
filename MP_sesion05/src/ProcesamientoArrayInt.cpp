@@ -340,12 +340,11 @@ int util_v1, int v2[], int util_v2)
 {
 	int * pv1 = v1;
 	int * pv2 = v2;
-	int * pmez = mezcla;
-	//const int * const inicio_mezcla = mezcla;
-	const int * const p_finalv1 = v1 + util_v1;
-	const int * const p_finalv2 = v2 + util_v2;
+	int * p_mezcla = mezcla;
+	const int * const p_finalv1 = v1 + util_v1 - 1;
+	const int * const p_finalv2 = v2 + util_v2 - 1;
 
-	// El while terminará cuando alguno de los dos vectores se vacíe.
+	// Terminará cuando alguno de los dos vectores se vacíe.
 	while (pv1 <= (int *) p_finalv1 &&
 		   pv2 <= (int *) p_finalv2)
 	{
@@ -355,60 +354,70 @@ int util_v1, int v2[], int util_v2)
 		// para demostrar la unicidad de ese elemento.
 		if (*pv1 > *pv2)
 		{
-			*pmez = *pv2;
-			pmez++;
-			// He optado por esta peculiar notación del dowhile debido a que,
+			*p_mezcla = *pv2;
+			p_mezcla++;
+			// He optado por esta peculiar notación del while debido a que,
 			// en ponderación, la considerable mejora de legibilidad
 			// compensa la leve pérdida de "estandarización".
 
-			// Estos do_while sirven para evitar copiar elementos repetidos
+			// While para evitar copiar elementos repetidos
 			// dentro del propio vector.
-			while (*pv2 == *(pv2+1) && pv2 != p_finalv2) {pv2++;}
+			while (*pv2 == *(pv2+1) && (pv2+1) != p_finalv2) {pv2++;}
 			pv2++;
 		}
 		else if (*pv1 < *pv2)
 		{
-			*pmez = *pv1;
-			pmez++;
-			while (*pv1 == *(pv1+1) && pv1 != p_finalv1) {pv1++;}
+			*p_mezcla = *pv1;
+			p_mezcla++;
+			while (*pv1 == *(pv1+1) && (pv1+1) != p_finalv1) {pv1++;}
 			pv1++;
 		}
 		else
 		{
-			while (*pv1 == *(pv1+1) && pv1 != p_finalv1) {pv1++;}
+			while (*pv1 == *(pv1+1) && (pv1+1) != p_finalv1) {pv1++;}
 			pv1++;
-			while (*pv2 == *(pv2+1) && pv2 != p_finalv2) {pv2++;}
+			while (*pv2 == *(pv2+1) && (pv2+1) != p_finalv2) {pv2++;}
 			pv2++;
 		}
 	}
 
-	// A continuación relleno "mezcla" con el vector no vacío
+	// Relleno "mezcla" con el vector no vacío
 	// (aquel con el mayor elemento más grande).
 	// Nótese que he ignorado el caso en el que ambos p_finales son iguales
-	// puesto que en tal caso, ambos "while" se ignararán y me ahorro un "elif"
+	// puesto que en tal caso, no se hará nada, y me ahorro un "else"
 
-	if (p_finalv1 > p_finalv2)
+	if (*p_finalv1 > *p_finalv2)
 	{
 		while (pv1 < p_finalv1)
 		{
-			*pmez = *pv1;
-			pmez++;
-			while (*pv1 == *(pv1+1) && pv1 != p_finalv1) {pv1++;}
+			*p_mezcla = *pv1;
+			p_mezcla++;
+			while (*pv1 == *(pv1+1) && pv1 < p_finalv1) {pv1++;}
 			pv1++;
 		}
+
+		if (pv1 == p_finalv1) {*p_mezcla = *pv1;}
 	}
-	else
+
+	else if (*p_finalv2 > *p_finalv1)
 	{
 		while (pv2 < p_finalv2)
 		{
-			*pmez = *pv2;
-			pmez++;
-			while (*pv2 == *(pv2+1) && pv2 != p_finalv2) {pv2++;}
+			*p_mezcla = *pv2;
+			p_mezcla++;
+			while (*pv2 == *(pv2+1) && pv2 < p_finalv2) {pv2++;}
 			pv2++;
 		}
+
+		if (pv2 == p_finalv2) {*p_mezcla = *pv2;}
 	}
 
-	return (pmez - mezcla);
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// ARREGLAR FINAL MEZCLA SELECTIVA ///////////////
+	cout << "pv1: " << *pv1 << endl << "pfinalv1: " << *p_finalv1 << endl << endl;
+	cout << "pv2: " << *pv2 << endl << "pfinalv2: " << *p_finalv2 << endl << endl;
+	cout << "p_mezcla: " << *p_mezcla << endl << "util_mezcla: " << p_mezcla - mezcla << endl << endl;
+	
+	return (p_mezcla - mezcla);
 }
 
 /***************************************************************************/
@@ -437,7 +446,6 @@ void MezclaVectores (int mezcla[], int &util_mezcla,
 	if (strcmp(selectiva, "SI") || strcmp(selectiva, "si") ||
 		strcmp(selectiva, "sI") || strcmp(selectiva, "Si"))
 	{
-		cout << "se ha entrado" << endl;
 		util_mezcla = MezclaVectoresSelectiva (mezcla, v1, util_v1,
 													   v2, util_v2);
 	}

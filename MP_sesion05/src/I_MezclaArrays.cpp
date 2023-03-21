@@ -131,7 +131,7 @@ int main(int argc, char **argv)
 
 	// OUTPUT: Mostrar el producto de la primera mezcla
 	MuestraVector ("Mezcla no-selectiva (clasica): ", 
-		           mezcla, usados,NUM_DATOS_LINEA); 
+		           mezcla, TAM_MEZCLA,NUM_DATOS_LINEA); 
 
 	//.......................................................................
 	// PROCESAMIENTO: Ordenacion de mezcla por el nuevo método
