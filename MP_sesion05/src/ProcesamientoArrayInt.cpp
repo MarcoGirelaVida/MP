@@ -14,7 +14,7 @@
  
 #include <iostream>
 #include <iomanip>
-#include <cmath>
+#include <cstring>
 #include <string>
 
 #include "GeneradorAleatorioEnteros.h"
@@ -363,18 +363,22 @@ int util_v1, int v2[], int util_v2)
 
 			// Estos do_while sirven para evitar copiar elementos repetidos
 			// dentro del propio vector.
-			do{pv2++;} while (*pv2 == *(pv2+1) && pv2 != p_finalv2);
+			while (*pv2 == *(pv2+1) && pv2 != p_finalv2) {pv2++;}
+			pv2++;
 		}
 		else if (*pv1 < *pv2)
 		{
 			*pmez = *pv1;
 			pmez++;
-			do{pv1++;} while (*pv1 == *(pv1+1) && pv1 != p_finalv1);
+			while (*pv1 == *(pv1+1) && pv1 != p_finalv1) {pv1++;}
+			pv1++;
 		}
 		else
 		{
-			do{pv1++;} while (*pv1 == *(pv1+1) && pv1 != p_finalv1);
-			do{pv2++;} while (*pv2 == *(pv2+1) && pv2 != p_finalv2);
+			while (*pv1 == *(pv1+1) && pv1 != p_finalv1) {pv1++;}
+			pv1++;
+			while (*pv2 == *(pv2+1) && pv2 != p_finalv2) {pv2++;}
+			pv2++;
 		}
 	}
 
@@ -389,7 +393,8 @@ int util_v1, int v2[], int util_v2)
 		{
 			*pmez = *pv1;
 			pmez++;
-			do{pv1++;} while (*pv1 == *(pv1+1) && pv1 != p_finalv1);
+			while (*pv1 == *(pv1+1) && pv1 != p_finalv1) {pv1++;}
+			pv1++;
 		}
 	}
 	else
@@ -398,7 +403,8 @@ int util_v1, int v2[], int util_v2)
 		{
 			*pmez = *pv2;
 			pmez++;
-			do{pv2++;} while (*pv2 == *(pv2+1) && pv2 != p_finalv2);
+			while (*pv2 == *(pv2+1) && pv2 != p_finalv2) {pv2++;}
+			pv2++;
 		}
 	}
 
@@ -428,9 +434,10 @@ void MezclaVectores (int mezcla[], int &util_mezcla,
 					int v1[], int util_v1, int v2[], int util_v2,
 					const char * selectiva)
 {
-	if (selectiva == "si" || selectiva == "SI" || selectiva == "Si" ||
-		selectiva == "sI")
+	if (strcmp(selectiva, "SI") || strcmp(selectiva, "si") ||
+		strcmp(selectiva, "sI") || strcmp(selectiva, "Si"))
 	{
+		cout << "se ha entrado" << endl;
 		util_mezcla = MezclaVectoresSelectiva (mezcla, v1, util_v1,
 													   v2, util_v2);
 	}

@@ -22,6 +22,7 @@
 #include "GeneradorAleatorioEnteros.h"
 #include "MiCadenaClasica.h"
 #include <iostream>
+#include <cstring>
 
 using namespace std;
 
@@ -107,9 +108,12 @@ int main(int argc, char **argv)
     cin.getline(seleccion, TAM_seleccion);
     cout << endl << endl;
 
-    while (seleccion != "no" && seleccion != "SI" && seleccion != "si"
-        && seleccion != "sI" && seleccion != "Si"
-        && longitud_cadena(seleccion) == 1)
+    while (	!strcmp(seleccion, "no") &&
+			!strcmp(seleccion, "SI") &&
+			!strcmp(seleccion, "si") &&
+			!strcmp(seleccion, "sI") &&
+			!strcmp(seleccion, "Si") &&
+			longitud_cadena(seleccion) == 1)
     {
         cout << "Por favor, introduzca una respuesta válida: (si/no): ";
         cin.getline(seleccion, TAM_seleccion);

@@ -64,8 +64,11 @@ using namespace std;
         // Rellenar el vector con valores aleatorios entre "min" y "max" 
 	    GeneradorAleatorioEnteros generador (min_aleat, max_aleat);
 
-	    for (int i=0; i<n_datos; i++) 
+	    for (int i=0; i<n_datos; i++)
+        {
              *(vector_privado+i) = generador.Siguiente();
+             total_utilizados++;
+        }
     }
 
     /***********************************************************************/
@@ -110,25 +113,25 @@ using namespace std;
 
         if ((indice >= 0) && (indice < total_utilizados))
         {
-            memmove((void *)p_index, (const void *) p_index+1, (total_utilizados-indice-1)*sizeof(int));
+            memmove(p_index, p_index+1, (total_utilizados-indice-1)*sizeof(int));
             total_utilizados--;
         }
     }
  
     /***********************************************************************/
-    // Inserta el carácter c en la posición dada por "indice".
+    // Inserta el int num en la posición dada por "indice".
     // Realiza un borrado físico (desplazamiento y sustitución).
     // PRE: 0 <= indice < total_utilizados
 
-    void SecuenciaEnteros :: Inserta (char c, int indice)
+    void SecuenciaEnteros :: Inserta (int num, int indice)
     {
         int * p_index = vector_privado + indice;
 
         if ((indice >= 0) && (indice < total_utilizados))
         {
             total_utilizados++;
-            memmove((void *)p_index + 1, (const void *) p_index, (total_utilizados-indice)*sizeof(int));
-            *p_index = c;
+            memmove(p_index + 1, p_index, (total_utilizados-indice+1)*sizeof(int));
+            *p_index = num;
         }
     }
 
@@ -157,14 +160,14 @@ using namespace std;
         // Hago una comprobación rápida para comprobar que 
         // ambas tienen la misma lóngitud.
         // Si no es así, no son iguales.
-        if ( otra_noconst.TotalUtilizados() == total_utilizados)
+        if ( otra_noconst.TotalUtilizados() != total_utilizados)
         {
             es = false;
         }
 
         for (int i = 0; i < total_utilizados && es; i++)
         {
-            if ( otra_noconst.Valor(i) == Valor(i))
+            if ( otra_noconst.Valor(i) != Valor(i))
             {
                 es = false;
             }

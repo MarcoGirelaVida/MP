@@ -95,7 +95,7 @@ public:
     // Realiza un borrado físico (desplazamiento y sustitución).
     // PRE: 0 <= indice < total_utilizados
 
-    void Inserta (char c, int indice);
+    void Inserta (int num, int indice);
 
     /*******************************************************/
     // Devuelve una ref. al elemento de la casilla "indice"
