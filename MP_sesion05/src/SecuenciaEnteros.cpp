@@ -123,7 +123,7 @@ using namespace std;
     // Realiza un borrado físico (desplazamiento y sustitución).
     // PRE: 0 <= indice < total_utilizados
 
-    void SecuenciaEnteros :: Inserta (int num, int indice)
+    void SecuenciaEnteros :: Inserta (int indice, int num)
     {
         int * p_index = vector_privado + indice;
 
