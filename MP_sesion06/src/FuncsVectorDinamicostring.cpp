@@ -22,7 +22,7 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "FuncsVectorDinamico.h"
+#include "FuncsVectorDinamicostring.h"
 
 using namespace std; 
 
@@ -40,7 +40,7 @@ VectorDinamico CreaVectorDinamico (int cap_inic, TipoRedimension tipo)
 	VectorDinamico nuevo;
 
 	// Reserva de memoria dinámica
-	nuevo.datos = new int[cap_inic]; 
+	nuevo.datos = new TipoBase[cap_inic]; 
 
 	// Iniciar capacidad y ocupación
 	nuevo.capacidad = cap_inic;
@@ -138,13 +138,7 @@ void EliminaTodosVectorDinamico (VectorDinamico & v)
 
 void EcualizaVectorDinamico (VectorDinamico & v, const TipoBase valor)
 {
-		
-	// Método por memset (mejor, pero solo util cuando valor = 0)
-	if (valor == 0)
-	{
-		memset(v.datos, valor, v.usados * sizeof(TipoBase));
-	}
-	else // Método clásico para el resto de casos
+	// Método clásico para el resto de casos
 	{
 		for (int i = 0; i < v.usados; i++) {v.datos[i] = valor;}
 	}
@@ -164,7 +158,7 @@ void EcualizaVectorDinamico (VectorDinamico & v, const TipoBase valor)
 //
 // PRE: 0<=num_casilla<UsadosVectorDinamico(v)
 
-TipoBase & ValorVectorDinamico (const VectorDinamico & v, const int num_casilla) 
+TipoBase &ValorVectorDinamico (VectorDinamico & v,const int num_casilla) 
 {
 	return *(v.datos+num_casilla);
 }	
@@ -191,37 +185,6 @@ void ClonaVectorDinamico (VectorDinamico & destino,
 	destino.usados = origen.usados;
 }
 
-
-/***************************************************************************/
-/***************************************************************************/
-// Serializa un dato de tipo "VectorDinamico"
-// Argumentos: v (referencia), el vector que se va a serializar.
-
-string ToString (const VectorDinamico & v)
-{
-	string cad; 
-	cad += "Capacidad = " + to_string(v.capacidad) + "\n"; 
-	cad += "Ocupadas  = " + to_string(v.usados) + "\n";
-
-	if (v.usados > 0)
-	{
-		cad += "Valores almacenados en el vector: \n"; 
-		cad += "[ ";
-
-		for (int i=0; i<v.usados-1; i++) 
-			cad += to_string(ValorVectorDinamico (v, i)) + ", "; 
-
-		cad += to_string(ValorVectorDinamico (v, v.usados-1)); 
-		cad += " ]";
-	}
-	else 
-		cad += "Vector vacio";
-
-	cad += "\n\n";
-
-	return (cad);
-}
-
 /***************************************************************************/
 /***************************************************************************/
 // Añade un valor al vector dinámico
@@ -231,7 +194,7 @@ string ToString (const VectorDinamico & v)
 // NOTA: Si no hay espacio libre, la función pide espacio adicional usando 
 //		 la función RedimensionaVectorDinamico. 
 
-void AniadeVectorDinamico (VectorDinamico &v, const int valor)
+void AniadeVectorDinamico (VectorDinamico &v, const TipoBase valor)
 {
 	// Redimensiona si así se requiere
 	if (v.usados >= v.capacidad)
@@ -388,8 +351,9 @@ void  ReajustaVectorDinamico (VectorDinamico & v)
 /***************************************************************************/
 /***************************************************************************/
 // Transforma una cadenad e caracteres a Tipobase
+/*
 TipoBase TransformaATipoBase(char * valor)
 {
     return static_cast<TipoBase>(atoi(valor));
 }
-
+*/

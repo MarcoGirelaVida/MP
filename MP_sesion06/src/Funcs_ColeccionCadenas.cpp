@@ -95,7 +95,7 @@ void AniadeCadenaColeccionCadenas (ColeccionCadenas & v, char * cadena)
 
 
 	// Actualizar estructura de datos 
-
+	
 	v.lineas = tmp;	// Enlazar nuevo "supervector"
 	v.usados++; 	// Actualizar el contador
 }

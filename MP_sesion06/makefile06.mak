@@ -69,13 +69,15 @@ $(BIN)/II_Demo_VectorDinamico : $(OBJ)/II_Demo_VectorDinamico.o \
 	       $(OBJ)/FuncsVectorDinamico.o
 
 $(BIN)/II_Demo_VectorDinamicoCadenas : $(OBJ)/II_Demo_VectorDinamicoCadenas.o \
-                    $(OBJ)/FuncsVectorDinamico.o                   
+                                       $(OBJ)/Funcs_ColeccionCadenas.o \
+	                                   $(OBJ)/FuncsVectorDinamicostring.o
 	@echo 
 	@echo Creando ejecutable: II_Demo_VectorDinamicoCadenas
 	@echo 
 	g++ -o $(BIN)/II_Demo_VectorDinamicoCadenas \
 	       $(OBJ)/II_Demo_VectorDinamicoCadenas.o \
-	       $(OBJ)/FuncsVectorDinamico.o
+		   $(OBJ)/FuncsVectorDinamicostring.o \
+	       $(OBJ)/Funcs_ColeccionCadenas.o
 #................................................
 # OBJETOS 
 
@@ -103,6 +105,25 @@ $(OBJ)/FuncsVectorDinamico.o : $(SRC)/FuncsVectorDinamico.cpp \
 	@echo 
 	g++ -c -o $(OBJ)/FuncsVectorDinamico.o $(SRC)/FuncsVectorDinamico.cpp \
 	    -I$(INCLUDE) -std=c++14
+
+$(OBJ)/Funcs_ColeccionCadenas.o : \
+            $(SRC)/Funcs_ColeccionCadenas.cpp \
+            $(INCLUDE)/Funcs_ColeccionCadenas.h
+	@echo 
+	@echo Creando objeto: Funcs_ColeccionCadenas.o
+	@echo 
+	g++ -c -o $(OBJ)/Funcs_ColeccionCadenas.o \
+              $(SRC)/Funcs_ColeccionCadenas.cpp  \
+             -I$(INCLUDE) -std=c++14
+
+$(OBJ)/FuncsVectorDinamicostring.o : $(SRC)/FuncsVectorDinamicostring.cpp \
+	                           $(INCLUDE)/FuncsVectorDinamicostring.h
+	@echo 
+	@echo Creando objeto: FuncsVectorDinamicostring.o
+	@echo 
+	g++ -c -o $(OBJ)/FuncsVectorDinamicostring.o \
+	          $(SRC)/FuncsVectorDinamicostring.cpp \
+	        -I$(INCLUDE) -std=c++14
 
 #................................................
 # BIBLIOTECAS 
