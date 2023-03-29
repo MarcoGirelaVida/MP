@@ -91,6 +91,12 @@ $(BIN)/I_DemoSecuenciaEnteros : $(OBJ)/I_DemoSecuenciaEnteros.o	\
 	g++ -o $(BIN)/I_DemoSecuenciaEnteros $(OBJ)/I_DemoSecuenciaEnteros.o \
 	       $(OBJ)/SecuenciaEnteros.o	\
 		   $(OBJ)/GeneradorAleatorioEnteros.o
+
+$(BIN)/I_Inflacion_Matriz : $(OBJ)/I_Inflacion_Matriz.o
+	@echo
+	@echo Creando ejecutable: I_Inflacion_Matriz
+	@echo
+	g++ -o $(BIN)/I_Inflacion_Matriz $(OBJ)/I_Inflacion_Matriz.o
 #................................................
 # OBJETOS 
 
@@ -147,6 +153,13 @@ $(OBJ)/I_DemoSecuenciaEnteros.o : $(SRC)/I_DemoSecuenciaEnteros.cpp	\
 	@echo 
 	g++ -c -o $(OBJ)/I_DemoSecuenciaEnteros.o \
 	    $(SRC)/I_DemoSecuenciaEnteros.cpp -I$(INCLUDE) -std=c++14
+
+$(OBJ)/I_Inflacion_Matriz.o : $(SRC)/I_Inflacion_Matriz.cpp
+	@echo 
+	@echo Creando objeto: I_Inflacion_Matriz.o
+	@echo 
+	g++ -c -o $(OBJ)/I_Inflacion_Matriz.o \
+	    $(SRC)/I_Inflacion_Matriz.cpp -std=c++14
 
 $(OBJ)/SecuenciaEnteros.o : \
     $(SRC)/SecuenciaEnteros.cpp \

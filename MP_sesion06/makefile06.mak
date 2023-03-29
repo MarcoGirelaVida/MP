@@ -32,8 +32,9 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
 #................................................
 all:  preambulo \
-      $(BIN)/II_ \
-	  $(LIB)/lib.a \
+      $(BIN)/II_Demo_VectorDinamico \
+	  $(BIN)/II_Demo_VectorDinamicoCadenas \
+	  $(LIB)/libVectorDinamico.a \
 	  final
 
 #................................................
@@ -59,60 +60,83 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/I_ : $(OBJ)/I_.o \
-	        $(OBJ)/.o  \
-	        $(LIB_CLASES_UTILS)/lib.a                     
+$(BIN)/II_Demo_VectorDinamico : $(OBJ)/II_Demo_VectorDinamico.o \
+                    $(OBJ)/FuncsVectorDinamico.o                   
 	@echo 
-	@echo Creando ejecutable: I_
+	@echo Creando ejecutable: II_Demo_VectorDinamico
 	@echo 
-	g++ -o $(BIN)/I_ $(OBJ)/I_.o \
-	       $(OBJ)/.o   \
-	       -l -L$(LIB_CLASES_UTILS)
+	g++ -o $(BIN)/II_Demo_VectorDinamico $(OBJ)/II_Demo_VectorDinamico.o \
+	       $(OBJ)/FuncsVectorDinamico.o
 
+$(BIN)/II_Demo_VectorDinamicoCadenas : $(OBJ)/II_Demo_VectorDinamicoCadenas.o \
+                    $(OBJ)/FuncsVectorDinamico.o                   
+	@echo 
+	@echo Creando ejecutable: II_Demo_VectorDinamicoCadenas
+	@echo 
+	g++ -o $(BIN)/II_Demo_VectorDinamicoCadenas \
+	       $(OBJ)/II_Demo_VectorDinamicoCadenas.o \
+	       $(OBJ)/FuncsVectorDinamico.o
 #................................................
 # OBJETOS 
 
-$(OBJ)/II_.o : $(SRC)/II_.cpp \
-	           $(INCLUDE)/.h
+$(OBJ)/II_Demo_VectorDinamico.o : $(SRC)/II_Demo_VectorDinamico.cpp \
+	                              $(INCLUDE)/FuncsVectorDinamico.h
 	@echo 
-	@echo Creando objeto: II_.o
+	@echo Creando objeto: II_Demo_VectorDinamico.o
 	@echo 
-	g++ -c -o $(OBJ)/II_.o $(SRC)/II_.cpp \
-        -I$(INCLUDE) -std=c++14
+	g++ -c -o $(OBJ)/II_Demo_VectorDinamico.o $(SRC)/II_Demo_VectorDinamico.cpp \
+	    -I$(INCLUDE) -std=c++14
+
+$(OBJ)/II_Demo_VectorDinamicoCadenas.o : $(SRC)/II_Demo_VectorDinamicoCadenas.cpp \
+	                              $(INCLUDE)/FuncsVectorDinamico.h
+	@echo 
+	@echo Creando objeto: II_Demo_VectorDinamicoCadenas.o
+	@echo 
+	g++ -c -o $(OBJ)/II_Demo_VectorDinamicoCadenas.o \
+	          $(SRC)/II_Demo_VectorDinamicoCadenas.cpp \
+	          -I$(INCLUDE) -std=c++14
+
+$(OBJ)/FuncsVectorDinamico.o : $(SRC)/FuncsVectorDinamico.cpp \
+	                           $(INCLUDE)/FuncsVectorDinamico.h
+	@echo 
+	@echo Creando objeto: FuncsVectorDinamico.o
+	@echo 
+	g++ -c -o $(OBJ)/FuncsVectorDinamico.o $(SRC)/FuncsVectorDinamico.cpp \
+	    -I$(INCLUDE) -std=c++14
 
 #................................................
 # BIBLIOTECAS 
 
-$(LIB)/lib.a : \
-	           $(OBJ)/.o
+$(LIB)/libVectorDinamico.a : \
+	$(OBJ)/FuncsVectorDinamico.o
 	@echo 
-	@echo Creando biblioteca: lib.a
+	@echo Creando biblioteca: libVectorDinamico.a
 	@echo
-	ar rvs $(LIB)/lib.a \
-           $(OBJ)/.o
+	ar rvs $(LIB)/libVectorDinamico.a \
+           $(OBJ)/FuncsVectorDinamico.o
 
 #................................................
 # LIMPEZA
 
 clean: clean-objs clean-libs
 
-clean-objs: 
+clean-objs : 
 	@echo Borrando objetos de $(PROYECTO)...
-	-rm $(OBJ)/*
-	-rm $(OBJ_CLASES_UTILS)/*
+	-rm $(wildcard $(OBJ)/*)
+	-rm $(wildcard $(OBJ_CLASES_UTILS)/*)
 	@echo ...Borrados objetos de $(PROYECTO)
 	@echo 
 
-clean-libs: 
+clean-libs : 
 	@echo Borrando bibliotecas de $(PROYECTO)...
-	-rm $(LIB)/*
-	-rm $(LIB_CLASES_UTILS)/*
+	-rm $(wildcard $(LIB)/*)
+	-rm $(wildcard $(LIB_CLASES_UTILS)/*)
 	@echo ...Borradas bibliotecas de $(PROYECTO)
 	@echo 
 
 clean-bins : 
 	@echo Borrando ejecutables de $(PROYECTO)...
-	-rm $(BIN)/*
+	-rm $(wildcard $(BIN)/*)
 	@echo ...Borrados ejecutables de la sesion de $(PROYECTO)
 
 mr.proper:  clean-objs clean-libs clean-bins
