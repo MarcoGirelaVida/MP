@@ -179,16 +179,15 @@ TipoBase & ValorVectorDinamico (const VectorDinamico & v, const int num_casilla)
 void ClonaVectorDinamico (VectorDinamico & destino,
 						  const VectorDinamico & origen)
 {
-	// Si destino no es suficientemente grande, se rehace correctamente.
-	if (destino.capacidad < origen.capacidad)
-	{
-		DestruyeVectorDinamico(destino);
-		destino = CreaVectorDinamico(origen.capacidad, origen.tipo_redim);
-	}
+	// Rehago destino en base a las características de origen
+	delete [] destino.datos;
+	destino.capacidad = origen.capacidad;
+	destino.usados = origen.usados;
+	destino.tipo_redim = origen.tipo_redim;
+	destino.datos = new TipoBase[destino.capacidad];
 
 	// Copio los datos del vector origen a destino
 	memcpy(destino.datos, origen.datos, sizeof(TipoBase)*origen.usados);
-	destino.usados = origen.usados;
 }
 
 
