@@ -23,11 +23,11 @@ using namespace std;
 
 /***************************************************************************/
 /***************************************************************************/
-int main (int argc, char ** argv)
+int main (int argc, char * argv[])
 {
 	// ......................................................................
     // COMPROBACIÓN: Si se ha elegido una opción distinta de 1,2,3 da error.
-    if (argc > 2 || atoi(argv[1]) > 3)
+    if (argc > 2)
     {
         cerr << "Error: Número o valor de los argumentos incorrecto" << endl;
         exit(1);
@@ -40,7 +40,7 @@ int main (int argc, char ** argv)
 	{
 		el_tipo = (TipoRedimension) 1;
 	}
-	else
+	else if (argc == 2)
 	{
 		el_tipo = (TipoRedimension) atoi(argv[1]);
 	}
