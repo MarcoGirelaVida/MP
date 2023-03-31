@@ -375,7 +375,8 @@ void  ReajustaVectorDinamico (VectorDinamico & v)
 	memcpy (tmp, v.datos, v.usados*sizeof(TipoBase)); 
 	
 	// Liberar la memoria del antiguo almac�n
-	delete [] v.datos; 
+	if(v.datos)
+		delete [] v.datos; 
 
 	// Actualizar vector din�mico redimensionado
 
