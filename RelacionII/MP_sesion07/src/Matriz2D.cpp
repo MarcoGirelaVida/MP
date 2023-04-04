@@ -51,21 +51,25 @@ Matriz2D CreaMatriz (int nfils, int ncols, int valor)
 	Matriz2D matriz = ReservaMemoria (nfils, ncols); 
 	
 	//.........................................................................
-	// Inicializar las casillas de la matriz
+	// Inicializo las casillas de la matriz
 
-	// Si valor es 0, uso memset para inicializar dado que es mejor.
-	if (!valor)
+	// Solo si los argumentos son validos
+	if (ncols>0 && nfils>0)
 	{
-		memset(matriz.datos[0], 0, (nfils*ncols) * sizeof(int));
-	}
-	else
-	{
-		// Dado que estamos en matriz 1D uso un solo bucle.
-		// Lo he hecho por "lucimiento", pero realmente es mejor
-		// dos bucles ya que aplica tanto a matrices de tipo uno como dos
-		for (int i = 0; i < nfils*ncols; i++)
+		// Si valor es 0, uso memset para inicializar dado que es mejor.
+		if (valor == 0)
 		{
-			matriz.datos[0][i] = valor;
+			memset(matriz.datos[0], 0, (nfils*ncols) * sizeof(int));
+		}
+		else
+		{
+			// Dado que estamos en matriz 1D uso un solo bucle.
+			// Lo he hecho por "lucimiento", pero realmente es mejor
+			// dos bucles ya que aplica tanto a matrices de tipo uno como dos
+			for (int i = 0; i < nfils*ncols; i++)
+			{
+				matriz.datos[0][i] = valor;
+			}
 		}
 	}
 
