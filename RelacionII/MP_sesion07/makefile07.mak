@@ -8,7 +8,7 @@
 #
 # RELACION DE PROBLEMAS 2
 #
-# makefile0_.mak
+# makefile07.mak
 #
 # makefile para la sesión de prácticas 
 #
@@ -32,8 +32,8 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
 #................................................
 all:  preambulo \
-      $(BIN)/II_ \
-	  $(LIB)/lib.a \
+      $(BIN)/II_Demo-Matriz2D \
+	  $(LIB)/libMatriz2D.a \
 	  final
 
 #................................................
@@ -59,37 +59,41 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/I_ : $(OBJ)/I_.o \
-	        $(OBJ)/.o  \
-	        $(LIB_CLASES_UTILS)/lib.a                     
+$(BIN)/II_Demo-Matriz2D : $(OBJ)/II_Demo-Matriz2D.o \
+             $(OBJ)/Matriz2D.o 
 	@echo 
-	@echo Creando ejecutable: I_
+	@echo Creando ejecutable: II_Demo-Matriz2D
 	@echo 
-	g++ -o $(BIN)/I_ $(OBJ)/I_.o \
-	       $(OBJ)/.o   \
-	       -l -L$(LIB_CLASES_UTILS)
+	g++ -o $(BIN)/II_Demo-Matriz2D $(OBJ)/II_Demo-Matriz2D.o \
+           $(OBJ)/Matriz2D.o 
 
 #................................................
 # OBJETOS 
 
-$(OBJ)/II_.o : $(SRC)/II_.cpp \
-	           $(INCLUDE)/.h
+$(OBJ)/II_Demo-Matriz2D.o : $(SRC)/II_Demo-Matriz2D.cpp \
+             $(INCLUDE)/Matriz2D.h
 	@echo 
-	@echo Creando objeto: II_.o
+	@echo Creando objeto: II_Demo-Matriz2D.o
 	@echo 
-	g++ -c -o $(OBJ)/II_.o $(SRC)/II_.cpp \
-        -I$(INCLUDE) -std=c++14
+	g++ -c -o $(OBJ)/II_Demo-Matriz2D.o $(SRC)/II_Demo-Matriz2D.cpp \
+            -I$(INCLUDE) -std=c++11
+
+$(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp $(INCLUDE)/Matriz2D.h
+	@echo 
+	@echo Creando objeto: Matriz2D.o
+	@echo 
+	g++ -c -o $(OBJ)/Matriz2D.o $(SRC)/Matriz2D.cpp -I$(INCLUDE) -std=c++11
 
 #................................................
 # BIBLIOTECAS 
 
-$(LIB)/lib.a : \
-	           $(OBJ)/.o
+$(LIB)/libMatriz2D.a : \
+	           $(OBJ)/Matriz2D.o
 	@echo 
-	@echo Creando biblioteca: lib.a
+	@echo Creando biblioteca: libMatriz2D.a
 	@echo
-	ar rvs $(LIB)/lib.a \
-           $(OBJ)/.o
+	ar rvs $(LIB)/libMatriz2D.a \
+           $(OBJ)/Matriz2D.o
 
 #................................................
 # LIMPEZA
