@@ -22,7 +22,7 @@ nuevo:
 			for ((i=0; i<$(p); i++)); do \
 				cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
 			done; \
-			cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/src/headers.h; \
+			cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/include/headers.h; \
 			echo "Hecho"; \
 		elif [ "$$respuesta" == "n" ]; then \
 			echo "Saliendo..."; \
@@ -36,7 +36,7 @@ nuevo:
 		for ((i=0; i<$(p); i++)); do \
 			cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
 		done; \
-		cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/src/headers.h; \
+		cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/include/headers.h; \
 	fi; \
 
 
