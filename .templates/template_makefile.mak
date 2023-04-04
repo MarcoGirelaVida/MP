@@ -89,7 +89,7 @@ $(LIB)/lib.a : \
 	@echo Creando biblioteca: lib.a
 	@echo
 	ar rvs $(LIB)/lib.a \
-           $(OBJ)/.o
+	       $(OBJ)/.o
 
 #................................................
 # LIMPEZA

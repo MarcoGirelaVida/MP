@@ -88,12 +88,12 @@ $(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp $(INCLUDE)/Matriz2D.h
 # BIBLIOTECAS 
 
 $(LIB)/libMatriz2D.a : \
-	           $(OBJ)/Matriz2D.o
+                       $(OBJ)/Matriz2D.o
 	@echo 
 	@echo Creando biblioteca: libMatriz2D.a
 	@echo
 	ar rvs $(LIB)/libMatriz2D.a \
-           $(OBJ)/Matriz2D.o
+	       $(OBJ)/Matriz2D.o
 
 #................................................
 # LIMPEZA
