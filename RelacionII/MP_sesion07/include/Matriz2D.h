@@ -19,10 +19,10 @@ using namespace std;
 
 /***************************************************************************/
 // Definiciones de tipos
-
+typedef int TipoBase;	// Tipo de los datos de la matriz
 typedef struct {
 
-	int ** datos;	// Puntero a vector de punteros a los datos
+	TipoBase ** datos;	// Puntero a vector de punteros a los datos
 
 	int fils;			// Num. de filas
 	int cols; 			// Num. de columnas
@@ -45,7 +45,7 @@ typedef struct {
 // 		 disponer de una matriz no vacía. Si alguno de los dos valores fuera 0  
 //		 no se reserva memoria, y la matriz queda vacía. 
 
-Matriz2D CreaMatriz (int nfils=0, int ncols=0, int valor=0);
+Matriz2D CreaMatriz (int nfils=0, int ncols=0, TipoBase valor=0);
 
 /***************************************************************************/
 /***************************************************************************/
@@ -58,6 +58,7 @@ void DestruyeMatriz (Matriz2D & matriz);
 
 /***************************************************************************/
 /***************************************************************************/
+// PRIVADA
 // Reserva memoria para los datos de una matriz dinámica con "nfils" filas 
 // y "ncols" columnas. 
 // El contenido de las "nfils"x"ncols" casillas queda INDEFINIDO.
@@ -72,16 +73,17 @@ void DestruyeMatriz (Matriz2D & matriz);
 // 		 disponer de una matriz no vacía. Si alguno de los dos valores fuera 0  
 //		 no se reserva memoria, y la matriz queda vacía. 
 
-Matriz2D ReservaMemoria (int nfils, int ncols);
+//Matriz2D ReservaMemoria (int nfils, int ncols);
 
 /***************************************************************************/
 /***************************************************************************/
+// PRIVADA
 // Libera la memoria ocupada por una matriz dinámica. 
 // Parámetros: 
 //		matriz (referencia), la matriz que va a "liberarse". 
 // POST: La matriz queda vacía (todos sus campos a cero)
 
-void LiberaMemoria (Matriz2D & matriz);
+//void LiberaMemoria (Matriz2D & matriz);
 
 /***************************************************************************/
 /***************************************************************************/
@@ -113,7 +115,7 @@ int NumColumnas (const Matriz2D & matriz);
 // PRE: 0<=num_fila<NumFilas(m)
 // PRE: 0<=num_columna<NumColumnas(m)
 
-int & Valor (const Matriz2D & matriz, int num_fila, int num_columna); 
+TipoBase & Valor (const Matriz2D & matriz, int num_fila, int num_columna); 
 
 /***************************************************************************/
 /***************************************************************************/

@@ -31,69 +31,7 @@ using namespace std;
 
 /***************************************************************************/
 /***************************************************************************/
-// Crea una matriz dinámica con "nfils" filas y "ncols" columnas. 
-// El contenido de las "fils"x"cols" casillas se inicializa a un valor común, 
-// el indicado en el parámetro "valor"
-// Parámetros:
-//		nfils, número de filas de la matriz (por defecto 0).
-//		ncols, número de columnas de la matriz (por defecto 0).
-//		valor, valor común que se copiará en las casillas (por defecto 0). 
-// Devuelve: un dato de tipo Matriz2D.
-//
-// PRE: nfils >= 0 && ncols >= 0
-// NOTA: Tanto "nfils" como "nols" deben ser estrictamente positivos para poder 
-// 		 disponer de una matriz no vacía. Si alguno de los dos valores fuera 0  
-//		 no se reserva memoria, y la matriz queda vacía. 
-
-Matriz2D CreaMatriz (int nfils, int ncols, int valor)
-{
-	// Pedir memoria para los datos
-	Matriz2D matriz = ReservaMemoria (nfils, ncols); 
-	
-	//.........................................................................
-	// Inicializo las casillas de la matriz
-
-	// Solo si los argumentos son validos
-	if (ncols>0 && nfils>0)
-	{
-		// Si valor es 0, uso memset para inicializar dado que es mejor.
-		if (valor == 0)
-		{
-			memset(matriz.datos[0], 0, (nfils*ncols) * sizeof(int));
-		}
-		else
-		{
-			// Dado que estamos en matriz 1D uso un solo bucle.
-			// Lo he hecho por "lucimiento", pero realmente es mejor
-			// dos bucles ya que aplica tanto a matrices de tipo uno como dos
-			for (int i = 0; i < nfils*ncols; i++)
-			{
-				matriz.datos[0][i] = valor;
-			}
-		}
-	}
-
-	return (matriz); 
-}
-
-/***************************************************************************/
-/***************************************************************************/
-// "Destruye" una matriz dinámica y la deja en un estado no útil (vacía). 
-// Parámetros: 
-//		matriz (referencia), la matriz que va a "destruirse". 
-// POST: La matriz queda vacía (todos sus campos a cero)
-
-void DestruyeMatriz (Matriz2D & matriz)
-{
-	// Libero la memoria reservada para los datos
-	LiberaMemoria (matriz); 
-
-	// Asigno nullptr a matriz.datos ya que es más definivo que asignar 0
-	matriz.datos = nullptr;
-}
-
-/***************************************************************************/
-/***************************************************************************/
+// FUNCION PRIVADA
 // Reserva memoria para los datos de una matriz dinámica con "nfils" filas 
 // y "ncols" columnas. 
 // El contenido de las "nfils"x"ncols" casillas queda INDEFINIDO.
@@ -129,7 +67,7 @@ Matriz2D ReservaMemoria (int nfils, int ncols)
 
 		// El primer elemento de matriz.datos apuntará al inicio de la "super-fila"
 		// Esta será una super-fila de nfilas*ncols TipoBases (en este caso int)
-		matriz.datos[0] = new int [nfils*ncols];
+		matriz.datos[0] = new TipoBase [nfils*ncols];
 
 		// Asigno a cada fila su posición de inicio
 		// (numero de la fila * numero de columnas)
@@ -144,6 +82,7 @@ Matriz2D ReservaMemoria (int nfils, int ncols)
 
 /***************************************************************************/
 /***************************************************************************/
+// FUNCION PRIVADA
 // Libera la memoria ocupada por una matriz dinámica. 
 // Parámetros: 
 //		matriz (referencia), la matriz que va a "liberarse". 
@@ -165,6 +104,69 @@ void LiberaMemoria (Matriz2D & matriz)
 		matriz.fils  = 0;
 		matriz.cols  = 0;
 	}
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// Crea una matriz dinámica con "nfils" filas y "ncols" columnas. 
+// El contenido de las "fils"x"cols" casillas se inicializa a un valor común, 
+// el indicado en el parámetro "valor"
+// Parámetros:
+//		nfils, número de filas de la matriz (por defecto 0).
+//		ncols, número de columnas de la matriz (por defecto 0).
+//		valor, valor común que se copiará en las casillas (por defecto 0). 
+// Devuelve: un dato de tipo Matriz2D.
+//
+// PRE: nfils >= 0 && ncols >= 0
+// NOTA: Tanto "nfils" como "nols" deben ser estrictamente positivos para poder 
+// 		 disponer de una matriz no vacía. Si alguno de los dos valores fuera 0  
+//		 no se reserva memoria, y la matriz queda vacía. 
+
+Matriz2D CreaMatriz (int nfils, int ncols, TipoBase valor)
+{
+	// Pedir memoria para los datos
+	Matriz2D matriz = ReservaMemoria (nfils, ncols); 
+	
+	//.........................................................................
+	// Inicializo las casillas de la matriz
+
+	// Solo si los argumentos son validos
+	if (ncols>0 && nfils>0)
+	{
+		// Si valor es 0, uso memset para inicializar dado que es mejor.
+		if (!valor)
+		{
+			memset(matriz.datos[0], 0, (nfils*ncols) * sizeof(int));
+		}
+		else
+		{
+			// Dado que estamos en matriz 1D uso un solo bucle.
+			// Lo he hecho por "lucimiento", pero realmente es mejor
+			// dos bucles ya que aplica tanto a matrices de tipo uno como dos
+			for (int i = 0; i < nfils*ncols; i++)
+			{
+				matriz.datos[0][i] = valor;
+			}
+		}
+	}
+
+	return (matriz); 
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// "Destruye" una matriz dinámica y la deja en un estado no útil (vacía). 
+// Parámetros: 
+//		matriz (referencia), la matriz que va a "destruirse". 
+// POST: La matriz queda vacía (todos sus campos a cero)
+
+void DestruyeMatriz (Matriz2D & matriz)
+{
+	// Libero la memoria reservada para los datos
+	LiberaMemoria (matriz); 
+
+	// Asigno nullptr a matriz.datos ya que es más definivo que asignar 0
+	matriz.datos = nullptr;
 }
 
 /***************************************************************************/
@@ -228,7 +230,7 @@ int NumColumnas (const Matriz2D & matriz)
 // PRE: 0<=num_fila<NumFilas(m)
 // PRE: 0<=num_columna<NumColumnas(m)
 
-int & Valor (const Matriz2D & matriz, int num_fila, int num_columna) 
+TipoBase & Valor (const Matriz2D & matriz, int num_fila, int num_columna)
 {
 	return (matriz.datos[num_fila][num_columna]);
 }	
