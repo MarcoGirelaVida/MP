@@ -51,7 +51,6 @@ int main (void)
 
 	// .....................................................................
 	// Creación de una matriz y rellenar sus casillas  
-
 	Matriz2D m = CreaMatriz (num_filas, num_cols);
 
 	for (int f=0; f<m.fils; f++) 

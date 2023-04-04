@@ -25,6 +25,8 @@
 #include "Matriz2D.h"
 
 #include <string>
+#include <cstring>
+#include <iostream>
 using namespace std; 
 
 /***************************************************************************/
@@ -46,14 +48,26 @@ using namespace std;
 Matriz2D CreaMatriz (int nfils, int ncols, int valor)
 {
 	// Pedir memoria para los datos
-	
 	Matriz2D matriz = ReservaMemoria (nfils, ncols); 
 	
+	//.........................................................................
 	// Inicializar las casillas de la matriz
 
-	for (int f=0; f<matriz.fils; f++) 
-		for (int c=0; c<matriz.cols; c++) 
-			matriz.datos[f][c] = valor;
+	// Si valor es 0, uso memset para inicializar dado que es mejor.
+	if (!valor)
+	{
+		memset(matriz.datos[0], 0, (nfils*ncols) * sizeof(int));
+	}
+	else
+	{
+		// Dado que estamos en matriz 1D uso un solo bucle.
+		// Lo he hecho por "lucimiento", pero realmente es mejor
+		// dos bucles ya que aplica tanto a matrices de tipo uno como dos
+		for (int i = 0; i < nfils*ncols; i++)
+		{
+			matriz.datos[0][i] = valor;
+		}
+	}
 
 	return (matriz); 
 }
@@ -67,7 +81,11 @@ Matriz2D CreaMatriz (int nfils, int ncols, int valor)
 
 void DestruyeMatriz (Matriz2D & matriz)
 {
+	// Libero la memoria reservada para los datos
 	LiberaMemoria (matriz); 
+
+	// Asigno nullptr a matriz.datos ya que es más definivo que asignar 0
+	matriz.datos = nullptr;
 }
 
 /***************************************************************************/
@@ -96,20 +114,25 @@ Matriz2D ReservaMemoria (int nfils, int ncols)
 	matriz.cols  = 0;
 
 	// Solo si se cumplen las precondiciones se reserva memoria 
-
-	if (nfils>0 && ncols>0) {
-
-		// "matriz" apuntará a un vector de punteros a las filas
-		matriz.datos = new int * [nfils];
-
-		for (int f=0; f<nfils; f++) {
-
-			// "matriz[f]" apuntará a un vector de datos int
-			matriz.datos[f] = new int [ncols];
-		}
-
+	if (nfils>0 && ncols>0)
+	{
+		// Actualizo los campos de la matriz
 		matriz.fils = nfils;
 		matriz.cols = ncols;
+
+		// "matriz" apuntará a un vector de punteros a cada filas
+		matriz.datos = new int * [nfils];
+
+		// El primer elemento de matriz.datos apuntará al inicio de la "super-fila"
+		// Esta será una super-fila de nfilas*ncols TipoBases (en este caso int)
+		matriz.datos[0] = new int [nfils*ncols];
+
+		// Asigno a cada fila su posición de inicio
+		// (numero de la fila * numero de columnas)
+		for (int f=1; f<nfils; f++)
+		{
+			matriz.datos[f] = &matriz.datos[0][f*ncols];
+		}
 	}
 
 	return (matriz);
@@ -124,18 +147,16 @@ Matriz2D ReservaMemoria (int nfils, int ncols)
 
 void LiberaMemoria (Matriz2D & matriz)
 {
-	if (matriz.datos != 0) {
-
-		// Liberar cada una de las filas
-		for (int f=0; f<matriz.fils; f++)
- 			delete [] matriz.datos[f];
+	if (matriz.datos)
+	{
+		// Libero la "super-fila"
+		delete [] matriz.datos[0];
 
  		// Liberar el vector de punteros
  		delete [] matriz.datos; 
    
 		// La matriz debe quedar "vacía" --> la referencia "matriz" pone a 0 
 		// el puntero que da acceso al vector de punteros a filas
-
 		matriz.datos = 0;
 		matriz.fils  = 0;
 		matriz.cols  = 0;
@@ -154,17 +175,18 @@ string ToString (const Matriz2D & matriz)
 	string delimitador = "..................................";
 
 	cad = "\n" + delimitador + "\n";
-	cad = cad + "Filas = " + to_string(matriz.fils) + 
+	cad += "Filas = " + to_string(matriz.fils) + 
 	      ", Columnas = " + to_string (matriz.cols) + "\n\n";
-
+	
 	for (int f=0; f<matriz.fils; f++) {
-		cad = cad + "Fila " + to_string(f) + " --> ";
+		cad += "Fila " + to_string(f) + " --> ";
 		
 		for (int c=0; c<matriz.cols; c++) 
-			cad = cad + to_string(matriz.datos[f][c]) + "  ";
-		cad = cad + "\n";
+			cad += to_string(matriz.datos[f][c]) + "  ";
+		cad += "\n";
 	}
-	cad = cad + delimitador + "\n\n";
+
+	cad += delimitador + "\n\n";
 
 	return (cad);
 }

@@ -26,7 +26,6 @@ typedef struct {
 
 	int fils;			// Num. de filas
 	int cols; 			// Num. de columnas
-
 } Matriz2D;
 
 
