@@ -94,7 +94,7 @@ void DestruyeMatriz (Matriz2D & matriz);
 // Devuelve un string con el resultado de "serializar" una matriz.
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
 
-string ToString (const Matriz2D & matriz);
+string ToString (const Matriz2D & matriz, string Cadena="Fila");
 
 /***************************************************************************/
 /***************************************************************************/

@@ -56,7 +56,7 @@ int main (void)
 	for (int f=0; f<m.fils; f++) 
 		for (int c=0; c<m.cols; c++) 
 			m.datos[f][c] = ((10*(f+1))+c+1);
-		
+
 	cout << "Matriz rellena: ";
 	cout << ToString (m);
 

@@ -152,7 +152,7 @@ void DestruyeMatriz (Matriz2D & matriz)
 // Devuelve un string con el resultado de "serializar" una matriz.
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
 
-string ToString (const Matriz2D & matriz)
+string ToString (const Matriz2D & matriz, string Cadena)
 {
 	string cad;
 
@@ -162,8 +162,9 @@ string ToString (const Matriz2D & matriz)
 	cad += "Filas = " + to_string(matriz.fils) + 
 	      ", Columnas = " + to_string (matriz.cols) + "\n\n";
 	
-	for (int f=0; f<matriz.fils; f++) {
-		cad += "Fila " + to_string(f) + " --> ";
+	for (int f=0; f<matriz.fils; f++)
+	{
+		cad += Cadena + " " + to_string(f) + " --> ";
 		
 		for (int c=0; c<matriz.cols; c++) 
 			cad += to_string(matriz.datos[f][c]) + "  ";
