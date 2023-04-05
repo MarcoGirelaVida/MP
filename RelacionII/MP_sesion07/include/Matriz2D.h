@@ -19,6 +19,7 @@ using namespace std;
 
 /***************************************************************************/
 // Definiciones de tipos
+
 typedef int TipoBase;	// Tipo de los datos de la matriz
 typedef struct {
 
@@ -28,6 +29,9 @@ typedef struct {
 	int cols; 			// Num. de columnas
 } Matriz2D;
 
+/***************************************************************************/
+// Constantes globales
+const TipoBase VALOR_DEF = 0; // Valor por defecto de los datos de la matriz
 
 /***************************************************************************/
 /***************************************************************************/
@@ -116,6 +120,74 @@ int NumColumnas (const Matriz2D & matriz);
 // PRE: 0<=num_columna<NumColumnas(m)
 
 TipoBase & Valor (const Matriz2D & matriz, int num_fila, int num_columna); 
+
+/***************************************************************************/
+/***************************************************************************/
+// Consultar el estado vacía/ocupada.
+// Devuelve true si la matriz está vacía.
+bool EstaVacia (const Matriz2D & matriz);
+
+/***************************************************************************/
+/***************************************************************************/
+// Descarta todos los valores de la matriz. 
+// Deja la matriz en estado “vacía”.
+// La matriz sigue “activa”.
+// Use esta función si tiene previsto seguir usando la matriz.
+void EliminaTodos (Matriz2D & matriz);
+
+/***************************************************************************/
+/***************************************************************************/
+// Ecualizar. Cambia todos los todos valores de la matriz por valor.
+void Ecualiza (Matriz2D & matriz, TipoBase valor=VALOR_DEF);
+
+/***************************************************************************/
+/***************************************************************************/
+// Copia profunda. Hace una copia profunda de origen en destino.
+void Clona (Matriz2D & destino, const Matriz2D & origen);
+
+/***************************************************************************/
+/***************************************************************************/
+// Comparación.
+// Devuelve true si las matrices una y otra son exactamente iguales.
+// Tanto en dimensiones como contenidos.
+bool SonIguales (const Matriz2D & una, const Matriz2D & otra);
+
+/***************************************************************************/
+/***************************************************************************/
+/*
+Submatriz.
+Extrae una submatriz de original y la deja en resultado.
+La submatriz resultado es una zona rectangular de
+original que empieza en la casilla (fila_inic, col_inic) y que
+tiene (un máximo de) num_filas filas y num_cols columnas.
+
+La función construirá y “rellenará” una matriz vacía. Lo mismo ocurre
+si la casilla inicial fuera, por ejemplo, la casilla 2 (fila), -2 (columna).
+*/
+void SubMatriz (Matriz2D & resultado, const Matriz2D & original,
+int fila_inic, int col_inic, int num_filas, int num_cols);
+
+/***************************************************************************/
+/***************************************************************************/
+//Eliminar fila. Elimina la fila num_fila de la matriz matriz.
+void EliminaFila (Matriz2D & matriz, int num_fila);
+
+/***************************************************************************/
+/***************************************************************************/
+//Eliminar columna. Elimina la columna num_col de la matriz matriz.
+void EliminaColumna (Matriz2D & matriz, int num_col);
+
+/***************************************************************************/
+/***************************************************************************/
+// Espejo horizontal.
+// Cambia de orden las filas de matriz (la primera pasa a ser la última y
+// la última la primera, la segunda la penúltima y la penúltima la segunda etc)
+void EspejoHorizontal (Matriz2D & matriz);
+
+//Espejo vertical. Cambia de orden las columnas de matriz (la primera
+//pasa a ser la última y la última la primera, la segunda la penúltima y la
+//penúltima la segunda, etc.).
+void EspejoVertical (Matriz2D & matriz);
 
 /***************************************************************************/
 /***************************************************************************/

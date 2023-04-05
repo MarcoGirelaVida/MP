@@ -60,9 +60,9 @@ int main (void)
 	cout << "Matriz rellena: ";
 	cout << ToString (m);
 
-	// .....................................................................
+	//......................................................................
 	// Destruye la matriz
-
+	
 	DestruyeMatriz (m);
 
 
@@ -94,6 +94,13 @@ int main (void)
 	cout << ToString (m_vacia);
 
 	// .....................................................................
+	// Compruebo si está vacía
+
+	cout << "¿Está vacía?: ";
+	cout << EstaVacia(m_vacia) << endl << endl;
+
+
+	// .....................................................................
 	// Destruye las matrices 
 
 	DestruyeMatriz (m0);
@@ -101,6 +108,80 @@ int main (void)
 	DestruyeMatriz (m_vacia);
 
 	// .....................................................................
+	// Creación de una matriz 5x8  
+	Matriz2D mbase = CreaMatriz (5, 8);
+
+	for (int f=0; f<mbase.fils; f++) 
+		for (int c=0; c<mbase.cols; c++) 
+			mbase.datos[f][c] = ((10*(f+1))+c+1);
+		
+	cout << "Matriz base de 5x8: ";
+	cout << ToString (mbase);
+
+
+
+	//......................................................................
+	// Intento crear una submatriz de 4x3 hecha con las filas 3 col 5 
+	// de una matriz 5x8. Dado que no es posible, deberá devolver una de 3x3
+
+	// Inicializo la matriz a un valor menor del que he pedido en Submatriz
+	Matriz2D submatriz = CreaMatriz(2,2);
+
+	SubMatriz(submatriz, mbase, 3, 5, 4, 3);
+
+	cout << "Submatriz inicializada a 2x2 solicitada a 4x3 y \
+que debe devolver una de 3x3: ";
+	cout << ToString (submatriz);
+
+	//......................................................................
+	// Destruye la matriz
+	DestruyeMatriz (submatriz);
+
+	//......................................................................
+	// Elimino la cuarta fila de mbase
+	EliminaFila(mbase, 4);
+
+	cout << "Matriz base sin la fila 4: ";
+	cout << ToString (mbase);
+
+	//......................................................................
+	// Elimino la cuarta columna de mbase
+	EliminaColumna(mbase, 4);
+
+	cout << "Matriz base sin la columna 4: ";
+	cout << ToString (mbase);
+
+	//......................................................................
+	// Espejo verticalmente la matrizbase
+	EspejoVertical(mbase);
+
+	cout << "Matriz base reflejada verticalmente: ";
+	cout << ToString (mbase);
+
+	//......................................................................
+	// Espejo horizontalmente matrizbase
+	EspejoHorizontal(mbase);
+
+	cout << "Matriz base reflejada horizontalmente: ";
+	cout << ToString (mbase);
+
+	//......................................................................
+	// Clon de matriz base
+	Matriz2D matrizclonada = CreaMatriz();
+	Clona(matrizclonada, mbase);
+
+	cout << "Clon de matriz base: ";
+	cout << ToString (matrizclonada);
+
+	//......................................................................
+	// Compruebo si el clon y el original son iguales
+
+	cout << "¿Es el clon igual a su madre?: ";
+	cout << SonIguales(matrizclonada, mbase) << endl << endl;
+
+	//......................................................................
+	// Destruye la matriz
+	DestruyeMatriz (submatriz);
 
 	return 0; 
 }
