@@ -180,6 +180,14 @@ que debe devolver una de 3x3: ";
 	cout << SonIguales(matrizclonada, mbase) << endl << endl;
 
 	//......................................................................
+	// Busco el menor de la fila y columna 2
+	/*
+	cout << "La columna con el menor elemento de la fila 3: "
+	<< menorenfila(mbase, 2) << endl;
+	cout << "La fila con el menor elemento de la columna 3: "
+	<< menorencolumna(mbase, 2) << endl << endl;
+	*/
+	//......................................................................
 	// Destruye la matriz
 	DestruyeMatriz (submatriz);
 

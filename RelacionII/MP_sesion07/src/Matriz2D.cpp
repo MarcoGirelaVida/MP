@@ -152,7 +152,7 @@ void DestruyeMatriz (Matriz2D & matriz)
 // Devuelve un string con el resultado de "serializar" una matriz.
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
 
-string ToString (const Matriz2D & matriz, string Cadena)
+string ToString (const Matriz2D & matriz, string Cadena, int empiezaen)
 {
 	string cad;
 
@@ -164,7 +164,7 @@ string ToString (const Matriz2D & matriz, string Cadena)
 	
 	for (int f=0; f<matriz.fils; f++)
 	{
-		cad += Cadena + " " + to_string(f) + " --> ";
+		cad += Cadena + " " + to_string(empiezaen+f) + " --> ";
 		
 		for (int c=0; c<matriz.cols; c++) 
 			cad += to_string(matriz.datos[f][c]) + "  ";
@@ -480,6 +480,89 @@ void EspejoVertical (Matriz2D & matriz)
 			matriz.datos[i][(matriz.cols-1)-j] = tmp;
 		}
 	} // Itero por las filas de la matriz
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// Devuelve el número de la columna con el menor elemento en en una fila.
+// Garantiza que dicho número es distinto de num_fila y no está contenido en
+// el vector v[limit].
+
+int menorenfila(const Matriz2D & matriz, int num_fila, int *v, int limit)
+{
+	// Garantizo que el valor inicial siempre es distinto del valor mínimo
+	// Porque puede darse el caso en el que num_fila y el valor mínimo el mismo
+	// Y no se pueden repetir
+	int menor_col = 0;
+	int	menor_valor = matriz.datos[num_fila][0];
+
+	if (num_fila == 0)
+	{
+		menor_col = 1;
+		menor_valor = matriz.datos[num_fila][1];
+	}
+
+	for (int col = 0; col < matriz.cols; col++)
+	{
+		// 1. Compruebo que el valor no esté en el vector de valores a ignorar
+		// Si está, paso al siguiente valor
+		// 2. Compruebo si el usuario quiere que ignore un valor, y si es así
+		// compruebo si el valor de la matriz es el que se quiere ignorar
+		bool siguiente = false;
+
+		for (int i = 0; i < limit; i++)
+		{
+			if (v[i] == col || col == num_fila)
+				siguiente = true;
+		}
+
+		// Si no ha habido ningún problema, calculo el menor
+		if (!siguiente)
+		{
+			if (matriz.datos[num_fila][col] < menor_valor)
+			{
+				menor_col = col;
+				menor_valor = matriz.datos[num_fila][col];
+			}
+		}
+	}
+
+	return menor_col;
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// Devuelve el número de la fila con el menor elemento de una columna
+int menorencolumna(const Matriz2D & matriz, int num_col, int *v, int limit)
+{
+	int menor_fil = 0;
+	int menor = matriz.datos[0][num_col];
+
+	for (int fil = 1; fil < matriz.fils; fil++)
+	{
+		// 1. Compruebo que el valor no esté en el vector de valores a ignorar
+		// Si está, paso al siguiente valor
+		// 2. Compruebo si la fila y la columna es la misma
+		bool siguiente = false;
+		
+		for (int i = 0; i < limit; i++)
+		{
+			if (v[i] == fil || fil == num_col)
+				siguiente = true;
+		}
+
+		// Si no ha habido ningún problema, calculo el menor
+		if (!siguiente)
+		{
+			if (matriz.datos[fil][num_col] < menor)
+			{
+				menor_fil = fil;
+				menor = matriz.datos[fil][num_col];
+			}	
+		}
+	}
+
+	return menor_fil;
 }
 
 /////////////////////////////////////////////////////////////////////////////

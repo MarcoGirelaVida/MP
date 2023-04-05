@@ -94,7 +94,7 @@ void DestruyeMatriz (Matriz2D & matriz);
 // Devuelve un string con el resultado de "serializar" una matriz.
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
 
-string ToString (const Matriz2D & matriz, string Cadena="Fila");
+string ToString (const Matriz2D & matriz, string Cadena="Fila", int empiezaen=0);
 
 /***************************************************************************/
 /***************************************************************************/
@@ -188,6 +188,16 @@ void EspejoHorizontal (Matriz2D & matriz);
 //pasa a ser la última y la última la primera, la segunda la penúltima y la
 //penúltima la segunda, etc.).
 void EspejoVertical (Matriz2D & matriz);
+
+/***************************************************************************/
+/***************************************************************************/
+// Busca el menor elemento en euna fila
+int menorenfila(const Matriz2D & matriz, int num_fila, int *v, int limit);
+
+/***************************************************************************/
+/***************************************************************************/
+// Busca el menor elemento en una columna
+int menorencolumna(const Matriz2D & matriz, int num_col, int *v, int limit);
 
 /***************************************************************************/
 /***************************************************************************/
