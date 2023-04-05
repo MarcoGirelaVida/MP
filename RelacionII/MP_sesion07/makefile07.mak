@@ -33,6 +33,7 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 #................................................
 all:  preambulo \
       $(BIN)/II_Demo-Matriz2D \
+	  $(BIN)/II_Viajante-Comercio \
 	  $(LIB)/libMatriz2D.a \
 	  final
 
@@ -67,6 +68,14 @@ $(BIN)/II_Demo-Matriz2D : $(OBJ)/II_Demo-Matriz2D.o \
 	g++ -o $(BIN)/II_Demo-Matriz2D $(OBJ)/II_Demo-Matriz2D.o \
            $(OBJ)/Matriz2D.o 
 
+$(BIN)/II_Viajante-Comercio : $(OBJ)/II_Viajante-Comercio.o \
+             $(OBJ)/Matriz2D.o 
+	@echo 
+	@echo Creando ejecutable: II_Viajante-Comercio
+	@echo 
+	g++ -o $(BIN)/II_Viajante-Comercio $(OBJ)/II_Viajante-Comercio.o \
+           $(OBJ)/Matriz2D.o 
+
 #................................................
 # OBJETOS 
 
@@ -76,7 +85,15 @@ $(OBJ)/II_Demo-Matriz2D.o : $(SRC)/II_Demo-Matriz2D.cpp \
 	@echo Creando objeto: II_Demo-Matriz2D.o
 	@echo 
 	g++ -c -o $(OBJ)/II_Demo-Matriz2D.o $(SRC)/II_Demo-Matriz2D.cpp \
-            -I$(INCLUDE) -std=c++11
+            -I$(INCLUDE) -std=c++14
+
+$(OBJ)/II_Viajante-Comercio.o : $(SRC)/II_Viajante-Comercio.cpp \
+             $(INCLUDE)/Matriz2D.h
+	@echo 
+	@echo Creando objeto: II_Viajante-Comercio.o
+	@echo 
+	g++ -c -o $(OBJ)/II_Viajante-Comercio.o $(SRC)/II_Viajante-Comercio.cpp \
+            -I$(INCLUDE) -std=c++14
 
 $(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp $(INCLUDE)/Matriz2D.h
 	@echo 
