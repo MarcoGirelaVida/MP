@@ -99,7 +99,7 @@ $(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp $(INCLUDE)/Matriz2D.h
 	@echo 
 	@echo Creando objeto: Matriz2D.o
 	@echo 
-	g++ -c -o $(OBJ)/Matriz2D.o $(SRC)/Matriz2D.cpp -I$(INCLUDE) -std=c++11
+	g++ -c -o $(OBJ)/Matriz2D.o $(SRC)/Matriz2D.cpp -I$(INCLUDE) -std=c++14
 
 #................................................
 # BIBLIOTECAS 

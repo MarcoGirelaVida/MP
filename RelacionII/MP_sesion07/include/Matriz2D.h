@@ -189,18 +189,4 @@ void EspejoHorizontal (Matriz2D & matriz);
 //penúltima la segunda, etc.).
 void EspejoVertical (Matriz2D & matriz);
 
-/***************************************************************************/
-/***************************************************************************/
-// Busca el menor elemento en euna fila
-int menorenfila(const Matriz2D & matriz, int num_fila, int *v, int limit);
-
-/***************************************************************************/
-/***************************************************************************/
-// Busca el menor elemento en una columna
-int menorencolumna(const Matriz2D & matriz, int num_col, int *v, int limit);
-
-/***************************************************************************/
-/***************************************************************************/
-
-
 #endif
