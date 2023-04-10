@@ -18,7 +18,7 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <iostream>
+#include <cstring>
 
 #include "Adscripcion.h"
 
@@ -29,17 +29,43 @@ using namespace std;
 
 Adscripcion :: Adscripcion()
 {
-    dniProfesor = "nulldniProfesor";
-    idDepartamento = "nullidDepartamento";
+    DNI = "nullDNI";
+    Id_depto = "nullId_depto";
 }
 
 /***************************************************************************/
 // Constructor con argumentos
 
-Adscripcion :: Adscripcion(string dni, string id)
+Adscripcion :: Adscripcion(string linea, char delimitador)
 {
-    dniProfesor = dni;
-    idDepartamento = id;
+    string tmp = "";
+    int i = 0;
+    
+    // Leo el primer elemento del string (dni)
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Guardo tmp en el atributo dni de la clase
+    DNI = tmp;
+    tmp = "";
+
+    i++;
+
+    //.....................................................................
+    // Leo el segundo elemento del string (id_dtpo)
+
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Guardo tmp en el atributo id_dpto de la clase
+    Id_depto = tmp;
+
 }
 
 /***************************************************************************/
@@ -47,12 +73,12 @@ Adscripcion :: Adscripcion(string dni, string id)
 
 string Adscripcion :: getDniProfesor()
 {
-    return dniProfesor;
+    return DNI;
 }
 
 string Adscripcion :: getIdDepartamento()
 {
-    return idDepartamento;
+    return Id_depto;
 }
 
 /***************************************************************************/
@@ -60,12 +86,12 @@ string Adscripcion :: getIdDepartamento()
 
 void Adscripcion :: setDniProfesor(string dni)
 {
-    dniProfesor = dni;
+    DNI = dni;
 }
 
 void Adscripcion :: setIdDepartamento(string id)
 {
-    idDepartamento = id;
+    Id_depto = id;
 }
 
 /***************************************************************************/
@@ -73,11 +99,11 @@ void Adscripcion :: setIdDepartamento(string id)
 
 string Adscripcion :: ToString()
 {   
-    string cadena
+    string cadena;
     
-    cadena += "DNI del profesor: " + dniProfesor;
-    cadena += " --> ";
-    cadena += "ID del departamento: " + idDepartamento;
+    cadena += DNI;
+    cadena += " ";
+    cadena += Id_depto + "\n";
 
     return cadena;
 }

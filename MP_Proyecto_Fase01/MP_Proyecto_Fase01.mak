@@ -93,7 +93,8 @@ $(OBJ)/main_MP_Proyecto_Fase01.o : $(SRC)/main_MP_Proyecto_Fase01.cpp \
 # OBJETOS_CLASES_UTILS
 
 $(OBJ_CLASES_UTILS)/Departamento.o : $(SRC_CLASES_UTILS)/Departamento.cpp \
-	           $(INCLUDE_CLASES_UTILS)/Departamento.h
+	           $(INCLUDE_CLASES_UTILS)/Departamento.h \
+	           $(INCLUDE_CLASES_UTILS)/utils.h
 	@echo 
 	@echo Creando objeto: Departamento.o
 	@echo 
@@ -102,16 +103,18 @@ $(OBJ_CLASES_UTILS)/Departamento.o : $(SRC_CLASES_UTILS)/Departamento.cpp \
         -I$(INCLUDE_CLASES_UTILS) -std=c++14
 
 $(OBJ_CLASES_UTILS)/Profesor.o : $(SRC_CLASES_UTILS)/Profesor.cpp \
-	           $(INCLUDE_CLASES_UTILS)/Profesor.h
+	           $(INCLUDE_CLASES_UTILS)/Profesor.h \
+			   $(INCLUDE_CLASES_UTILS)/utils.h
 	@echo 
 	@echo Creando objeto: Profesor.o
 	@echo 
-	g++ -c -o $(OBJ_CLASES_UTILS)/Profesor.o
+	g++ -c -o $(OBJ_CLASES_UTILS)/Profesor.o \
 	          $(SRC_CLASES_UTILS)/Profesor.cpp \
         -I$(INCLUDE_CLASES_UTILS) -std=c++14
 
 $(OBJ_CLASES_UTILS)/Encargo.o : $(SRC_CLASES_UTILS)/Encargo.cpp \
-	           $(INCLUDE_CLASES_UTILS)/Encargo.h
+	           $(INCLUDE_CLASES_UTILS)/Encargo.h \
+	           $(INCLUDE_CLASES_UTILS)/utils.h
 	@echo 
 	@echo Creando objeto: Encargo.o
 	@echo 
@@ -123,7 +126,7 @@ $(OBJ_CLASES_UTILS)/Adscripcion.o : $(SRC_CLASES_UTILS)/Adscripcion.cpp \
 	@echo 
 	@echo Creando objeto: Adscripcion.o
 	@echo 
-	g++ -c -o $(OBJ_CLASES_UTILS)/Adscripcion.o
+	g++ -c -o $(OBJ_CLASES_UTILS)/Adscripcion.o	\
 	          $(SRC_CLASES_UTILS)/Adscripcion.cpp \
         -I$(INCLUDE_CLASES_UTILS) -std=c++14
 
@@ -155,28 +158,36 @@ $(LIB_CLASES_UTILS)/libutils.a : \
 	       $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libProfesor.a : \
-	           $(OBJ_CLASES_UTILS)/Profesor.o
+	           $(OBJ_CLASES_UTILS)/Profesor.o \
+	           $(OBJ_CLASES_UTILS)/Fecha.o \
+			   $(OBJ_CLASES_UTILS)/utils.o
 	@echo 
 	@echo Creando biblioteca: libProfesor.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libProfesor.a \
-	       $(OBJ_CLASES_UTILS)/Profesor.o
+	       $(OBJ_CLASES_UTILS)/Profesor.o \
+	       $(OBJ_CLASES_UTILS)/Fecha.o \
+	       $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libDepartamento.a : \
-	           $(OBJ_CLASES_UTILS)/Departamento.o
+	           $(OBJ_CLASES_UTILS)/Departamento.o \
+			   $(OBJ_CLASES_UTILS)/utils.o
 	@echo 
 	@echo Creando biblioteca: libDepartamento.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libDepartamento.a \
-	       $(OBJ_CLASES_UTILS)/Departamento.o
+	       $(OBJ_CLASES_UTILS)/Departamento.o \
+		   $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libEncargo.a : \
-	           $(OBJ_CLASES_UTILS)/Encargo.o
+	           $(OBJ_CLASES_UTILS)/Encargo.o \
+			   $(OBJ_CLASES_UTILS)/utils.o
 	@echo 
 	@echo Creando biblioteca: libEncargo.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libEncargo.a \
-	       $(OBJ_CLASES_UTILS)/Encargo.o
+	       $(OBJ_CLASES_UTILS)/Encargo.o \
+		   $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libAdscripcion.a : \
 	           $(OBJ_CLASES_UTILS)/Adscripcion.o

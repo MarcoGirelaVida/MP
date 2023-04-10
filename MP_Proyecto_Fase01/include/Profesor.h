@@ -25,10 +25,11 @@ class Profesor
 
 private:
 
-    string dni;
-    string nombre;
-    string apellidos;
-    Fecha fechanacimento;
+    string DNI;
+    string Nombre;
+    string Apellidos;
+    Fecha FechaNacimiento;
+    int Categoria;
 
 public:
 
@@ -40,8 +41,7 @@ public:
 /***************************************************************************/
 // Constructor con argumentos
 
-    Profesor(string arg_dni, string arg_nombre,
-            string arg_apellidos, string arg_fechanacimiento);
+    Profesor(string linea, char delimitador);
 
 /***************************************************************************/
 // Métodos get
@@ -50,14 +50,16 @@ public:
     string getNombre();
     string getApellidos();
     string getFechaNacimiento();
+    int getCategoria();
 
 /***************************************************************************/
 // Métodos set
 
-    void setDni(string arg_dni);
-    void setNombre(string arg_nombre);
-    void setApellidos(string arg_apellidos);
+    void setDni(string arg_DNI);
+    void setNombre(string arg_Nombre);
+    void setApellidos(string arg_Apellidos);
     void setFechaNacimiento(string arg_fechanacimiento);
+    void setCategoria(int arg_categoria);
 
 /***************************************************************************/
 // Método ToString

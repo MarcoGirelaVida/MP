@@ -24,8 +24,8 @@ class Adscripcion
 {
 
     private:
-        string dniProfesor;
-        string idDepartamento;
+        string DNI;
+        string Id_depto;
 
     public:
     
@@ -37,7 +37,7 @@ class Adscripcion
 /***************************************************************************/
 // Constructor con argumentos
 
-        Adscripcion(string dni, string id);
+        Adscripcion(string linea, char delimitador);
 
 /***************************************************************************/
 // Métodos get

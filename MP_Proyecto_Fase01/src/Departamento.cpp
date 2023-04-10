@@ -18,9 +18,10 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <iostream>
+#include <cstring>
 
 #include "Departamento.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -30,17 +31,48 @@ using namespace std;
 
 Departamento :: Departamento()
 {
-    nombre_dpto = "nullnombre_dpto";
-    Id_dpto = "nullId_dpto";
+    Nombre = "nullNombre";
+    Id_depto = "nullId_depto";
 }
 
 /***************************************************************************/
-// Constructor con argumentos
+// Constructor con argumentos: recibe un string con los datos del departamento
+// y un char con el delimitador que separa la clave primaria y secundaria.
 
-Departamento :: Departamento(string nombre, string id)
+Departamento :: Departamento(string linea, char delimitador)
 {
-    nombre_dpto = nombre;
-    Id_dpto = id;
+    string tmp = "";
+    int i = 0;
+
+    // Almaceno la clave primaria en el string temporal
+    tmp += "(";
+
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    tmp += ")";
+    i++;
+
+    // Reformateo el string temporal y lo guardo en el atributo de la clase
+    Id_depto = tmp;
+    Id_depto = FormatString(Id_depto, 6);
+
+    //.......................................................................
+    // Almaceno la clave secundaria en el string temporal
+    tmp = "";
+
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Guardo la clave secundaria en el atributo de la clase
+    Nombre = tmp;
+
 }
 
 
@@ -49,12 +81,12 @@ Departamento :: Departamento(string nombre, string id)
 
 string Departamento :: getNombre()
 {
-    return nombre;
+    return Nombre;
 }
 
 string Departamento :: getId()
 {
-    return Id_dpto;
+    return Id_depto;
 }
 
 /***************************************************************************/
@@ -62,12 +94,12 @@ string Departamento :: getId()
 
 void Departamento :: setNombre(string nombre)
 {
-    nombre_dpto = nombre;
+    Nombre = nombre;
 }
 
 void Departamento :: setId(string id)
 {
-    Id_dpto = id;
+    Id_depto = id;
 }
 
 /***************************************************************************/
@@ -75,7 +107,10 @@ void Departamento :: setId(string id)
 
 string Departamento :: ToString()
 {
-    string cadena = "( " + Id_dpto + " )" + "    " + nombre_dpto + "\n";
+    string cadena;
+
+    cadena += Id_depto + "    ";
+    cadena += Nombre + "\n";
 
     return cadena;
 }

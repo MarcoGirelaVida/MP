@@ -12,6 +12,7 @@
 
 #ifndef FECHA_H
 #define FECHA_H
+
 #include <string>
 
 using namespace std;
@@ -50,6 +51,7 @@ class Fecha
         void setDia(int d);
         void setMes(int m);
         void setAnyo(int a);
+        void setFecha(string arg_fecha);
 
 /***************************************************************************/
 // Método ToString

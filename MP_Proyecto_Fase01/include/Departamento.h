@@ -25,8 +25,8 @@ class Departamento
 {
 
 private:
-    string nombre_dpto;
-    string Id_dpto;
+    string Nombre;
+    string Id_depto;
 
 public:
 /***************************************************************************/
@@ -37,7 +37,7 @@ public:
 /***************************************************************************/
 // Constructor con argumentos
 
-    Departamento(string nombre, string id);
+    Departamento(string linea, char delimitador);
 
 /***************************************************************************/
 // Métodos get

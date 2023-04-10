@@ -18,9 +18,11 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <iostream>
+#include <cstring>
 
 #include "Profesor.h"
+#include "Fecha.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -30,82 +32,173 @@ using namespace std;
 
 Profesor :: Profesor()
 {
-    dni = "nullDNI";
-    nombre = "nullnombre";
-    apellidos = "nullapellidos";
-    fechanacimiento = Fecha();
-
+    DNI = "nullDNI";
+    Nombre = "nullnombre";
+    Apellidos = "nullApellidos";
+    FechaNacimiento = Fecha();
+    Categoria = 0;
 }
+
 
 /***************************************************************************/
 // Constructor con argumentos
 
-Profesor :: Profesor(string arg_dni, string arg_nombre,
-                    string arg_apellidos, string arg_fechanacimiento)
+Profesor :: Profesor(string linea, char delimitador)
 {
-    dni = arg_dni;
-    nombre = arg_nombre;
-    apellidos = arg_apellidos;
-    fechanacimiento = fechanamiento.setFecha(arg_fechanacimiento));
+
+    string dni, nombre, apellidos, fechanacimiento, categoria;
+    string tmp = "";
+    int i = 0;
+
+    // Leo el DNI
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Almaceno el DNI en un string temporal
+    dni = tmp;
+    tmp = "";
+
+    i++;
+
+    //.......................................................................
+    // Leo el nombre
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Almaceno el nombre en un string temporal
+    nombre = tmp;
+    tmp = "";
+
+    i++;
+
+    //.......................................................................
+    // Leo los apellidos
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Almaceno los apellidos en un string temporal
+    apellidos = tmp;
+    tmp = "";
+
+    i++;
+
+    //.......................................................................
+    // Leo la fecha de nacimiento
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    
+    // Almaceno la fecha en un string temporal
+    fechanacimiento = tmp;
+    tmp = "";
+
+    i++;
+
+    //.......................................................................
+    // Leo la categoria
+    while(linea[i] != delimitador)
+    {
+        tmp += linea[i];
+        i++;
+    }
+
+    // Almaceno la categoria en un string temporal
+    categoria = tmp;
+    tmp = "";
+
+    i++;
+   
+    //.......................................................................
+    // Asigno los valores leidos a los atributos de la clase
+    setDni(dni);
+    setNombre(nombre);
+    setApellidos(apellidos);
+    setFechaNacimiento(fechanacimiento);
+    setCategoria(stoi(categoria));
 }
 
 /***************************************************************************/
-// Métodos get
+/***************************************************************************/
+// Métodos get: Devuelven el valor de los atributos
 
 string Profesor :: getDni()
 {
-    return dni;
+    return DNI;
 }
 
 string Profesor :: getNombre()
 {
-    return nombre;
+    return Nombre;
 }
 
 string Profesor :: getApellidos()
 {
-    return apellidos;
+    return Apellidos;
 }
 
 string Profesor :: getFechaNacimiento()
 {
-    return fechanacimiento;
+    return FechaNacimiento.ToString();
 }
 
+int Profesor :: getCategoria()
+{
+    return Categoria;
+}
 
 /***************************************************************************/
-// Métodos set
+/***************************************************************************/
+// Métodos set: Modifican el valor de los atributos
 
-void Profesor :: setDni(string arg_dni)
+void Profesor :: setDni(string arg_DNI)
 {
-    dni = arg_dni;
+    DNI = arg_DNI;
 }
 
 void Profesor :: setNombre(string arg_nombre)
 {
-    nombre = arg_nombre;
+    Nombre = arg_nombre;
 }
 
-void Profesor :: setApellidos(string arg_apellidos)
+void Profesor :: setApellidos(string arg_Apellidos)
 {
-    apellidos = arg_apellidos;
+    Apellidos = arg_Apellidos;
 }
 
-void Profesor :: setFechaNacimiento(string arg_fechanacimiento)
+void Profesor :: setFechaNacimiento(string arg_FechaNacimiento)
 {
-    fechanacimiento = arg_fechanacimiento;
+    FechaNacimiento.setFecha(arg_FechaNacimiento);
+}
+
+void Profesor :: setCategoria(int arg_Categoria)
+{
+    Categoria = arg_Categoria;
 }
 
 /***************************************************************************/
-// Método ToString
+/***************************************************************************/
+// Método ToString: Devuelve una cadena con los valores de los atributos
 
 string Profesor :: ToString()
 {
     string cadena;
-    cadena += "DNI: " + dni;
-    cadena += " Nombre: " + nombre;
-    cadena += " Apellidos: " + apellidos;
-    cadena += " Fecha de nacimiento: " + fechanacimiento;
+    cadena += DNI + " ";
+    cadena += FormatString((Apellidos + ", " + Nombre),32);
+    cadena += FechaNacimiento.ToString();
+    cadena += "   " + to_string(Categoria);
+    cadena += "\n";
 
     return cadena;
 }

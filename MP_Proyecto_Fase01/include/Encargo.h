@@ -23,11 +23,8 @@ using namespace std;
 class Encargo
 {
     private:
-        string codigo;
-        string descripcion;
-        string fecha;
-        string dniProfesor;
-        string idDepartamento;
+        int categoria;  // Categoría del profesor (valor entre 1 y 5)
+        double creditos; // Créditos asociados a la categoría
 
     public:
 /***************************************************************************/
@@ -38,25 +35,19 @@ class Encargo
 /***************************************************************************/
 // Constructor con argumentos
 
-        Encargo(string cod, string desc, string fecha, string dni, string id);
+        Encargo(string linea, char delimitador);
 
 /***************************************************************************/
 // Métodos get
 
-        string getCodigo();
-        string getDescripcion();
-        string getFecha();
-        string getDniProfesor();
-        string getIdDepartamento();
+        int getCategoria();
+        int getCreditos();
 
 /***************************************************************************/
 // Métodos set
 
-        void setCodigo(string cod);
-        void setDescripcion(string desc);
-        void setFecha(string fecha);
-        void setDniProfesor(string dni);
-        void setIdDepartamento(string id);
+        void setCategoria(int cat);
+        void setCreditos(double cred);
 
 /***************************************************************************/
 // Método ToString

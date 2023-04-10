@@ -18,7 +18,7 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <iostream>
+#include <cstring>
 
 #include "Fecha.h"
 
@@ -27,7 +27,7 @@ using namespace std;
 /***************************************************************************/
 // Constructor por defecto
 
-Fecha()
+Fecha :: Fecha()
 {
     dia = 0;
     mes = 0;
@@ -37,7 +37,7 @@ Fecha()
 /***************************************************************************/
 // Constructor con argumentos
 
-Fecha(int d, int m, int a)
+Fecha :: Fecha(int d, int m, int a)
 {
     dia = d;
     mes = m;
@@ -47,17 +47,17 @@ Fecha(int d, int m, int a)
 /***************************************************************************/
 // Métodos get
 
-int getDia()
+int Fecha :: getDia()
 {
     return dia;
 }
 
-int getMes()
+int Fecha :: getMes()
 {
     return mes;
 }
 
-int getAnyo()
+int Fecha :: getAnyo()
 {
     return anyo;
 }
@@ -65,28 +65,29 @@ int getAnyo()
 /***************************************************************************/
 // Métodos set
 
-void setDia(int d)
+void Fecha :: setDia(int d)
 {
     dia = d;
 }
 
-void setMes(int m)
+void Fecha :: setMes(int m)
 {
     mes = m;
 }
 
-void setAnyo(int a)
+void Fecha :: setAnyo(int a)
 {
     anyo = a;
 }
 
 // Transforma una fecha en formato string a un objeto Fecha
-void setFecha(string arg_fecha)
+void Fecha :: setFecha(string arg_fecha)
 {
     int d, m, a;
     string tmp;
     int i = 0;
 
+    // Leo el primer elemento del string (dia)
     while(arg_fecha[i] != '/')
     {
         tmp += arg_fecha[i];
@@ -97,6 +98,7 @@ void setFecha(string arg_fecha)
 
     i++;
 
+    // Leo el segundo elemento del string (mes)
     while(arg_fecha[i] != '/')
     {
         tmp += arg_fecha[i];
@@ -107,6 +109,7 @@ void setFecha(string arg_fecha)
 
     i++;
 
+    // Leo el tercer elemento del string (anyo)
     while(i < arg_fecha.length())
     {
         tmp += arg_fecha[i];
@@ -115,6 +118,7 @@ void setFecha(string arg_fecha)
     a = stoi(tmp);
     tmp = "";
 
+    // Asigno los valores leidos a los atributos de la clase
     setDia(d);
     setMes(m);
     setAnyo(a);
@@ -123,7 +127,7 @@ void setFecha(string arg_fecha)
 /***************************************************************************/
 // Método ToString
 
-string ToString()
+string Fecha :: ToString()
 {
     string fecha;
     

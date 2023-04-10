@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 
 #include "utils.h"
 
