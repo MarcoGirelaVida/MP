@@ -38,6 +38,36 @@ int main()
 
     while (getline (cin, linea))
     {
-        
+        // Leo el primer bloque  (profesor)
+        while(linea != "FIN")
+        {
+            Profesor p(linea, '*');
+
+            cout << p.ToString();
+        }
+
+        // Leo el segundo bloque (departamento)
+        while(linea != "FIN")
+        {
+            Departamento d(linea, '*');
+
+            cout << d.ToString();
+        }
+
+        // Leo el tercer bloque (encargo)
+        while(linea != "FIN")
+        {
+            Encargo e(linea, '*');
+
+            cout << e.ToString();
+        }
+
+        // Leo el cuarto bloque (adscripción)
+        while(linea != "FIN")
+        {
+            Adscripcion a(linea, '*');
+
+            cout << a.ToString();
+        }
     }
 }

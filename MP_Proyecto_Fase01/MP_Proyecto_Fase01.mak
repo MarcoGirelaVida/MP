@@ -38,6 +38,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libEncargo.a \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
+	  $(BIN)/main_MP_Proyecto_Fase01 \
 	  final
 
 #................................................
@@ -75,7 +76,13 @@ $(BIN)/main_MP_Proyecto_Fase01 : $(OBJ)/main_MP_Proyecto_Fase01.o \
 	@echo Creando ejecutable: main_MP_Proyecto_Fase01
 	@echo 
 	g++ -o $(BIN)/main_MP_Proyecto_Fase01 $(OBJ)/main_MP_Proyecto_Fase01.o \
-	       -l$(wildcard $(LIB_CLASES_UTILS)/*) -L$(LIB_CLASES_UTILS)
+	       -lAdscripcion \
+	       -lDepartamento \
+	       -lProfesor \
+	       -lEncargo \
+	       -lutils \
+	       -lFecha \
+	       -L$(LIB_CLASES_UTILS)
 
 #................................................
 # OBJETOS
