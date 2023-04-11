@@ -32,10 +32,14 @@ using namespace std;
 int main()
 {
     string linea;
-    int cuenta_dep = 0;
-    int cuenta_prof = 0;
-    int cuenta_enc = 0;
-    int cuenta_ads = 0;
 
-    
+    //.......................................................................
+	// INPUT: Rellenar "v": se termina al encontrar EOF en cin 
+
+	string cadena; // Para leer cada una de las linea
+
+    while (getline (cin, linea))
+    {
+        
+    }
 }
