@@ -36,8 +36,6 @@ int main()
     //.......................................................................
 	// INPUT: Rellenar "v": se termina al encontrar EOF en cin 
 
-	string cadena; // Para leer cada una de las linea
-
     while (getline (cin, linea))
     {
         
