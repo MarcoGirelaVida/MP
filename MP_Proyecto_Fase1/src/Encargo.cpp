@@ -19,6 +19,7 @@
 /***************************************************************************/
 
 #include <cstring>
+#include <iostream>
 
 #include "Encargo.h"
 #include "utils.h"
@@ -83,10 +84,22 @@ int Encargo :: getCreditos()
 
 void Encargo :: setCategoria(int cat)
 {
+    if (cat < 1 || cat > 5)
+    {
+        cerr << "Error: La categoria debe estar entre 1 y 5" << endl;
+        exit(1);
+    }
+    
     categoria = cat;
 }
+
 void Encargo :: setCreditos(double cred)
 {
+    if (cred < 0)
+    {
+        cerr << "Error: Los creditos deben ser positivos" << endl;
+        exit(1);
+    }
     creditos = cred;
 }
 

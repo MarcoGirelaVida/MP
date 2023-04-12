@@ -19,6 +19,7 @@
 /***************************************************************************/
 
 #include <cstring>
+#include <iostream>
 
 #include "Profesor.h"
 #include "Fecha.h"
@@ -164,6 +165,12 @@ int Profesor :: getCategoria()
 
 void Profesor :: setDni(string arg_DNI)
 {
+    if (arg_DNI.length() != 9)
+    {
+        cout << "Error: El DNI debe tener 9 caracteres" << endl;
+        exit(1);
+    }
+    
     DNI = arg_DNI;
 }
 
@@ -179,11 +186,18 @@ void Profesor :: setApellidos(string arg_Apellidos)
 
 void Profesor :: setFechaNacimiento(string arg_FechaNacimiento)
 {
+    //La comprobación de la validez de este argumento ya se hace en clase Fecha
     FechaNacimiento.setFecha(arg_FechaNacimiento);
 }
 
 void Profesor :: setCategoria(int arg_Categoria)
 {
+    if (arg_Categoria < 1 || arg_Categoria > 5)
+    {
+        cerr << "Error: La categoria debe estar entre 1 y 5" << endl;
+        exit(1);
+    }
+    
     Categoria = arg_Categoria;
 }
 

@@ -19,6 +19,7 @@
 /***************************************************************************/
 
 #include <cstring>
+#include <iostream>
 
 #include "Fecha.h"
 
@@ -67,16 +68,33 @@ int Fecha :: getAnyo()
 
 void Fecha :: setDia(int d)
 {
+    if (d < 1 || d > 31)
+    {
+        cerr << "Error: Dia incorrecto" << endl;
+        exit(1);
+    }
+    
     dia = d;
 }
 
 void Fecha :: setMes(int m)
 {
+    if (m < 1 || m > 12)
+    {
+        cerr << "Error: Mes incorrecto" << endl;
+        exit(1);
+    }
     mes = m;
 }
 
 void Fecha :: setAnyo(int a)
 {
+    if (a < 1900 || a > 2023)
+    {
+        cerr << "Error: Anyo incorrecto" << endl;
+        exit(1);
+    }
+    
     anyo = a;
 }
 
