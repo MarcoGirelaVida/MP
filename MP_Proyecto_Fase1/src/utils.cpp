@@ -29,8 +29,10 @@ using namespace std;
 //tiene el valor textual de numero. Si num_casillas es mayor que el número de
 //dígitos de entero se rellena (por la izquierda) con el carácter relleno.
 // PRE: num_casillas >= num_digitos
+
 string FormatInt (int numero, int num_casillas, char relleno)
 {
+
     string strnumero = to_string(numero);
     int num_digitos = strnumero.size();
 
@@ -44,8 +46,10 @@ string FormatInt (int numero, int num_casillas, char relleno)
     //se rellena por la izquierda con relleno.
     if (num_digitos < num_casillas)
     {
-        // (Se puede hacer con memmove pero la función insert es más elegante)
-        strnumero.insert(0, num_casillas - num_digitos, relleno);
+        for (int i = 0; i < num_casillas-num_digitos; i++)
+        {
+            strnumero = relleno + strnumero;
+        }
     }
 
     return strnumero;
@@ -66,27 +70,50 @@ string FormatInt (int numero, int num_casillas, char relleno)
 string FormatDouble (double numero, int num_casillas,
                     int num_dec, char relleno)
 {
+    // Número en formato string
     string str_numero = to_string(numero);
-    int parte_int = (int)numero;
-    int parte_dec = str_numero.size() - parte_int - 1;
-    int num_digitos = num_dec + parte_int + 1;
 
+    // Bucle para eliminar los ceros a la izquierda generados por el to_string
+    int i = str_numero.size() - 1;
+    while (str_numero[i]=='0')
+    {
+        str_numero.erase(i);
+        i--;
+    }
+
+    // Numero de dígitos de la parte entera/decimal
+    int cifras_parte_int = to_string((int)numero).size();
+    int cifras_parte_dec = str_numero.size() - cifras_parte_int - 1;
+
+    // Número de dígitos del número
+    int num_digitos = num_dec + cifras_parte_int + 1;
+
+    //...............................................................
     // Si num_dec es 0, no se muestra el punto
     if (num_dec == 0)
     {
-        str_numero = to_string(parte_int);
+        str_numero = to_string((int)numero);
         num_digitos--;
     }
-    // Si num_dec es menor que parte_dec, se rellena el sobrante con ceros
-    else if (parte_dec < num_dec)
+
+    //...............................................................
+    // Si num_dec es menor que cifras_parte_dec, se rellena con ceros
+    else if (cifras_parte_dec < num_dec)
     {
-        str_numero.insert(str_numero.size(),num_dec-parte_dec,'0');
+        for (int i = 0; i < num_dec-cifras_parte_dec; i++)
+        {
+            str_numero += "0";
+        } 
     }
     
+    //...............................................................
     // Si num_digitos es < num_casillas relleno por la izquierda con relleno
     if (num_digitos < num_casillas)
     {
-        str_numero.insert(0, num_casillas - num_digitos, relleno);
+        for (int i = 0; i < num_casillas-num_digitos; i++)
+        {
+            str_numero = relleno + str_numero;
+        }
     }
 
     return str_numero;
@@ -99,10 +126,11 @@ string FormatDouble (double numero, int num_casillas,
 //alineacion indica el ajuste o justificación de la_cadena en el espacio indi-
 //cado por num_casillas.
 // PRE: num_casillas >= longitud de la_cadena
+
 string FormatString (string la_cadena, int num_casillas,
 TipoAlineacion alineacion, char relleno)
 {
-    int longitud = la_cadena.length();
+    int longitud = la_cadena.size();
 
     // Compruebo si num_casillas es menor que la longitud de la cadena
     if (num_casillas < longitud)
@@ -111,26 +139,51 @@ TipoAlineacion alineacion, char relleno)
         exit(1);
     }
 
+    //...............................................................
     // Relleno si así se require, según la alineación
     if (num_casillas > longitud)
     {
         switch (alineacion)
         {
+            // Si se elige AlinIzquierda, se rellena por la derecha
             case TipoAlineacion::AlinIzquierda:
-                la_cadena.insert(longitud, num_casillas - longitud, relleno);
-                break;
-
-            case TipoAlineacion::AlinCentro:
             {
-                la_cadena.insert(longitud, (num_casillas - longitud)/2, relleno);
-                int sobrante = num_casillas - la_cadena.size();
-                la_cadena.insert(0, sobrante, relleno);
+                for (int i = 0; i < num_casillas-longitud; i++)
+                {
+                    la_cadena += relleno;
+                }
+
                 break;
             }
 
-            case TipoAlineacion::AlinDerecha:
-                la_cadena.insert(0, num_casillas - longitud, relleno);
+            // Si se elige AlinCentro, se rellena por la izquierda y derecha
+            case TipoAlineacion::AlinCentro:
+            {
+                for (int i = 0; i < (num_casillas - longitud)/2; i++)
+                {
+                    la_cadena = relleno + la_cadena;
+                }
+                
+                int sobrante = num_casillas - la_cadena.size();
+
+                for (int i = 0; i < sobrante; i++)
+                {
+                    la_cadena += relleno;
+                }
+
                 break;
+            }
+
+            // Si se elige AlinDerecha, se rellena por la izquierda
+            case TipoAlineacion::AlinDerecha:
+            {
+                for (int i = 0; i < num_casillas-longitud; i++)
+                {
+                    la_cadena = relleno + la_cadena;
+                }
+
+                break;
+            }
         }
     }
 

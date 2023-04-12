@@ -96,11 +96,11 @@ void Encargo :: setCreditos(double cred)
 string Encargo :: ToString()
 {
     // Formateo los decimales
-    string cred = FormatDouble(creditos,3,2);
+    string cred = FormatDouble(creditos,4,2);
 
     string cadena;
     cadena += " " + to_string(categoria) + " ";
-    cadena += FormatString(cred, cred.size()+5 ,TipoAlineacion::AlinDerecha);
+    cadena += FormatString(cred, 5 ,TipoAlineacion::AlinDerecha);
     cadena += "\n";
 
     return cadena;

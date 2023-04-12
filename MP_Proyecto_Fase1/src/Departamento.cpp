@@ -19,6 +19,8 @@
 /***************************************************************************/
 
 #include <cstring>
+#include <string>
+#include <iostream>
 
 #include "Departamento.h"
 #include "utils.h"
@@ -106,7 +108,7 @@ void Departamento :: setId(string id)
 // Método ToString
 
 string Departamento :: ToString()
-{
+{   
     string cadena;
 
     cadena += Id_depto + "    ";

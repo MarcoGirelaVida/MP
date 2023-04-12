@@ -38,7 +38,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libEncargo.a \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
-	  $(BIN)/main_MP_Proyecto_Fase01 \
+	  $(BIN)/main_MP_Proyecto_Fase1 \
 	  final
 
 #................................................
@@ -64,8 +64,8 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/main_MP_Proyecto_Fase01 : $(OBJ)/main_MP_Proyecto_Fase01.o \
-	        $(OBJ)/main_MP_Proyecto_Fase01.o  \
+$(BIN)/main_MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
+	        $(OBJ)/main_MP_Proyecto_Fase1.o  \
             $(LIB_CLASES_UTILS)/libutils.a \
             $(LIB_CLASES_UTILS)/libAdscripcion.a \
             $(LIB_CLASES_UTILS)/libDepartamento.a \
@@ -73,9 +73,9 @@ $(BIN)/main_MP_Proyecto_Fase01 : $(OBJ)/main_MP_Proyecto_Fase01.o \
             $(LIB_CLASES_UTILS)/libFecha.a \
             $(LIB_CLASES_UTILS)/libProfesor.a           
 	@echo 
-	@echo Creando ejecutable: main_MP_Proyecto_Fase01
+	@echo Creando ejecutable: main_MP_Proyecto_Fase1
 	@echo 
-	g++ -o $(BIN)/main_MP_Proyecto_Fase01 $(OBJ)/main_MP_Proyecto_Fase01.o \
+	g++ -o $(BIN)/main_MP_Proyecto_Fase1 $(OBJ)/main_MP_Proyecto_Fase1.o \
 	       -lAdscripcion \
 	       -lDepartamento \
 	       -lProfesor \
@@ -87,13 +87,13 @@ $(BIN)/main_MP_Proyecto_Fase01 : $(OBJ)/main_MP_Proyecto_Fase01.o \
 #................................................
 # OBJETOS
 
-$(OBJ)/main_MP_Proyecto_Fase01.o : $(SRC)/main_MP_Proyecto_Fase01.cpp \
+$(OBJ)/main_MP_Proyecto_Fase1.o : $(SRC)/main_MP_Proyecto_Fase1.cpp \
 	           $(wildcard $(INCLUDE)/*.h)
 	@echo 
-	@echo Creando objeto: main_MP_Proyecto_Fase01.o
+	@echo Creando objeto: main_MP_Proyecto_Fase1.o
 	@echo 
-	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase01.o \
-	          $(SRC)/main_MP_Proyecto_Fase01.cpp \
+	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase1.o \
+	          $(SRC)/main_MP_Proyecto_Fase1.cpp \
         -I$(INCLUDE) -std=c++14
 
 #................................................
@@ -242,4 +242,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_sesion$(n).tar src include obj lib bin makefile$(n).mak
+	tar -cvf MP_Proyecto_Fase1.tar src include obj lib bin MP_Proyecto_Fase1.mak
