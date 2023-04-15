@@ -116,9 +116,21 @@ string Departamento :: ToString()
     cadena += ptrtos(Id_depto) + "    ";
     cadena += ptrtos(Nombre) + "\n";
 
+    // LLamo al destructor puesto que no voy a usar más el objeto
+    Departamento();
+
     return cadena;
 }
 
+/***************************************************************************/
+// Destructor
+Departamento :: ~Departamento()
+{
+    delete [] Nombre;
+    Nombre = nullptr;
+    delete [] Id_depto;
+    Id_depto = nullptr;
+}
 /***************************************************************************/
 /***************************************************************************/
 /////////////////////////////////////////////////////////////////////////////

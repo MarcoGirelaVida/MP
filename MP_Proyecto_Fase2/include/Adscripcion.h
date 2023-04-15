@@ -57,6 +57,11 @@ class Adscripcion
 // Método ToString
 
         string ToString();
-};
 
+/***************************************************************************/
+// Destructor
+
+        ~Adscripcion();
+
+};
 #endif

@@ -214,7 +214,25 @@ string Profesor :: ToString()
     cadena += "   " + to_string(Categoria);
     cadena += "\n";
 
+    // Llamo al destructor puesto que no se va a usar más el objeto
+    Profesor();
+
     return cadena;
 }
+
+/***************************************************************************/
+/***************************************************************************/
+// Destructor
+
+Profesor :: ~Profesor()
+{
+    delete[] DNI;
+    DNI = nullptr;
+    delete[] Nombre;
+    Nombre = nullptr;
+    delete[] Apellidos;
+    Apellidos = nullptr;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

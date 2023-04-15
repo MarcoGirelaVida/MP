@@ -107,7 +107,23 @@ string Adscripcion :: ToString()
     cadena += " ";
     cadena += ptrtos(Id_depto) + "\n";
 
+    // Llamo al destructor porque por ahora, solo necesito mostrar el string
+    // y no vuelvo a usar los datos almacenados
+    Adscripcion();
+
     return cadena;
 }
+
+/***************************************************************************/
+// Destructor
+
+Adscripcion :: ~Adscripcion()
+{
+    delete [] DNI;
+    DNI = nullptr;
+    delete [] Id_depto;
+    Id_depto = nullptr;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

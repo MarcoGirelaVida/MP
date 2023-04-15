@@ -66,6 +66,7 @@ public:
 
     string ToString();
 
+// Destructor
+    ~Profesor();
 };
-
 #endif
