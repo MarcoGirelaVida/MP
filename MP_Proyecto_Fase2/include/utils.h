@@ -53,6 +53,16 @@ char relleno=' ');
 
 /***************************************************************************/
 /***************************************************************************/
-// 
+// Método stoptr: Pasa un string a un puntero char
+// Recibe una referencia a un string y una referencia a un puntero char
+
+void stoptr(string &str, char * &atributo);
+
+/***************************************************************************/
+/***************************************************************************/
+// Método ptrtos: Devuelve un string a partir de un puntero char
+// Recibe un puntero a cadena clásica
+
+string ptrtos(char * &atributo);
 
 #endif

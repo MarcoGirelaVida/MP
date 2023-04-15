@@ -25,8 +25,8 @@ class Departamento
 {
 
 private:
-    string Nombre;
-    string Id_depto;
+    char * Nombre;
+    char * Id_depto;
 
 public:
 /***************************************************************************/

@@ -6,7 +6,7 @@
 // GRUPO: 1ºB
 // FECHA: 08/04/2023
 //
-// PROYECTO FASE 1
+// PROYECTO FASE 2
 //
 //  
 // 
@@ -33,9 +33,9 @@ using namespace std;
 
 Profesor :: Profesor()
 {
-    DNI = "nullDNI";
-    Nombre = "nullnombre";
-    Apellidos = "nullApellidos";
+    DNI = nullptr;
+    Nombre = nullptr;
+    Apellidos = nullptr;
     FechaNacimiento = Fecha();
     Categoria = 0;
 }
@@ -136,17 +136,17 @@ Profesor :: Profesor(string linea, char delimitador)
 
 string Profesor :: getDni()
 {
-    return DNI;
+    return ptrtos(DNI);
 }
 
 string Profesor :: getNombre()
 {
-    return Nombre;
+    return ptrtos(Nombre);
 }
 
 string Profesor :: getApellidos()
 {
-    return Apellidos;
+    return ptrtos(Apellidos);
 }
 
 string Profesor :: getFechaNacimiento()
@@ -171,17 +171,17 @@ void Profesor :: setDni(string arg_DNI)
         exit(1);
     }
     
-    DNI = arg_DNI;
+    stoptr(arg_DNI, DNI);
 }
 
 void Profesor :: setNombre(string arg_nombre)
 {
-    Nombre = arg_nombre;
+    stoptr(arg_nombre, Nombre);
 }
 
 void Profesor :: setApellidos(string arg_Apellidos)
 {
-    Apellidos = arg_Apellidos;
+    stoptr(arg_Apellidos, Apellidos);
 }
 
 void Profesor :: setFechaNacimiento(string arg_FechaNacimiento)
@@ -208,14 +208,13 @@ void Profesor :: setCategoria(int arg_Categoria)
 string Profesor :: ToString()
 {
     string cadena;
-    cadena += DNI + " ";
-    cadena += FormatString((Apellidos + ", " + Nombre),32);
+    cadena += ptrtos(DNI) + " ";
+    cadena += FormatString((ptrtos(Apellidos) + ", " + ptrtos(Nombre)),32);
     cadena += FechaNacimiento.ToString();
     cadena += "   " + to_string(Categoria);
     cadena += "\n";
 
     return cadena;
 }
-
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

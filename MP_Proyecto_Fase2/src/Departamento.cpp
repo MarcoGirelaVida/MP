@@ -6,7 +6,7 @@
 // GRUPO: 1ºB
 // FECHA: 08/04/2023
 //
-// PROYECTO FASE 1
+// PROYECTO FASE 2
 //
 //  
 // 
@@ -33,8 +33,8 @@ using namespace std;
 
 Departamento :: Departamento()
 {
-    Nombre = "nullNombre";
-    Id_depto = "nullId_depto";
+    Nombre = nullptr;
+    Id_depto = nullptr;
 }
 
 /***************************************************************************/
@@ -59,8 +59,8 @@ Departamento :: Departamento(string linea, char delimitador)
     i++;
 
     // Reformateo el string temporal y lo guardo en el atributo de la clase
-    Id_depto = tmp;
-    Id_depto = FormatString(Id_depto, 6);
+    string id = tmp;
+    id = FormatString(id, 6);
 
     //.......................................................................
     // Almaceno la clave secundaria en el string temporal
@@ -73,8 +73,10 @@ Departamento :: Departamento(string linea, char delimitador)
     }
 
     // Guardo la clave secundaria en el atributo de la clase
-    Nombre = tmp;
+    string nombre = tmp;
 
+    setId(id);
+    setNombre(nombre);
 }
 
 
@@ -83,12 +85,12 @@ Departamento :: Departamento(string linea, char delimitador)
 
 string Departamento :: getNombre()
 {
-    return Nombre;
+    return ptrtos(Nombre);
 }
 
 string Departamento :: getId()
 {
-    return Id_depto;
+    return ptrtos(Id_depto);
 }
 
 /***************************************************************************/
@@ -96,12 +98,12 @@ string Departamento :: getId()
 
 void Departamento :: setNombre(string nombre)
 {
-    Nombre = nombre;
+    stoptr(nombre, Nombre);
 }
 
 void Departamento :: setId(string id)
 {
-    Id_depto = id;
+    stoptr(id, Id_depto);
 }
 
 /***************************************************************************/
@@ -111,8 +113,8 @@ string Departamento :: ToString()
 {   
     string cadena;
 
-    cadena += Id_depto + "    ";
-    cadena += Nombre + "\n";
+    cadena += ptrtos(Id_depto) + "    ";
+    cadena += ptrtos(Nombre) + "\n";
 
     return cadena;
 }

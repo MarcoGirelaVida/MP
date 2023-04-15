@@ -209,7 +209,7 @@ int NumColumnas (const Matriz2D & matriz)
 // PRE: 0<=num_fila<NumFilas(m)
 // PRE: 0<=num_columna<NumColumnas(m)
 
-TipoBase & Valor (const Matriz2D & matriz, int num_fila, int num_columna)
+TipoBase & Valor (Matriz2D & matriz, int num_fila, int num_columna)
 {
 	return (matriz.datos[num_fila][num_columna]);
 }	

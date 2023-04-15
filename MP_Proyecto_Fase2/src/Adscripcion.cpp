@@ -6,7 +6,7 @@
 // GRUPO: 1ºB
 // FECHA: 08/04/2023
 //
-// PROYECTO FASE 1
+// PROYECTO FASE 2
 //
 //  
 // 
@@ -19,7 +19,7 @@
 /***************************************************************************/
 
 #include <cstring>
-
+#include "utils.h"
 #include "Adscripcion.h"
 
 using namespace std;
@@ -29,8 +29,8 @@ using namespace std;
 
 Adscripcion :: Adscripcion()
 {
-    DNI = "nullDNI";
-    Id_depto = "nullId_depto";
+    DNI = nullptr;
+    Id_depto = nullptr;
 }
 
 /***************************************************************************/
@@ -49,7 +49,7 @@ Adscripcion :: Adscripcion(string linea, char delimitador)
     }
 
     // Guardo tmp en el atributo dni de la clase
-    DNI = tmp;
+    string dni = tmp;
     tmp = "";
 
     i++;
@@ -64,8 +64,10 @@ Adscripcion :: Adscripcion(string linea, char delimitador)
     }
 
     // Guardo tmp en el atributo id_dpto de la clase
-    Id_depto = tmp;
+    string id = tmp;
 
+    setDniProfesor(dni);
+    setIdDepartamento(id);
 }
 
 /***************************************************************************/
@@ -73,12 +75,12 @@ Adscripcion :: Adscripcion(string linea, char delimitador)
 
 string Adscripcion :: getDniProfesor()
 {
-    return DNI;
+    return ptrtos(DNI);
 }
 
 string Adscripcion :: getIdDepartamento()
 {
-    return Id_depto;
+    return ptrtos(Id_depto);
 }
 
 /***************************************************************************/
@@ -86,12 +88,12 @@ string Adscripcion :: getIdDepartamento()
 
 void Adscripcion :: setDniProfesor(string dni)
 {
-    DNI = dni;
+    stoptr(dni, DNI);
 }
 
 void Adscripcion :: setIdDepartamento(string id)
 {
-    Id_depto = id;
+    stoptr(id, Id_depto);
 }
 
 /***************************************************************************/
@@ -101,9 +103,9 @@ string Adscripcion :: ToString()
 {   
     string cadena;
     
-    cadena += DNI;
+    cadena += ptrtos(DNI);
     cadena += " ";
-    cadena += Id_depto + "\n";
+    cadena += ptrtos(Id_depto) + "\n";
 
     return cadena;
 }

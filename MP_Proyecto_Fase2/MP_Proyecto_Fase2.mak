@@ -38,7 +38,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libEncargo.a \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
-	  $(BIN)/main_MP_Proyecto_Fase1 \
+	  $(BIN)/main_MP_Proyecto_Fase2 \
 	  final
 
 #................................................
@@ -64,8 +64,8 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/main_MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
-	        $(OBJ)/main_MP_Proyecto_Fase1.o  \
+$(BIN)/main_MP_Proyecto_Fase2 : $(OBJ)/main_MP_Proyecto_Fase2.o \
+	        $(OBJ)/main_MP_Proyecto_Fase2.o  \
             $(LIB_CLASES_UTILS)/libutils.a \
             $(LIB_CLASES_UTILS)/libAdscripcion.a \
             $(LIB_CLASES_UTILS)/libDepartamento.a \
@@ -73,9 +73,9 @@ $(BIN)/main_MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
             $(LIB_CLASES_UTILS)/libFecha.a \
             $(LIB_CLASES_UTILS)/libProfesor.a           
 	@echo 
-	@echo Creando ejecutable: main_MP_Proyecto_Fase1
+	@echo Creando ejecutable: main_MP_Proyecto_Fase2
 	@echo 
-	g++ -o $(BIN)/main_MP_Proyecto_Fase1 $(OBJ)/main_MP_Proyecto_Fase1.o \
+	g++ -o $(BIN)/main_MP_Proyecto_Fase2 $(OBJ)/main_MP_Proyecto_Fase2.o \
 	       -lAdscripcion \
 	       -lDepartamento \
 	       -lProfesor \
@@ -87,13 +87,13 @@ $(BIN)/main_MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
 #................................................
 # OBJETOS
 
-$(OBJ)/main_MP_Proyecto_Fase1.o : $(SRC)/main_MP_Proyecto_Fase1.cpp \
+$(OBJ)/main_MP_Proyecto_Fase2.o : $(SRC)/main_MP_Proyecto_Fase2.cpp \
 	           $(wildcard $(INCLUDE)/*.h)
 	@echo 
-	@echo Creando objeto: main_MP_Proyecto_Fase1.o
+	@echo Creando objeto: main_MP_Proyecto_Fase2.o
 	@echo 
-	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase1.o \
-	          $(SRC)/main_MP_Proyecto_Fase1.cpp \
+	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase2.o \
+	          $(SRC)/main_MP_Proyecto_Fase2.cpp \
         -I$(INCLUDE) -std=c++14
 
 #................................................
@@ -242,4 +242,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_Proyecto_Fase1.tar src include obj lib bin MP_Proyecto_Fase1.mak
+	tar -cvf MP_Proyecto_Fase2.tar src include obj lib bin MP_Proyecto_Fase2.mak

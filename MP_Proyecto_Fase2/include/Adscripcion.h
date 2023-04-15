@@ -7,65 +7,56 @@
 //
 // PROYECTO FASE 1
 //
-// Fichero: Profesor.h
+// Fichero: Adscripcion.h
 /*****************************************************************************/
 
-#ifndef PROFESOR_H
-#define PROFESOR_H
+#ifndef ADSCRIPCION_H
+#define ADSCRIPCION_H
 
 #include <string>
-#include "Fecha.h"
 
 using namespace std;
 
 /***************************************************************************/
 /***************************************************************************/
-class Profesor
+// Clase "Adscripcion"
+class Adscripcion
 {
 
-private:
+    private:
+        char * DNI;
+        char * Id_depto;
 
-    string DNI;
-    string Nombre;
-    string Apellidos;
-    Fecha FechaNacimiento;
-    int Categoria;
-
-public:
-
+    public:
+    
 /***************************************************************************/
 // Constructor por defecto
 
-    Profesor();
+        Adscripcion();
 
 /***************************************************************************/
 // Constructor con argumentos
 
-    Profesor(string linea, char delimitador);
+        Adscripcion(string linea, char delimitador);
 
 /***************************************************************************/
 // Métodos get
 
-    string getDni();
-    string getNombre();
-    string getApellidos();
-    string getFechaNacimiento();
-    int getCategoria();
+        string getDniProfesor();
+
+        string getIdDepartamento();
 
 /***************************************************************************/
 // Métodos set
 
-    void setDni(string arg_DNI);
-    void setNombre(string arg_Nombre);
-    void setApellidos(string arg_Apellidos);
-    void setFechaNacimiento(string arg_fechanacimiento);
-    void setCategoria(int arg_categoria);
+        void setDniProfesor(string dni);
+
+        void setIdDepartamento(string id);
 
 /***************************************************************************/
 // Método ToString
 
-    string ToString();
-
+        string ToString();
 };
 
 #endif

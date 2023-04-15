@@ -190,5 +190,50 @@ TipoAlineacion alineacion, char relleno)
     return la_cadena;
 }
 
+/***************************************************************************/
+/***************************************************************************/
+// Método stoptr: Pasa un string a un puntero char
+// Recibe una referencia a un string y una referencia a un puntero char
+
+void stoptr(string &str, char * &atributo)
+{
+    if (atributo)
+    {
+        delete [] atributo;
+        atributo = nullptr;
+    }
+
+    atributo = new char [str.size() + 1];
+    
+    for (int i = 0; i < str.size(); i++)
+    {
+        atributo[i] = str[i];
+    }
+
+    atributo[str.size()] = '\0';
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// Método ptrtos: Devuelve un string a partir de un puntero char
+// Recibe un puntero a cadena clásica
+
+string ptrtos(char * &atributo)
+{
+    string str;
+
+    if (atributo)
+    {
+        str = atributo;
+    }
+
+    else
+    {
+        str = "";
+    }
+    
+    return str;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
