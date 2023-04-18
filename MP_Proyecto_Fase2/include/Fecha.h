@@ -23,9 +23,9 @@ using namespace std;
 class Fecha
 {
     private:
-        int dia;
-        int mes;
-        int anyo;
+        int dia = 0;
+        int mes = 0;
+        int anyo = 0;
 
         string Mes_toString() const;
 
@@ -63,6 +63,6 @@ class Fecha
 /***************************************************************************/
 // Método ToString
 
-        string ToString() const;
+        string ToString(bool mes_string = false) const;
 };
 #endif

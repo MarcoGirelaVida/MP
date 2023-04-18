@@ -37,7 +37,7 @@ class Adscripcion
 /***************************************************************************/
 // Constructor con argumentos
 
-        Adscripcion(string linea, char delimitador);
+        Adscripcion(string linea, char delimitador = '*');
 
 /***************************************************************************/
 // Métodos get

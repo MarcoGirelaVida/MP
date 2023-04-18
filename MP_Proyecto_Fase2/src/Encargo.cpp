@@ -116,14 +116,18 @@ void Encargo :: Clona(const Encargo &origen)
 
 string Encargo :: ToString()
 {
-    // Formateo los decimales
-    string cred = FormatDouble(creditos,4,2);
+    string cadena = "";
 
-    string cadena;
-    cadena += " " + to_string(categoria) + " ";
-    cadena += FormatString(cred, 5 ,TipoAlineacion::AlinDerecha);
-    cadena += "\n";
+    if (categoria || creditos)
+    {
+        // Formateo los decimales
+        string cred = FormatDouble(creditos,4,2);
 
+        cadena += " " + to_string(categoria) + " ";
+        cadena += FormatString(cred, 5 ,TipoAlineacion::AlinDerecha);
+        cadena += "\n";
+    }
+    
     return cadena;
 }
 

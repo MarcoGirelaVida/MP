@@ -111,13 +111,13 @@ void Departamento :: setId(string id)
 
 string Departamento :: ToString() const
 {   
-    string cadena;
+    string cadena = "";
 
-    cadena += ptrtos(Id_depto) + "    ";
-    cadena += ptrtos(Nombre) + "\n";
-
-    // LLamo al destructor puesto que no voy a usar más el objeto
-    Departamento();
+    if (Id_depto && Nombre)
+    {
+        cadena += ptrtos(Id_depto) + "    ";
+        cadena += ptrtos(Nombre) + "\n";
+    }
 
     return cadena;
 }

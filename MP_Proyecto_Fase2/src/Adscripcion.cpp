@@ -110,16 +110,15 @@ void Adscripcion :: Clona(Adscripcion & origen)
 
 string Adscripcion :: ToString()
 {   
-    string cadena;
+    string cadena = "";
     
-    cadena += ptrtos(DNI);
-    cadena += " ";
-    cadena += ptrtos(Id_depto) + "\n";
-
-    // Llamo al destructor porque por ahora, solo necesito mostrar el string
-    // y no vuelvo a usar los datos almacenados
-    Adscripcion();
-
+    if (DNI && Id_depto)
+    {
+        cadena += ptrtos(DNI);
+        cadena += " ";
+        cadena += ptrtos(Id_depto) + "\n";
+    }
+    
     return cadena;
 }
 

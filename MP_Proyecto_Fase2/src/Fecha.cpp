@@ -89,7 +89,8 @@ void Fecha :: setMes(int m)
 
 void Fecha :: setAnyo(int a)
 {
-    if (a < 1900 || a > 2023)
+    // Limito al 9999 porque más de eso me parece irreal
+    if (a < 0000 || a > 9999)
     {
         cerr << "Error: Anyo incorrecto" << endl;
         exit(1);
@@ -165,12 +166,15 @@ string Fecha :: Mes_toString() const
 /***************************************************************************/
 // Método ToString
 
-string Fecha :: ToString() const
+string Fecha :: ToString(bool mes_string) const
 {
     string fecha;
     
-    fecha += to_string(dia) + " ";
-    fecha += Mes_toString() + " ";
+    fecha += to_string(dia);
+    if (mes_string)
+        fecha += " " + Mes_toString() + " ";
+    else
+        fecha += "/" + to_string(mes) + "/";
     fecha += to_string(anyo);
 
     return fecha;

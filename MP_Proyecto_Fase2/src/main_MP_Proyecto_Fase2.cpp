@@ -1,112 +1,202 @@
 /***************************************************************************/
 /***************************************************************************/
-// METODOLOGIA DE LA PROGRAMACION
+// METODOLOGÍA DE LA PROGRAMACIÓN
 //
-// AUTOR: MARCO GIRELA VIDA
-// GRUPO: 1ºB
-// FECHA: 08/04/2023
+// (C) FRANCISCO JOSÉ CORTIJO BON
+// DEPARTAMENTO DE CIENCIAS DE LA COMPUTACIÓN E INTELIGENCIA ARTIFICIAL
+// 
+// Fichero: main_MP_Proyecto_Fase2.cpp
 //
-// PROYECTO FASE 1
+// Función main del proyecto. 
 //
-//  Fichero main del proyecto.+
-//  Se encarga de leer un archivo de texto y mostrar los datos leidos.
-//
-// Fichero: main_MP_Prooyecto_Fase01.cpp
+// Proyecto. FASE 02. 
 //
 /***************************************************************************/
 /***************************************************************************/
 
 #include <iostream>
-#include <cstring>
+#include <iomanip>
 #include <string>
+#include <cstring>
 
-
+#include "Fecha.h"
 #include "Departamento.h"
 #include "Profesor.h"
 #include "Encargo.h"
 #include "Adscripcion.h"
+
 #include "utils.h"
-#include "Fecha.h"  
 
 using namespace std;
 
+
+/***************************************************************************/
+/***************************************************************************/
+
+string Cabecera (const char * titulo);
+
+/***************************************************************************/
+/***************************************************************************/
+
 int main()
 {
-    string linea;
-    string separador =\
-    "--------------------------------------------------------------\n";
+    cout.setf(ios::fixed);		// Notación de punto fijo para los reales
+	cout.setf(ios::showpoint);	// Mostrar siempre decimales
 
-//.......................................................................
-        // Leo el primer bloque (departamento)
-
-        cout << separador << "DEPARTAMENTOS: \n" << separador;
-        int contador_dep = 0;
-
-        getline(cin, linea);
-        do
-        {
-            Departamento d(linea, '*');
-            cout << d.ToString();
-            contador_dep++;
-
-        }while(getline(cin,linea) && linea != "FIN");
-
-        cout << "Total Departamentos = " << contador_dep << endl << endl;
+	int cont_departamentos = 0;
+	int cont_profesores = 0;
+	int cont_encargos = 0;
+	int cont_adscripciones = 0;
 
 
-//.......................................................................
-        // Leo el segundo bloque  (profesor)
+	// Terminador para los datos leidos/escritos 
+	const string TERMINADOR = "FIN";
 
-        cout << separador << "PROFESORES: \n" << separador;
-        int contador_prof = 0;
+	// Cada linea del fichero se lee en un dato string. 
+	string linea;
 
-        getline(cin, linea);
-        do
-        {
-            Profesor p(linea, '*');
-            cout << p.ToString();
-            contador_prof++;
+	// DEPARTAMENTOS
 
-        }while(getline(cin,linea) && linea != "FIN");
+	cout << Cabecera ("DEPARTAMENTOS:");
 
-        cout << "Total Profesores = " << contador_prof << endl << endl;
+	getline(cin, linea); // Lectura adelantada
 
+	while (linea != TERMINADOR) {
+		
+		cont_departamentos++; // Un departamento más (no se leyó TERMINADOR)	
+			
+		Departamento un_departamento (linea);
 
-//.......................................................................
-        // Leo el tercer bloque (encargo)
+		cout << un_departamento.ToString() << endl; 
 
-        cout << separador << "ENCARGOS: \n" << separador;
-        int contador_enc = 0;
-        
-        getline(cin, linea);
-        do
-        {
-            Encargo e(linea, '*');
-            cout << e.ToString();
-            contador_enc++;
+		Departamento copia_un_departamento;
+		
+		cout << "DEPARTAMENTO VACIO: " << copia_un_departamento.ToString() << endl; 
 
-        }while(getline(cin,linea) && linea != "FIN");
-
-        cout << "Total Encargos = " << contador_enc << endl << endl;
+		copia_un_departamento.Clona (un_departamento);
+		cout << "Clonado: " << copia_un_departamento.ToString() << endl; 
 
 
-//.......................................................................
-        // Leo el cuarto bloque (adscripción)
+		// Leer la siguiente linea 
+		getline(cin, linea); 
+		
+	} // while (linea != TERMINADOR)
+	
 
-        cout << separador\
-        << "ADSCRIPCIONES DE PROFESORES A DEPARTAMENTOS: \n"\
-        << separador;
-        int contador_ads = 0;
-        
-        getline(cin, linea);
-        do
-        {
-            Adscripcion a(linea, '*');
-            cout << a.ToString();
-            contador_ads++;
+	cout << "Total Departamentos = "<< setw(3) << cont_departamentos << endl; 
+	cout << endl; 
 
-        }while(getline(cin,linea) && linea != "FIN");
 
-        cout << "Total Adscripciones = " << contador_ads << endl << endl;
+	// PROFESORES
+	 
+	cout << Cabecera ("PROFESORES:");
 
+	getline(cin, linea); // Lectura adelantada
+
+	while (linea != TERMINADOR) {
+		
+		cont_profesores++; // Un profesor más (no se leyó TERMINADOR)	
+			
+		Profesor un_profesor (linea);
+
+		cout << un_profesor.ToString(true) << endl; 
+
+		Profesor copia_un_profesor;
+
+		cout << "PROFESOR VACIO: " << copia_un_profesor.ToString() << endl; 
+
+		copia_un_profesor.Clona (un_profesor);
+		cout << "Clonado: " << copia_un_profesor.ToString() << endl; 
+		
+		// Leer la siguiente linea 
+		getline(cin, linea); 
+		
+	} // while (linea != TERMINADOR)
+	
+
+	cout << "Total Profesores = "<< setw(3) << cont_profesores << endl; 
+	cout << endl; 
+
+
+	// CATEGORIAS
+	 
+	cout << Cabecera ("ENCARGOS:");
+
+	getline(cin, linea); // Lectura adelantada
+
+	while (linea != TERMINADOR) {
+		
+		cont_encargos++; // Un encargo más (no se leyó TERMINADOR)	
+			
+		Encargo un_encargo (linea);
+
+		cout << un_encargo.ToString() << endl; 
+
+		// Leer la siguiente linea 
+		getline(cin, linea); 
+		
+	} // while (linea != TERMINADOR)
+	
+
+	cout << "Total Encargos = "<< setw(3) << cont_encargos << endl; 
+	cout << endl; 
+	
+
+	// ADSCRIPCIONES
+	 
+	cout << Cabecera ("ADSCRIPCION DE PROFESORES A DEPARTAMENTOS:");
+
+	getline(cin, linea); // Lectura adelantada
+
+	while (linea != TERMINADOR) {
+		
+		cont_adscripciones++; // Una adscripción más (no se leyó TERMINADOR)	
+			
+		Adscripcion una_adscripcion (linea);
+
+		cout << una_adscripcion.ToString() << endl; 
+
+		Adscripcion copia_una_adscripcion;
+
+		cout << "ADSCRIPCION VACIO: " << copia_una_adscripcion.ToString() << endl; 
+
+		copia_una_adscripcion.Clona (una_adscripcion);
+		cout << "Clonado: " << copia_una_adscripcion.ToString() << endl; 
+
+
+		// Leer la siguiente linea 
+		getline(cin, linea); 
+		
+	} // while (linea != TERMINADOR)
+	
+
+	cout << "Total Adscripciones = "<< setw(3) << cont_adscripciones << endl; 
+	cout << endl; 
+
+	return 0;
 }
+
+/***************************************************************************/
+/***************************************************************************/
+
+string Cabecera (const char * titulo)
+{
+	const int TAM_GUIONES = 70; 
+	char guiones[TAM_GUIONES]; 
+
+	memset (guiones, '-', TAM_GUIONES-1); 
+	guiones[TAM_GUIONES-1] = '\0'; 
+
+	string cad_guiones (guiones); 
+
+	string cad;
+
+	cad = cad + cad_guiones + "\n";
+	cad = cad + titulo + "\n";
+	cad = cad + cad_guiones + "\n";
+
+	return cad; 
+}
+
+/***************************************************************************/
+/***************************************************************************/

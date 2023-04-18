@@ -41,7 +41,7 @@ public:
 /***************************************************************************/
 // Constructor con argumentos
 
-    Profesor(string linea, char delimitador);
+    Profesor(string linea, char delimitador = '*');
 
 /***************************************************************************/
 // Métodos get
@@ -69,7 +69,7 @@ public:
 /***************************************************************************/
 // Método ToString
 
-    string ToString();
+    string ToString(bool mes_string = false) const;
 
 // Destructor
     ~Profesor();

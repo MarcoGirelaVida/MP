@@ -23,8 +23,8 @@ using namespace std;
 class Encargo
 {
     private:
-        int categoria;  // Categoría del profesor (valor entre 1 y 5)
-        double creditos; // Créditos asociados a la categoría
+        int categoria = 0;  // Categoría del profesor (valor entre 1 y 5)
+        double creditos = 0; // Créditos asociados a la categoría
 
     public:
 /***************************************************************************/
@@ -35,7 +35,7 @@ class Encargo
 /***************************************************************************/
 // Constructor con argumentos
 
-        Encargo(string linea, char delimitador);
+        Encargo(string linea, char delimitador = '*');
 
 /***************************************************************************/
 // Métodos get

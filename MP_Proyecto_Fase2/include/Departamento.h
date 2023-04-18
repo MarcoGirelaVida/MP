@@ -37,7 +37,7 @@ public:
 /***************************************************************************/
 // Constructor con argumentos
 
-    Departamento(string linea, char delimitador);
+    Departamento(string linea, char delimitador = '*');
 
 /***************************************************************************/
 // Métodos get

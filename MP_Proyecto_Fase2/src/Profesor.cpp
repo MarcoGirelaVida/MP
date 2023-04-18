@@ -205,14 +205,19 @@ void Profesor :: setCategoria(int arg_Categoria)
 /***************************************************************************/
 // Método ToString: Devuelve una cadena con los valores de los atributos
 
-string Profesor :: ToString()
+string Profesor :: ToString(bool mes_string) const
 {
-    string cadena;
-    cadena += ptrtos(DNI) + " ";
-    cadena += FormatString((ptrtos(Apellidos) + ", " + ptrtos(Nombre)),32);
-    cadena += FechaNacimiento.ToString();
-    cadena += "   " + to_string(Categoria);
-    cadena += "\n";
+    string cadena = "";
+
+    if (DNI && Nombre && Apellidos && Categoria &&\
+    FechaNacimiento.getMes() && FechaNacimiento.getDia())
+    {
+        cadena += ptrtos(DNI) + " ";
+        cadena += FormatString((ptrtos(Apellidos) + ", " + ptrtos(Nombre)),32);
+        cadena += FechaNacimiento.ToString(mes_string);
+        cadena += "   " + to_string(Categoria);
+        cadena += "\n";
+    }
 
     return cadena;
 }
