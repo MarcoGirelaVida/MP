@@ -81,14 +81,14 @@ Departamento :: Departamento(string linea, char delimitador)
 
 
 /***************************************************************************/
-// Métodos get
+// Métodos get, dado que no quiero modificarlos, los declaro como const
 
-string Departamento :: getNombre()
+string Departamento :: getNombre() const
 {
     return ptrtos(Nombre);
 }
 
-string Departamento :: getId()
+string Departamento :: getId() const
 {
     return ptrtos(Id_depto);
 }
@@ -109,7 +109,7 @@ void Departamento :: setId(string id)
 /***************************************************************************/
 // Método ToString
 
-string Departamento :: ToString()
+string Departamento :: ToString() const
 {   
     string cadena;
 
@@ -120,6 +120,15 @@ string Departamento :: ToString()
     Departamento();
 
     return cadena;
+}
+
+/***************************************************************************/
+// Método Clona
+
+void Departamento :: Clona(Departamento & origen)
+{
+    setId(origen.getId());
+    setNombre(origen.getNombre());
 }
 
 /***************************************************************************/

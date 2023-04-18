@@ -68,13 +68,13 @@ Encargo :: Encargo(string linea, char delimitador)
 }
 
 /***************************************************************************/
-// Métodos get
+// Métodos get, ya que no quiero modificarlos los declaro como const
 
-int Encargo :: getCategoria()
+int Encargo :: getCategoria() const
 {
     return categoria;
 }
-int Encargo :: getCreditos()
+int Encargo :: getCreditos() const
 {
     return creditos;
 }
@@ -103,6 +103,14 @@ void Encargo :: setCreditos(double cred)
     creditos = cred;
 }
 
+/***************************************************************************/
+// Método clona
+
+void Encargo :: Clona(const Encargo &origen)
+{
+    setCategoria(origen.getCategoria());
+    setCreditos(origen.getCreditos());
+}
 /***************************************************************************/
 // Método ToString
 

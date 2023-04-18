@@ -25,9 +25,9 @@ class Profesor
 
 private:
 
-    char * DNI;
-    char * Nombre;
-    char * Apellidos;
+    char * DNI = nullptr;
+    char * Nombre = nullptr;
+    char * Apellidos = nullptr;
     Fecha FechaNacimiento;
     int Categoria;
 
@@ -46,11 +46,11 @@ public:
 /***************************************************************************/
 // Métodos get
 
-    string getDni();
-    string getNombre();
-    string getApellidos();
-    string getFechaNacimiento();
-    int getCategoria();
+    string getDni() const;
+    string getNombre() const;
+    string getApellidos() const;
+    string getFechaNacimiento() const;
+    int getCategoria() const;
 
 /***************************************************************************/
 // Métodos set
@@ -60,6 +60,11 @@ public:
     void setApellidos(string arg_Apellidos);
     void setFechaNacimiento(string arg_fechanacimiento);
     void setCategoria(int arg_categoria);
+
+/***************************************************************************/
+// Método Clona
+    
+    void Clona (const Profesor & origen);
 
 /***************************************************************************/
 // Método ToString

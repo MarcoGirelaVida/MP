@@ -134,27 +134,27 @@ Profesor :: Profesor(string linea, char delimitador)
 /***************************************************************************/
 // Métodos get: Devuelven el valor de los atributos
 
-string Profesor :: getDni()
+string Profesor :: getDni() const
 {
     return ptrtos(DNI);
 }
 
-string Profesor :: getNombre()
+string Profesor :: getNombre() const
 {
     return ptrtos(Nombre);
 }
 
-string Profesor :: getApellidos()
+string Profesor :: getApellidos() const
 {
     return ptrtos(Apellidos);
 }
 
-string Profesor :: getFechaNacimiento()
+string Profesor :: getFechaNacimiento() const
 {
     return FechaNacimiento.ToString();
 }
 
-int Profesor :: getCategoria()
+int Profesor :: getCategoria() const
 {
     return Categoria;
 }
@@ -214,10 +214,20 @@ string Profesor :: ToString()
     cadena += "   " + to_string(Categoria);
     cadena += "\n";
 
-    // Llamo al destructor puesto que no se va a usar más el objeto
-    Profesor();
-
     return cadena;
+}
+
+/***************************************************************************/
+/***************************************************************************/
+// Método Clona: Método void que 
+
+void Profesor :: Clona ( const Profesor & origen)
+{
+    setDni(origen.getDni());
+    setNombre(origen.getNombre());
+    setApellidos(origen.getApellidos());
+    setFechaNacimiento(origen.getFechaNacimiento());
+    setCategoria(origen.getCategoria());
 }
 
 /***************************************************************************/

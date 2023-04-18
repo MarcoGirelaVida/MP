@@ -48,17 +48,17 @@ Fecha :: Fecha(int d, int m, int a)
 /***************************************************************************/
 // Métodos get
 
-int Fecha :: getDia()
+int Fecha :: getDia() const
 {
     return dia;
 }
 
-int Fecha :: getMes()
+int Fecha :: getMes() const
 {
     return mes;
 }
 
-int Fecha :: getAnyo()
+int Fecha :: getAnyo() const
 {
     return anyo;
 }
@@ -143,14 +143,34 @@ void Fecha :: setFecha(string arg_fecha)
 }
 
 /***************************************************************************/
+// Método clona,
+
+void Fecha :: Clona(const Fecha & origen)
+{
+    setDia(origen.getDia());
+    setMes(origen.getMes());
+    setAnyo(origen.getAnyo());
+}
+
+/***************************************************************************/
+
+string Fecha :: Mes_toString() const
+{
+    string meses[12] = {"Ene", "Feb", "Mar", "Abr", "May", "Jun",
+    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"};
+
+    return meses[getMes() - 1];
+}
+
+/***************************************************************************/
 // Método ToString
 
-string Fecha :: ToString()
+string Fecha :: ToString() const
 {
     string fecha;
     
-    fecha += to_string(dia) + "/";
-    fecha += to_string(mes) + "/";
+    fecha += to_string(dia) + " ";
+    fecha += Mes_toString() + " ";
     fecha += to_string(anyo);
 
     return fecha;

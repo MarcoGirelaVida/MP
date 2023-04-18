@@ -24,8 +24,8 @@ class Adscripcion
 {
 
     private:
-        char * DNI;
-        char * Id_depto;
+        char * DNI = nullptr;
+        char * Id_depto = nullptr;
 
     public:
     
@@ -42,9 +42,9 @@ class Adscripcion
 /***************************************************************************/
 // Métodos get
 
-        string getDniProfesor();
+        string getDniProfesor() const;
 
-        string getIdDepartamento();
+        string getIdDepartamento() const;
 
 /***************************************************************************/
 // Métodos set
@@ -57,6 +57,11 @@ class Adscripcion
 // Método ToString
 
         string ToString();
+
+/***************************************************************************/
+// Método Clona
+
+        void Clona(Adscripcion & origen);
 
 /***************************************************************************/
 // Destructor

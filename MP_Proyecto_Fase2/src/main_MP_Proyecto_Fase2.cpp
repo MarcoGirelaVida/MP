@@ -37,7 +37,7 @@ int main()
     "--------------------------------------------------------------\n";
 
 //.......................................................................
-        // Leo el segundo bloque (departamento)
+        // Leo el primer bloque (departamento)
 
         cout << separador << "DEPARTAMENTOS: \n" << separador;
         int contador_dep = 0;
@@ -55,7 +55,7 @@ int main()
 
 
 //.......................................................................
-        // Leo el primer bloque  (profesor)
+        // Leo el segundo bloque  (profesor)
 
         cout << separador << "PROFESORES: \n" << separador;
         int contador_prof = 0;
@@ -107,6 +107,6 @@ int main()
 
         }while(getline(cin,linea) && linea != "FIN");
 
-        cout << "Total Adscripciones = " << contador_ads << endl;
+        cout << "Total Adscripciones = " << contador_ads << endl << endl;
 
 }

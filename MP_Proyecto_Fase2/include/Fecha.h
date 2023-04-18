@@ -27,6 +27,8 @@ class Fecha
         int mes;
         int anyo;
 
+        string Mes_toString() const;
+
     public:
 /***************************************************************************/
 // Constructor por defecto
@@ -41,9 +43,9 @@ class Fecha
 /***************************************************************************/
 // Métodos get
 
-        int getDia();
-        int getMes();
-        int getAnyo();
+        int getDia() const;
+        int getMes() const;
+        int getAnyo() const;
 
 /***************************************************************************/
 // Métodos set
@@ -54,8 +56,13 @@ class Fecha
         void setFecha(string arg_fecha);
 
 /***************************************************************************/
+// Método clona
+
+        void Clona(const Fecha & origen);
+
+/***************************************************************************/
 // Método ToString
 
-        string ToString();
+        string ToString() const;
 };
 #endif

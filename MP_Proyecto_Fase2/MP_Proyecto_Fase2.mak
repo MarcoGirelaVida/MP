@@ -45,7 +45,7 @@ all:  preambulo \
 preambulo:
 	@echo
 	@echo ------------------------------------------------------------
-	@echo Proyecto Fase 01
+	@echo Proyecto Fase 02
 	@echo PROYECTO: $(shell basename "$$PWD")
 	@echo
 	@echo METODOLOGÍA DE LA PROGRAMACIÓN

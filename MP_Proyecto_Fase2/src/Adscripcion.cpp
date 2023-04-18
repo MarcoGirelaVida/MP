@@ -73,12 +73,12 @@ Adscripcion :: Adscripcion(string linea, char delimitador)
 /***************************************************************************/
 // Métodos get
 
-string Adscripcion :: getDniProfesor()
+string Adscripcion :: getDniProfesor() const
 {
     return ptrtos(DNI);
 }
 
-string Adscripcion :: getIdDepartamento()
+string Adscripcion :: getIdDepartamento() const
 {
     return ptrtos(Id_depto);
 }
@@ -94,6 +94,15 @@ void Adscripcion :: setDniProfesor(string dni)
 void Adscripcion :: setIdDepartamento(string id)
 {
     stoptr(id, Id_depto);
+}
+
+/***************************************************************************/
+// Método Clona
+
+void Adscripcion :: Clona(Adscripcion & origen)
+{
+    setDniProfesor(origen.getDniProfesor());
+    setIdDepartamento(origen.getIdDepartamento());
 }
 
 /***************************************************************************/

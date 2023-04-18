@@ -25,8 +25,8 @@ class Departamento
 {
 
 private:
-    char * Nombre;
-    char * Id_depto;
+    char * Nombre = nullptr;
+    char * Id_depto = nullptr;
 
 public:
 /***************************************************************************/
@@ -42,9 +42,9 @@ public:
 /***************************************************************************/
 // Métodos get
 
-    string getNombre();
+    string getNombre() const;
 
-    string getId();
+    string getId() const;
 
 /***************************************************************************/
 // Métodos set
@@ -56,7 +56,12 @@ public:
 /***************************************************************************/
 // Método ToString
 
-    string ToString();
+    string ToString() const;
+
+/***************************************************************************/
+// Método Clona
+
+    void Clona(Departamento & origen);
 
 /***************************************************************************/
 // Destructor

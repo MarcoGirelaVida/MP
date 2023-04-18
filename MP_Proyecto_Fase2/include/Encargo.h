@@ -40,8 +40,8 @@ class Encargo
 /***************************************************************************/
 // Métodos get
 
-        int getCategoria();
-        int getCreditos();
+        int getCategoria() const;
+        int getCreditos() const;
 
 /***************************************************************************/
 // Métodos set
@@ -53,6 +53,11 @@ class Encargo
 // Método ToString
 
         string ToString();
+
+/***************************************************************************/
+// Método clona
+
+        void Clona(const Encargo &origen);
 
 };
 #endif

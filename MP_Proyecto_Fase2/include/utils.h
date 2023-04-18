@@ -63,6 +63,6 @@ void stoptr(string &str, char * &atributo);
 // Método ptrtos: Devuelve un string a partir de un puntero char
 // Recibe un puntero a cadena clásica
 
-string ptrtos(char * &atributo);
+string ptrtos(const char * const &atributo);
 
 #endif
