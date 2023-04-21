@@ -33,6 +33,7 @@ using namespace std;
 int main()
 {
     string linea;
+    string TERMINADOR = "FIN";
     string separador =\
     "--------------------------------------------------------------\n";
 
@@ -43,13 +44,17 @@ int main()
         int contador_dep = 0;
 
         getline(cin, linea);
-        do
+
+        while( linea != TERMINADOR)
         {
-            Departamento d(linea, '*');
-            cout << d.ToString();
             contador_dep++;
 
-        }while(getline(cin,linea) && linea != "FIN");
+            Departamento d(linea, '*');
+            cout << d.ToString();
+
+            // Leo la siguiente linea
+            getline(cin,linea);
+        }
 
         cout << "Total Departamentos = " << contador_dep << endl << endl;
 
@@ -61,13 +66,16 @@ int main()
         int contador_prof = 0;
 
         getline(cin, linea);
-        do
+
+        while( linea != TERMINADOR)
         {
-            Profesor p(linea, '*');
-            cout << p.ToString(true);
             contador_prof++;
 
-        }while(getline(cin,linea) && linea != "FIN");
+            Profesor p(linea, '*');
+            cout << p.ToString(true);
+            
+            getline(cin,linea);
+        }
 
         cout << "Total Profesores = " << contador_prof << endl << endl;
 
@@ -79,13 +87,16 @@ int main()
         int contador_enc = 0;
         
         getline(cin, linea);
-        do
+
+        while( linea != TERMINADOR)
         {
-            Encargo e(linea, '*');
-            cout << e.ToString();
             contador_enc++;
 
-        }while(getline(cin,linea) && linea != "FIN");
+            Encargo e(linea, '*');
+            cout << e.ToString();
+            
+            getline(cin,linea);
+        }
 
         cout << "Total Encargos = " << contador_enc << endl << endl;
 
@@ -99,13 +110,15 @@ int main()
         int contador_ads = 0;
         
         getline(cin, linea);
-        do
+        while( linea != TERMINADOR)
         {
-            Adscripcion a(linea, '*');
-            cout << a.ToString();
             contador_ads++;
 
-        }while(getline(cin,linea) && linea != "FIN");
+            Adscripcion a(linea, '*');
+            cout << a.ToString();
+
+            getline(cin,linea);
+        }
 
         cout << "Total Adscripciones = " << contador_ads << endl << endl;
 
