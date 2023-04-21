@@ -39,6 +39,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
 	  $(BIN)/MP_Proyecto_Fase2 \
+	  $(BIN)/MP_Proyecto_Fase1 \
 	  final
 
 #................................................
@@ -64,8 +65,27 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/main_MP_Proyecto_Fase2 : $(OBJ)/main_MP_Proyecto_Fase2.o \
+$(BIN)/MP_Proyecto_Fase2 : $(OBJ)/main_MP_Proyecto_Fase2.o \
 	        $(OBJ)/main_MP_Proyecto_Fase2.o  \
+            $(LIB_CLASES_UTILS)/libutils.a \
+            $(LIB_CLASES_UTILS)/libAdscripcion.a \
+            $(LIB_CLASES_UTILS)/libDepartamento.a \
+            $(LIB_CLASES_UTILS)/libEncargo.a \
+            $(LIB_CLASES_UTILS)/libFecha.a \
+            $(LIB_CLASES_UTILS)/libProfesor.a           
+	@echo 
+	@echo Creando ejecutable: main_MP_Proyecto_Fase2
+	@echo 
+	g++ -o $(BIN)/main_MP_Proyecto_Fase2 $(OBJ)/main_MP_Proyecto_Fase2.o \
+	       -lAdscripcion \
+	       -lDepartamento \
+	       -lProfesor \
+	       -lEncargo \
+	       -lutils \
+	       -lFecha \
+	       -L$(LIB_CLASES_UTILS)
+
+$(BIN)/MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
             $(LIB_CLASES_UTILS)/libutils.a \
             $(LIB_CLASES_UTILS)/libAdscripcion.a \
             $(LIB_CLASES_UTILS)/libDepartamento.a \
@@ -94,6 +114,15 @@ $(OBJ)/main_MP_Proyecto_Fase2.o : $(SRC)/main_MP_Proyecto_Fase2.cpp \
 	@echo 
 	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase2.o \
 	          $(SRC)/main_MP_Proyecto_Fase2.cpp \
+        -I$(INCLUDE) -std=c++14
+
+$(OBJ)/main_MP_Proyecto_Fase1.o : $(SRC)/main_MP_Proyecto_Fase1.cpp \
+	           $(wildcard $(INCLUDE)/*.h)
+	@echo 
+	@echo Creando objeto: main_MP_Proyecto_Fase1.o
+	@echo 
+	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase1.o \
+	          $(SRC)/main_MP_Proyecto_Fase1.cpp \
         -I$(INCLUDE) -std=c++14
 
 #................................................
