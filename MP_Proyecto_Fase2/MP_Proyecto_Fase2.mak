@@ -38,7 +38,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libEncargo.a \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
-	  $(BIN)/main_MP_Proyecto_Fase2 \
+	  $(BIN)/MP_Proyecto_Fase2 \
 	  final
 
 #................................................
