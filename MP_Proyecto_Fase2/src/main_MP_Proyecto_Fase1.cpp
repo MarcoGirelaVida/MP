@@ -64,7 +64,7 @@ int main()
         do
         {
             Profesor p(linea, '*');
-            cout << p.ToString();
+            cout << p.ToString(true);
             contador_prof++;
 
         }while(getline(cin,linea) && linea != "FIN");

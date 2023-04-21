@@ -74,9 +74,9 @@ $(BIN)/MP_Proyecto_Fase2 : $(OBJ)/main_MP_Proyecto_Fase2.o \
             $(LIB_CLASES_UTILS)/libFecha.a \
             $(LIB_CLASES_UTILS)/libProfesor.a           
 	@echo 
-	@echo Creando ejecutable: main_MP_Proyecto_Fase2
+	@echo Creando ejecutable: MP_Proyecto_Fase2
 	@echo 
-	g++ -o $(BIN)/main_MP_Proyecto_Fase2 $(OBJ)/main_MP_Proyecto_Fase2.o \
+	g++ -o $(BIN)/MP_Proyecto_Fase2 $(OBJ)/main_MP_Proyecto_Fase2.o \
 	       -lAdscripcion \
 	       -lDepartamento \
 	       -lProfesor \
@@ -93,9 +93,9 @@ $(BIN)/MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
             $(LIB_CLASES_UTILS)/libFecha.a \
             $(LIB_CLASES_UTILS)/libProfesor.a           
 	@echo 
-	@echo Creando ejecutable: main_MP_Proyecto_Fase2
+	@echo Creando ejecutable: MP_Proyecto_Fase1
 	@echo 
-	g++ -o $(BIN)/main_MP_Proyecto_Fase2 $(OBJ)/main_MP_Proyecto_Fase2.o \
+	g++ -o $(BIN)/MP_Proyecto_Fase1 $(OBJ)/main_MP_Proyecto_Fase1.o \
 	       -lAdscripcion \
 	       -lDepartamento \
 	       -lProfesor \
