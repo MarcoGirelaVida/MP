@@ -33,8 +33,8 @@ using namespace std;
 
 Departamento :: Departamento()
 {
-    Nombre = nullptr;
-    Id_depto = nullptr;
+    setNombre();
+    setId();
 }
 
 /***************************************************************************/
@@ -135,9 +135,10 @@ void Departamento :: Clona(Departamento & origen)
 // Destructor
 Departamento :: ~Departamento()
 {
-    delete [] Nombre;
+    if (Nombre) delete [] Nombre;
     Nombre = nullptr;
-    delete [] Id_depto;
+
+    if (Id_depto) delete [] Id_depto;
     Id_depto = nullptr;
 }
 /***************************************************************************/

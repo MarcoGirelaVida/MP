@@ -29,8 +29,8 @@ using namespace std;
 
 Adscripcion :: Adscripcion()
 {
-    DNI = nullptr;
-    Id_depto = nullptr;
+    setDniProfesor();
+    setIdDepartamento();
 }
 
 /***************************************************************************/
@@ -75,12 +75,12 @@ Adscripcion :: Adscripcion(string linea, char delimitador)
 
 string Adscripcion :: getDniProfesor() const
 {
-    return ptrtos(DNI);
+    return DNI;
 }
 
 string Adscripcion :: getIdDepartamento() const
 {
-    return ptrtos(Id_depto);
+    return Id_depto;
 }
 
 /***************************************************************************/
@@ -127,9 +127,10 @@ string Adscripcion :: ToString()
 
 Adscripcion :: ~Adscripcion()
 {
-    delete [] DNI;
+    if (DNI) delete [] DNI;
     DNI = nullptr;
-    delete [] Id_depto;
+
+    if (Id_depto) delete [] Id_depto;
     Id_depto = nullptr;
 }
 

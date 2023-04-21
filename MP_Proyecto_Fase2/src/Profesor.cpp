@@ -33,9 +33,9 @@ using namespace std;
 
 Profesor :: Profesor()
 {
-    DNI = nullptr;
-    Nombre = nullptr;
-    Apellidos = nullptr;
+    setDni();
+    setNombre();
+    setApellidos();
     FechaNacimiento = Fecha();
     Categoria = 0;
 }
@@ -136,17 +136,17 @@ Profesor :: Profesor(string linea, char delimitador)
 
 string Profesor :: getDni() const
 {
-    return ptrtos(DNI);
+    return DNI;
 }
 
 string Profesor :: getNombre() const
 {
-    return ptrtos(Nombre);
+    return Nombre;
 }
 
 string Profesor :: getApellidos() const
 {
-    return ptrtos(Apellidos);
+    return Apellidos;
 }
 
 string Profesor :: getFechaNacimiento() const
@@ -241,11 +241,13 @@ void Profesor :: Clona ( const Profesor & origen)
 
 Profesor :: ~Profesor()
 {
-    delete[] DNI;
+    if (DNI) {delete[] DNI;}
     DNI = nullptr;
-    delete[] Nombre;
+
+    if (Nombre) {delete[] Nombre;}
     Nombre = nullptr;
-    delete[] Apellidos;
+
+    if (Apellidos) {delete[] Apellidos;}
     Apellidos = nullptr;
 }
 

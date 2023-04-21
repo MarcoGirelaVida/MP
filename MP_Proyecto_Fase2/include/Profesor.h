@@ -55,10 +55,10 @@ public:
 /***************************************************************************/
 // Métodos set
 
-    void setDni(string arg_DNI);
-    void setNombre(string arg_Nombre);
-    void setApellidos(string arg_Apellidos);
-    void setFechaNacimiento(string arg_fechanacimiento);
+    void setDni(string arg_DNI = "");
+    void setNombre(string arg_Nombre = "");
+    void setApellidos(string arg_Apellidos = "");
+    void setFechaNacimiento(string arg_fechanacimiento = "");
     void setCategoria(int arg_categoria);
 
 /***************************************************************************/

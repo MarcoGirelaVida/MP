@@ -35,13 +35,13 @@ string FormatInt (int numero, int num_casillas, char relleno)
 
     string strnumero = to_string(numero);
     int num_digitos = strnumero.size();
-
+/*
     if (num_casillas < num_digitos)
     {
         cerr << "Error: num_casillas < num_digitos" << endl;
         exit(1);
     }
-
+*/
     //Si num_casillas es mayor que el num_digitos
     //se rellena por la izquierda con relleno.
     if (num_digitos < num_casillas)
@@ -131,14 +131,14 @@ string FormatString (string la_cadena, int num_casillas,
 TipoAlineacion alineacion, char relleno)
 {
     int longitud = la_cadena.size();
-
+/*
     // Compruebo si num_casillas es menor que la longitud de la cadena
     if (num_casillas < longitud)
     {
         cerr << "Error: num_casillas < longitud" << endl;
         exit(1);
     }
-
+*/
     //...............................................................
     // Relleno si así se require, según la alineación
     if (num_casillas > longitud)

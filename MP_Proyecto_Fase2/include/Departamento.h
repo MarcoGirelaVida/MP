@@ -49,9 +49,9 @@ public:
 /***************************************************************************/
 // Métodos set
 
-    void setNombre(string nombre);
+    void setNombre(string nombre = "");
 
-    void setId(string id);
+    void setId(string id = "");
 
 /***************************************************************************/
 // Método ToString

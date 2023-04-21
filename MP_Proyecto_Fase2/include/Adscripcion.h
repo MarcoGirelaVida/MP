@@ -49,9 +49,9 @@ class Adscripcion
 /***************************************************************************/
 // Métodos set
 
-        void setDniProfesor(string dni);
+        void setDniProfesor(string dni = "");
 
-        void setIdDepartamento(string id);
+        void setIdDepartamento(string id = "");
 
 /***************************************************************************/
 // Método ToString
