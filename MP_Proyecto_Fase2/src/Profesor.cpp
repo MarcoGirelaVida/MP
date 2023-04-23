@@ -165,7 +165,9 @@ int Profesor :: getCategoria() const
 
 void Profesor :: setDni(string arg_DNI)
 {
-    if (arg_DNI.length() != 9)
+    cout << "DNI: " << arg_DNI << endl;
+    cout << "DNI.length: " << arg_DNI.length() << endl;
+    if (!(arg_DNI.length() == 9 || arg_DNI.size() == 0))
     {
         cout << "Error: El DNI debe tener 9 caracteres" << endl;
         exit(1);
@@ -209,11 +211,11 @@ string Profesor :: ToString(bool mes_string) const
 {
     string cadena = "";
 
-    if (DNI && Nombre && Apellidos && Categoria &&\
+    if (DNI && Nombre && Apellidos && Categoria &&
     FechaNacimiento.getMes() && FechaNacimiento.getDia())
     {
-        cadena += ptrtos(DNI) + " ";
-        cadena += FormatString((ptrtos(Apellidos) + ", " + ptrtos(Nombre)),32);
+        cadena += (string) DNI + " ";
+        cadena += FormatString(((string)Apellidos + ", " + (string) Nombre),32);
         cadena += FechaNacimiento.ToString(mes_string);
         cadena += "   " + to_string(Categoria);
         cadena += "\n";

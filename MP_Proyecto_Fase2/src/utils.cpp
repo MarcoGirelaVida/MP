@@ -213,27 +213,5 @@ void stoptr(string &str, char * &atributo)
     atributo[str.size()] = '\0';
 }
 
-/***************************************************************************/
-/***************************************************************************/
-// Método ptrtos: Devuelve un string a partir de un puntero char
-// Recibe un puntero a cadena clásica
-
-string ptrtos(const char * const &atributo)
-{
-    string str;
-
-    if (atributo)
-    {
-        str = atributo;
-    }
-
-    else
-    {
-        str = "";
-    }
-    
-    return str;
-}
-
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

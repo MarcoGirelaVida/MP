@@ -114,9 +114,9 @@ string Adscripcion :: ToString()
     
     if (DNI && Id_depto)
     {
-        cadena += ptrtos(DNI);
+        cadena += (string) DNI;
         cadena += " ";
-        cadena += ptrtos(Id_depto) + "\n";
+        cadena += (string) Id_depto + "\n";
     }
     
     return cadena;

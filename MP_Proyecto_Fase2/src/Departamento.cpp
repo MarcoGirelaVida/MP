@@ -85,12 +85,12 @@ Departamento :: Departamento(string linea, char delimitador)
 
 string Departamento :: getNombre() const
 {
-    return ptrtos(Nombre);
+    return Nombre;
 }
 
 string Departamento :: getId() const
 {
-    return ptrtos(Id_depto);
+    return Id_depto;
 }
 
 /***************************************************************************/
@@ -115,8 +115,8 @@ string Departamento :: ToString() const
 
     if (Id_depto && Nombre)
     {
-        cadena += ptrtos(Id_depto) + "    ";
-        cadena += ptrtos(Nombre) + "\n";
+        cadena += (string) Id_depto + "    ";
+        cadena += (string) Nombre + "\n";
     }
 
     return cadena;
