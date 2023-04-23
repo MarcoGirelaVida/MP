@@ -38,6 +38,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libEncargo.a \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
+	  $(BIN)/MP_Proyecto_Fase3 \
 	  $(BIN)/MP_Proyecto_Fase2 \
 	  $(BIN)/MP_Proyecto_Fase1 \
 	  final
@@ -46,7 +47,7 @@ all:  preambulo \
 preambulo:
 	@echo
 	@echo ------------------------------------------------------------
-	@echo Proyecto Fase 02
+	@echo Proyecto Fase 03
 	@echo PROYECTO: $(shell basename "$$PWD")
 	@echo
 	@echo METODOLOGÍA DE LA PROGRAMACIÓN
@@ -104,8 +105,36 @@ $(BIN)/MP_Proyecto_Fase1 : $(OBJ)/main_MP_Proyecto_Fase1.o \
 	       -lFecha \
 	       -L$(LIB_CLASES_UTILS)
 
+$(BIN)/MP_Proyecto_Fase3 : $(OBJ)/main_MP_Proyecto_Fase3.o \
+            $(LIB_CLASES_UTILS)/libutils.a \
+            $(LIB_CLASES_UTILS)/libAdscripcion.a \
+            $(LIB_CLASES_UTILS)/libDepartamento.a \
+            $(LIB_CLASES_UTILS)/libEncargo.a \
+            $(LIB_CLASES_UTILS)/libFecha.a \
+            $(LIB_CLASES_UTILS)/libProfesor.a           
+	@echo 
+	@echo Creando ejecutable: MP_Proyecto_Fase3
+	@echo 
+	g++ -o $(BIN)/MP_Proyecto_Fase3 $(OBJ)/main_MP_Proyecto_Fase3.o \
+	       -lAdscripcion \
+	       -lDepartamento \
+	       -lProfesor \
+	       -lEncargo \
+	       -lutils \
+	       -lFecha \
+	       -L$(LIB_CLASES_UTILS)
+
 #................................................
 # OBJETOS
+
+$(OBJ)/main_MP_Proyecto_Fase3.o : $(SRC)/main_MP_Proyecto_Fase3.cpp \
+	           $(wildcard $(INCLUDE)/*.h)
+	@echo 
+	@echo Creando objeto: main_MP_Proyecto_Fase3.o
+	@echo 
+	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase3.o \
+	          $(SRC)/main_MP_Proyecto_Fase3.cpp \
+        -I$(INCLUDE) -std=c++14
 
 $(OBJ)/main_MP_Proyecto_Fase2.o : $(SRC)/main_MP_Proyecto_Fase2.cpp \
 	           $(wildcard $(INCLUDE)/*.h)
