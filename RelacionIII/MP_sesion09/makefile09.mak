@@ -87,7 +87,9 @@ $(OBJ)/III_Demo-Matriz2D.o : $(SRC)/III_Demo-Matriz2D.cpp \
 	g++ -c -o $(OBJ)/III_Demo-Matriz2D.o $(SRC)/III_Demo-Matriz2D.cpp \
             -I$(INCLUDE) -std=c++14
 
-$(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp $(INCLUDE)/Matriz2D.h
+$(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp \
+	                $(INCLUDE)/Matriz2D.h \
+	                $(INCLUDE)/TipoBase_Matriz2D.h
 	@echo 
 	@echo Creando objeto: Matriz2D.o
 	@echo 
