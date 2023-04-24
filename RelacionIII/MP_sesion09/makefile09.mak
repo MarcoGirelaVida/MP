@@ -61,12 +61,13 @@ final:
 # EJECUTABLES
 
 $(BIN)/III_Demo-Matriz2D : $(OBJ)/III_Demo-Matriz2D.o \
-             $(OBJ)/Matriz2D.o 
+	                       $(OBJ)/Matriz2D.o \
+	                       $(OBJ)/Secuencia.o
 	@echo 
 	@echo Creando ejecutable: III_Demo-Matriz2D
 	@echo 
 	g++ -o $(BIN)/III_Demo-Matriz2D $(OBJ)/III_Demo-Matriz2D.o \
-           $(OBJ)/Matriz2D.o 
+           $(OBJ)/Matriz2D.o $(OBJ)/Secuencia.o
 
 $(BIN)/III_Demo-Secuencia : \
               $(OBJ)/III_Demo-Secuencia.o \
@@ -75,7 +76,8 @@ $(BIN)/III_Demo-Secuencia : \
 	@echo Creando ejecutable: III_Demo-Secuencia
 	@echo 
 	g++ -o $(BIN)/III_Demo-Secuencia \
-         $(OBJ)/III_Demo-Secuencia.o -L$(LIB) -lSecuencia
+         $(OBJ)/III_Demo-Secuencia.o \
+		 $(OBJ)/Secuencia.o -L$(LIB) -lSecuencia
 
 #................................................
 # OBJETOS 
@@ -89,7 +91,8 @@ $(OBJ)/III_Demo-Matriz2D.o : $(SRC)/III_Demo-Matriz2D.cpp \
 
 $(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp \
 	                $(INCLUDE)/Matriz2D.h \
-	                $(INCLUDE)/TipoBase_Matriz2D.h
+	                $(INCLUDE)/TipoBase_Matriz2D.h \
+	                $(INCLUDE)/Secuencia.h
 	@echo 
 	@echo Creando objeto: Matriz2D.o
 	@echo 
@@ -102,7 +105,7 @@ $(OBJ)/III_Demo-Secuencia.o : \
 	@echo Creando objeto: III_Demo-Secuencia.o
 	@echo
 	g++ -c -o $(OBJ)/III_Demo-Secuencia.o $(SRC)/III_Demo-Secuencia.cpp  \
-        -I$(INCLUDE) -std=c++11
+        -I$(INCLUDE) -std=c++14
 
 $(OBJ)/Secuencia.o : $(SRC)/Secuencia.cpp \
                      $(INCLUDE)/Secuencia.h $(INCLUDE)/TipoBase_Secuencia.h
@@ -110,13 +113,12 @@ $(OBJ)/Secuencia.o : $(SRC)/Secuencia.cpp \
 	@echo Creando objeto: Secuencia.o
 	@echo  
 	g++ -c -o $(OBJ)/Secuencia.o  $(SRC)/Secuencia.cpp \
-       -I$(INCLUDE) -std=c++11
+       -I$(INCLUDE) -std=c++14
 
 #................................................
 # BIBLIOTECAS 
 
-$(LIB)/libMatriz2D.a : \
-                       $(OBJ)/Matriz2D.o
+$(LIB)/libMatriz2D.a : $(OBJ)/Matriz2D.o
 	@echo 
 	@echo Creando biblioteca: libMatriz2D.a
 	@echo

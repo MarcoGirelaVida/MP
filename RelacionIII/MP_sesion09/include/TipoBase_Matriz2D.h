@@ -17,14 +17,6 @@
 // Definiciones de tipos
 
 typedef int TipoBase;	// Tipo de los datos de la matriz
-typedef struct
-{
-
-	TipoBase ** datos;	// Puntero a vector de punteros a los datos
-
-	int fils;			// Num. de filas
-	int cols; 			// Num. de columnas
-} Matriz2D;
 
 /***************************************************************************/
 // Constantes globales

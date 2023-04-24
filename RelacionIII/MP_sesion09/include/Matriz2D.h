@@ -14,6 +14,7 @@
 #define MATRIZ2D
 
 #include "TipoBase_Matriz2D.h"
+#include "Secuencia.h"
 #include <string>
 using namespace std; 
 
@@ -21,11 +22,16 @@ class Matriz2D
 {
 private:
 
-    TipoBase ** matriz = nullptr;  // Puntero a vector de punteros a los datos
+	TipoBase ** datos;	// Puntero a vector de punteros a los datos
+
+	int fils;			// Num. de filas
+	int cols; 			// Num. de columnas
 
 public:
 
 
+/***************************************************************************/
+/*---------------------------CONSTRUCTORES/DESTRUCTOR----------------------*/
 /***************************************************************************/
 // Constructor sin argumentos, que crea una matriz vacía.
     Matriz2D(void);
@@ -35,7 +41,7 @@ public:
 // Constructor con 1 argumento: Crea una matriz cuadrada con el número de filas
 // y columnas indicado en el argumento.
 
-    Matri2D(int n=0);
+    Matriz2D(int n);
 
 
 /***************************************************************************/
@@ -45,19 +51,19 @@ public:
 //		ncols, número de columnas de la matriz (por defecto 0).
 // PRE: nfils >= 0 && ncols >= 0
 
-    Matriz2D(int nfils=0, int ncols=0);
+    Matriz2D(int nfils, int ncols);
 
 
 /***************************************************************************/
 // Constructor con 3 argumentos
 // El contenido de las "fils"x"cols" casillas se ecualiza a "valor"
 // Parámetros:
-//		nfils, número de filas de la matriz (por defecto 0).
-//		ncols, número de columnas de la matriz (por defecto 0).
-//		valor, valor común que se copiará en las casillas (por defecto 0). 
+//		nfils, número de filas de la matriz.
+//		ncols, número de columnas de la matriz.
+//		valor, valor común que se copiará en las casillas . 
 // PRE: nfils >= 0 && ncols >= 0 
 
-    Matriz2D(int nfils=0, int ncols=0, TipoBase valor=VALOR_DEF);
+    Matriz2D(int nfils, int ncols, TipoBase valor);
 
 /***************************************************************************/
 // Constructor de copia
@@ -71,16 +77,17 @@ public:
 
 
 /***************************************************************************/
+/*-----------------------------MÉTODOS PÚBLICOS------------------------*/
+/***************************************************************************/
+// Sobrecarga del operador de asignación
+    Matriz2D & operator = (const Matriz2D & otro);
+
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una matriz.
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
 
-    string ToString (const Matriz2D & matriz, string Cadena="Fila", int empiezaen=0);
+    string ToString (string Cadena="Fila", int empiezaen=0) const;
 
-
-/***************************************************************************/
-// Sobrecarga del operador de asignación
-    Matriz2D & operator = (const Matriz2D & otro);
 
 
 /***************************************************************************/
@@ -97,9 +104,10 @@ public:
 //			   num_columna, número de columna.
 // PRE: 0<=num_fila<NumFilas(m)
 // PRE: 0<=num_columna<NumColumnas(m)
+// Permite procesar la matriz como un array. (matriz tipo 2)
 
-    TipoBase & Valor (int num_fila, int num_columna); 
-
+    TipoBase & Valor (const int num_fila = 0, const int num_columna = 0); 
+    TipoBase & Valor (const int num_fila = 0, const int num_columna = 0) const;
 
 /***************************************************************************/
 // Método que consulta si la matriz está vacía
@@ -121,7 +129,7 @@ public:
 
 /***************************************************************************/
 // Copia profunda. Hace una copia profunda de origen en destino.
-    void Clona (const Matriz2D & origen);
+    void CopiarDatos(const Matriz2D & otra);
 
 
 /***************************************************************************/
@@ -142,41 +150,46 @@ tiene (un máximo de) num_filas filas y num_cols columnas.
 La función construirá y “rellenará” una matriz vacía. Lo mismo ocurre
 si la casilla inicial fuera, por ejemplo, la casilla 2 (fila), -2 (columna).
 */
-    void SubMatriz (Matriz2D & resultado, const Matriz2D & original,
-            int fila_inic, int col_inic, int num_filas, int num_cols);
-/****************************************************************************
+    Matriz2D SubMatriz (int fila_inic, int col_inic,
+                        int num_filas, int num_cols);
+
+/****************************************************************************/
 // Método para añadir una fila. La fila nueva (una dato Secuencia) debe tener el
 // mismo número de casillas que columnas tenga la matriz
 
     void Aniade (const Secuencia & fila_nueva);
 
-/****************************************************************************
+/****************************************************************************/
 // Método para insertar una fila en una posición dada. La fila nueva (una dato
-Secuencia) debe tener el mismo número de casillas que columnas tenga la
-matriz. La posición indicada será la posición que tendrá la fila después de la
-inserción.
+//Secuencia) debe tener el mismo número de casillas que columnas tenga la
+//matriz. La posición indicada será la posición que tendrá la fila después de la
+//inserción.
+    void Inserta (int indice, const Secuencia & fila_nueva);
+
 /***************************************************************************/
 //Eliminar fila. Elimina la fila num_fila de la matriz matriz.
-    void EliminaFila (Matriz2D & matriz, int num_fila);
+    void EliminaFila (int num_fila);
 
 //Eliminar columna. Elimina la columna num_col de la matriz matriz.
-    void EliminaColumna (Matriz2D & matriz, int num_col);
+    void EliminaColumna (int num_col);
 
 
 /***************************************************************************/
 // Espejo horizontal.
 // Cambia de orden las filas de matriz (la primera pasa a ser la última y
 // la última la primera, la segunda la penúltima y la penúltima la segunda etc)
-    void EspejoHorizontal (Matriz2D & matriz);
+    void EspejoHorizontal ();
 
 //Espejo vertical. Cambia de orden las columnas de matriz (la primera
 //pasa a ser la última y la última la primera, la segunda la penúltima y la
 //penúltima la segunda, etc.).
-    void EspejoVertical (Matriz2D & matriz);
+    void EspejoVertical ();
+
+private:
 
 /***************************************************************************/
+/*---------------------------MÉTODOS PRIVADOS------------------------------*/
 /***************************************************************************/
-// PRIVADA
 // Reserva memoria para los datos de una matriz dinámica con "nfils" filas 
 // y "ncols" columnas. 
 // El contenido de las "nfils"x"ncols" casillas queda INDEFINIDO.
@@ -191,7 +204,7 @@ inserción.
 // 		 disponer de una matriz no vacía. Si alguno de los dos valores fuera 0  
 //		 no se reserva memoria, y la matriz queda vacía. 
 
-    Matriz2D ReservaMemoria (int nfils, int ncols);
+    void ReservaMemoria (int nfils, int ncols);
 
 /***************************************************************************/
 // Libera la memoria ocupada por una matriz dinámica. 
@@ -199,5 +212,6 @@ inserción.
 //		matriz (referencia), la matriz que va a "liberarse". 
 // POST: La matriz queda vacía (todos sus campos a cero)
 
-    void LiberaMemoria (Matriz2D & matriz);
+    void LiberaMemoria ();
 };
+#endif
