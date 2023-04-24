@@ -77,9 +77,10 @@ public:
 
     string ToString (const Matriz2D & matriz, string Cadena="Fila", int empiezaen=0);
 
-/***************************************************************************/
-/***************************************************************************/
 
+/***************************************************************************/
+// Sobrecarga del operador de asignación
+    Matriz2D & operator = (const Matriz2D & otro);
 
 
 /***************************************************************************/
@@ -143,8 +144,17 @@ si la casilla inicial fuera, por ejemplo, la casilla 2 (fila), -2 (columna).
 */
     void SubMatriz (Matriz2D & resultado, const Matriz2D & original,
             int fila_inic, int col_inic, int num_filas, int num_cols);
+/****************************************************************************
+// Método para añadir una fila. La fila nueva (una dato Secuencia) debe tener el
+// mismo número de casillas que columnas tenga la matriz
 
-/***************************************************************************/
+    void Aniade (const Secuencia & fila_nueva);
+
+/****************************************************************************
+// Método para insertar una fila en una posición dada. La fila nueva (una dato
+Secuencia) debe tener el mismo número de casillas que columnas tenga la
+matriz. La posición indicada será la posición que tendrá la fila después de la
+inserción.
 /***************************************************************************/
 //Eliminar fila. Elimina la fila num_fila de la matriz matriz.
     void EliminaFila (Matriz2D & matriz, int num_fila);
