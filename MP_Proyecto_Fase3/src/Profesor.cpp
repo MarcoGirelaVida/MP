@@ -134,14 +134,7 @@ using namespace std;
 
     Profesor :: ~Profesor()
     {
-        if (DNI) {delete[] DNI;}
-        DNI = nullptr;
-
-        if (Nombre) {delete[] Nombre;}
-        Nombre = nullptr;
-
-        if (Apellidos) {delete[] Apellidos;}
-        Apellidos = nullptr;
+        LiberarMemoria();
     }
 
 /*************************************************************************/

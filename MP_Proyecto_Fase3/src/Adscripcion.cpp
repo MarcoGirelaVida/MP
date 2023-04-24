@@ -91,11 +91,7 @@ using namespace std;
 
     Adscripcion :: ~Adscripcion()
     {
-        if (DNI) delete [] DNI;
-        DNI = nullptr;
-
-        if (Id_depto) delete [] Id_depto;
-        Id_depto = nullptr;
+        LiberarMemoria();
     }
 
 

@@ -96,17 +96,7 @@ using namespace std;
 // Destructor
     Departamento :: ~Departamento()
     {
-        if (Nombre)
-        {
-            delete [] Nombre;
-            Nombre = nullptr;
-        }
-
-        if (Id_depto)
-        {
-            delete [] Id_depto;
-            Id_depto = nullptr;  
-        }   
+        iLiberarMemoria(); 
     }
 
 /*************************************************************************/
