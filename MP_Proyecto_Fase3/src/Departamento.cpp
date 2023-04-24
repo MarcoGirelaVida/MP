@@ -224,7 +224,16 @@ using namespace std;
 
     string Departamento :: FormaPalabra (string cad_fuente, int pos, \
                         char delimitador)
-    { return "hola";}
+    {
+        string palabra;
+        
+        for (int i = pos; i < cad_fuente.size(), i != delimitador; i++)
+        {
+            palabra[i-pos] = cad_fuente[pos];
+        }
+
+        return palabra;
+    }
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
