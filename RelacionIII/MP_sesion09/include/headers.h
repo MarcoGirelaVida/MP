@@ -5,7 +5,7 @@
 // GRUPO: 1ºB
 // FECHA: xx/04/2023
 //
-// RELACION DE PROBLEMAS 3
+// RELACION DE PROBLEMAS 2
 //
 // Fichero: .h
 /*****************************************************************************/
