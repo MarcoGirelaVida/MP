@@ -24,115 +24,195 @@
 
 using namespace std;
 
-/***************************************************************************/
+/*************************************************************************/
+//-------------------------CONSTRUCTORES---------------------------------//
+/*************************************************************************/
 // Constructor por defecto
 
-Adscripcion :: Adscripcion()
-{
-    setDniProfesor();
-    setIdDepartamento();
-}
-
-/***************************************************************************/
-// Constructor con argumentos
-
-Adscripcion :: Adscripcion(string linea, char delimitador)
-{
-    string tmp = "";
-    int i = 0;
-    
-    // Leo el primer elemento del string (dni)
-    while(linea[i] != delimitador)
+    Adscripcion :: Adscripcion()
     {
-        tmp += linea[i];
-        i++;
+        setDniProfesor();
+        setIdDepartamento();
     }
 
-    // Guardo tmp en el atributo dni de la clase
-    string dni = tmp;
-    tmp = "";
-
-    i++;
-
-    //.....................................................................
-    // Leo el segundo elemento del string (id_dtpo)
-
-    while(linea[i] != delimitador)
+/*************************************************************************/
+// Constructor desde un string.
+// Compone un dato Encargo a patir de un dato string. 
+// Parámetros: linea, el dato string del que se extraen los valores.
+// 			   delimitador, el caracter que delimita los campos. 
+        
+    Adscripcion :: Adscripcion(string linea, char delimitador)
     {
-        tmp += linea[i];
-        i++;
+        string tmp = "";
+        int i = 0;
+        
+        // Leo el primer elemento del string (dni)
+        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
+
+        // Guardo tmp en el atributo dni de la clase
+        string dni = tmp;
+        tmp = ""; i++;
+
+        //.....................................................................
+        // Leo el segundo elemento del string (id_dtpo)
+
+        while(linea[i] != delimitador)  { tmp += linea[i]; i++; }
+
+        // Guardo tmp en el atributo id_dpto de la clase
+        string id = tmp;
+
+        setDniProfesor(dni);
+        setIdDepartamento(id);
     }
 
-    // Guardo tmp en el atributo id_dpto de la clase
-    string id = tmp;
+/*********************************************************************/
+// Constructor desde dos string.
+// Parámetros: el_DNI, string con el id del Adscripcion. 
+//             Id_depto, string con el nombre del Adscripcion. 
 
-    setDniProfesor(dni);
-    setIdDepartamento(id);
-}
-
-/***************************************************************************/
-// Métodos get
-
-string Adscripcion :: getDniProfesor() const
-{
-    return DNI;
-}
-
-string Adscripcion :: getIdDepartamento() const
-{
-    return Id_depto;
-}
-
-/***************************************************************************/
-// Métodos set
-
-void Adscripcion :: setDniProfesor(string dni)
-{
-    stoptr(dni, DNI);
-}
-
-void Adscripcion :: setIdDepartamento(string id)
-{
-    stoptr(id, Id_depto);
-}
-
-/***************************************************************************/
-// Método Clona
-
-void Adscripcion :: Clona(Adscripcion & origen)
-{
-    setDniProfesor(origen.getDniProfesor());
-    setIdDepartamento(origen.getIdDepartamento());
-}
-
-/***************************************************************************/
-// Método ToString
-
-string Adscripcion :: ToString()
-{   
-    string cadena = "";
-    
-    if (DNI && Id_depto)
+    Adscripcion :: Adscripcion(string el_id_depto, string el_DNI)
     {
-        cadena += (string) DNI;
-        cadena += " ";
-        cadena += (string) Id_depto + "\n";
+        setDniProfesor(el_DNI);
+        setIdDepartamento(el_id_depto);
     }
-    
-    return cadena;
-}
+
+
+/*********************************************************************/
+// Constructor de copia
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+    Adscripcion :: Adscripcion (const Adscripcion & otro)
+    {
+        CopiarDatos(otro);
+    }
 
 /***************************************************************************/
 // Destructor
 
-Adscripcion :: ~Adscripcion()
-{
-    if (DNI) delete [] DNI;
-    DNI = nullptr;
+    Adscripcion :: ~Adscripcion()
+    {
+        if (DNI) delete [] DNI;
+        DNI = nullptr;
 
-    if (Id_depto) delete [] Id_depto;
-    Id_depto = nullptr;
-}
+        if (Id_depto) delete [] Id_depto;
+        Id_depto = nullptr;
+    }
+
+
+/*************************************************************************/
+//----------------------------MÉTODOS------------------------------------//
+/*************************************************************************/
+// Métodos get
+
+    string Adscripcion :: getDniProfesor() const
+    {return DNI;}
+
+
+    string Adscripcion :: getIdDepartamento() const
+    {return Id_depto;}
+
+/***************************************************************************/
+// Métodos set
+
+    void Adscripcion :: setDniProfesor(string dni)
+    {stoptr(dni, DNI);}
+
+
+    void Adscripcion :: setIdDepartamento(string id)
+    {stoptr(id, Id_depto);}
+
+
+/***************************************************************************/
+/***************************************************************************/
+// Método ToString
+
+    string Adscripcion :: ToString()
+    {   
+        string cadena = "";
+        
+        if (DNI || Id_depto)
+        {
+            if (strlen(DNI) && strlen(Id_depto))
+            {
+                cadena += (string) DNI;
+                cadena += " ";
+                cadena += (string) Id_depto + "\n";
+            }
+            else    {cadena += "ADSCRIPCIÓN VACIA\n";}
+        }
+        else    {cadena += "ADSCRIPCIÓN NO INICIALIZADA\n";}
+        
+        return cadena;
+    }
+
+/***********************************************************************/
+// Sobrecarga del operador de asignación para copia profunda.
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+    Adscripcion & Adscripcion :: operator = (const Adscripcion & otro)
+    {
+        if (this != &otro)
+        {
+            // Copiar datos llama a set, que ya se encarga de reservar y
+            // liberar memoria
+            CopiarDatos(otro);
+        }
+
+        return *this;
+    }
+
+
+/*************************************************************************/
+//------------------------MÉTODOS PRIVADOS-------------------------------//
+/*************************************************************************/
+// Copiar datos desde otro objeto de la clase
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
+//
+// PRE: Se ha reservado memoria para los datos
+
+    void Adscripcion :: CopiarDatos (const Adscripcion & otro)
+    {
+        // La propia función set ya reserva y libera memoria
+        setDniProfesor(otro.getDniProfesor());
+        setIdDepartamento(otro.getIdDepartamento());
+    }
+
+/***********************************************************************/
+// Pide memoria para guardar una copia de los datos de "otro"
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+    void Adscripcion :: ReservarMemoria (const Adscripcion & otro)
+    {
+        LiberarMemoria();
+        DNI = new char [otro.getDniProfesor().size() + 1];
+        Id_depto = new char [otro.getIdDepartamento().size() + 1];
+    }
+
+/***********************************************************************/
+// Libera memoria
+
+    void Adscripcion :: LiberarMemoria (void)
+    {
+        if (DNI) delete [] DNI;
+        DNI = nullptr;
+
+        if (Id_depto) delete [] Id_depto;
+        Id_depto = nullptr;
+    }
+
+/***********************************************************************/
+// Compone y devuelve un dato string a partir de otro, tomando los 
+// caracteres desde una posición dada hasta encontrar un carácter dado.
+// Parámetros: cad_fuente, string desde donde se extrae la palabra.
+//			   pos, posición inicial.
+//			   delimitador, carácter que marca el final.
+//
+// PRE: 0 <= pos 
+// PRE: "cad_fuente" es correcta.
+
+    string Adscripcion :: FormaPalabra (string cad_fuente, int pos,\
+                        char delimitador)
+    {return "hola";}
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

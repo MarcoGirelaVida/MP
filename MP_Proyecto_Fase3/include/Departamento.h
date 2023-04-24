@@ -5,68 +5,139 @@
 // GRUPO: 1ºB
 // FECHA: 08/04/2023
 //
-// PROYECTO FASE 1
+// PROYECTO FASE 3
 //
 // Fichero: Departamento.h
 /*****************************************************************************/
 
-#ifndef DEPARTAMENTO_H
-#define DEPARTAMENTO_H
+#ifndef DEPARTAMENTO
+#define DEPARTAMENTO
 
 #include <string>
 
 using namespace std;
 
-/***************************************************************************/
-/***************************************************************************/
-// Clase "Departamento"
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+// Clase: Departamento
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
-class Departamento
-{
+class Departamento {
 
-private:
-    char * Nombre = nullptr;
-    char * Id_depto = nullptr;
+private: 
 
-public:
-/***************************************************************************/
-// Constructor por defecto
+	char * Id_depto = nullptr;	
+	char * Nombre = nullptr;
 
-    Departamento();
+	// Delimitador del final de un campo en una línea de datos
+	static const char DELIMITADOR_DEPARTAMENTO = '*';
 
-/***************************************************************************/
-// Constructor con argumentos
+public : 
 
-    Departamento(string linea, char delimitador = '*');
+	/*************************************************************************/
+	//-------------------------CONSTRUCTORES---------------------------------//
+	/*************************************************************************/
+	// Constructor sin argumentos. 
+	// Inicializa todos los campos a valor nulo (cadena vacía).
+	// Necesario para crear arrays o matrices de objetos Departamento.
 
-/***************************************************************************/
-// Métodos get
+	Departamento (void);
 
-    string getNombre() const;
+	/************************************************************************/
+	// Constructor desde dos string.
+	// Parámetros: el_id_depto, string con el id del departamento. 
+	//             el_nombre, string con el nombre del departamento. 
 
-    string getId() const;
+	Departamento (string el_id_depto, string el_nombre); 
 
-/***************************************************************************/
-// Métodos set
 
-    void setNombre(string nombre = "");
+	/************************************************************************/
+	// Constructor desde un string.
+	// Compone un dato Departamento a patir de un dato string. 
+	// Parámetros: linea, el dato string del que se extraen los valores.
+	// 			   delimitador, el caracter que delimita los campos. 
+					
+	Departamento (string linea, char delimitador=DELIMITADOR_DEPARTAMENTO);
 
-    void setId(string id = "");
+	/************************************************************************/
+	// Constructor de copia
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
 
-/***************************************************************************/
-// Método ToString
+	Departamento (const Departamento & otro);
 
-    string ToString() const;
+	/************************************************************************/
+	// Destructor.
 
-/***************************************************************************/
-// Método Clona
+	~Departamento (void);
 
-    void Clona(Departamento & origen);
 
-/***************************************************************************/
-// Destructor
+	/*************************************************************************/
+	//----------------------------MÉTODOS------------------------------------//
+	/*************************************************************************/
+	// Métodos Get
 
-    ~Departamento();
+	string GetId_Dpto (void) const;
+	string GetNombre  (void) const;
+
+	/************************************************************************/
+	// Métodos Set
+
+	void   SetId_Dpto (string el_id_depto = "");
+	void   SetNombre  (string el_nombre = "");
+
+	/***********************************************************************/
+	// Sobrecarga del operador de asignación para copia profunda.
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+	Departamento & operator = (const Departamento & otro);
+
+	/***********************************************************************/
+	// Serializa un dato "Departamento"
+
+	string ToString (void) const; 
+
+
+private: 	
+		   
+	/*************************************************************************/
+	//------------------------MÉTODOS PRIVADOS-------------------------------//
+	/*************************************************************************/
+	// Copiar datos desde otro objeto de la clase
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
+	//
+	// PRE: Se ha reservado memoria para los datos
+
+	void CopiarDatos (const Departamento & otro);
+
+	/***********************************************************************/
+	// Pide memoria para guardar una copia de los datos de "otro"
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+	void ReservarMemoria (const Departamento & otro);
+
+
+	/***********************************************************************/
+	// Libera memoria
+
+	void LiberarMemoria (void);
+
+	/***********************************************************************/
+	// Compone y devuelve un dato string a partir de otro, tomando los 
+	// caracteres desde una posición dada hasta encontrar un carácter dado.
+	// Parámetros: cad_fuente, string desde donde se extrae la palabra.
+	//			   pos, posición inicial.
+	//			   delimitador, carácter que marca el final.
+	//
+	// PRE: 0 <= pos 
+	// PRE: "cad_fuente" es correcta.
+
+	string FormaPalabra (string cad_fuente, int pos, 
+							char delimitador=DELIMITADOR_DEPARTAMENTO); 
+	
 };
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 #endif

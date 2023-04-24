@@ -27,121 +27,204 @@
 
 using namespace std;
 
-/***************************************************************************/
-/***************************************************************************/
+/*************************************************************************/
+//-------------------------CONSTRUCTORES---------------------------------//
+/*************************************************************************/
 // Constructor por defecto
 
-Departamento :: Departamento()
-{
-    setNombre();
-    setId();
-}
-
-/***************************************************************************/
-// Constructor con argumentos: recibe un string con los datos del departamento
-// y un char con el delimitador que separa la clave primaria y secundaria.
-
-Departamento :: Departamento(string linea, char delimitador)
-{
-    string tmp = "";
-    int i = 0;
-
-    // Almaceno la clave primaria en el string temporal
-    tmp += "(";
-
-    while(linea[i] != delimitador)
-    {
-        tmp += linea[i];
-        i++;
+    Departamento :: Departamento()
+    {   
+        SetNombre();
+        SetId_Dpto();
     }
 
-    tmp += ")";
-    i++;
+/************************************************************************/
+// Constructor desde dos string.
+// Parámetros: el_id_depto, string con el id del departamento. 
+//             el_nombre, string con el nombre del departamento. 
 
-    // Reformateo el string temporal y lo guardo en el atributo de la clase
-    string id = tmp;
-    id = FormatString(id, 6);
-
-    //.......................................................................
-    // Almaceno la clave secundaria en el string temporal
-    tmp = "";
-
-    while(linea[i] != delimitador)
+    Departamento :: Departamento(string el_id_depto, string el_nombre)
     {
-        tmp += linea[i];
-        i++;
+        SetId_Dpto(el_id_depto);
+        SetNombre(el_nombre);
     }
 
-    // Guardo la clave secundaria en el atributo de la clase
-    string nombre = tmp;
+/************************************************************************/
+// Constructor de copia
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
 
-    setId(id);
-    setNombre(nombre);
-}
+    Departamento :: Departamento(const Departamento & otro)
+    {
+        CopiarDatos(otro);
+    }
 
+/*************************************************************************/
+// Constructor desde un string.
+// Compone un dato Encargo a patir de un dato string. 
+// Parámetros: linea, el dato string del que se extraen los valores.
+// 			   delimitador, el caracter que delimita los campos. 
+        
+    Departamento :: Departamento(string linea, char delimitador)
+    {
+        string tmp = "";
+        int i = 0;
+
+        // Almaceno la clave primaria en el string temporal
+        tmp += "(";
+
+        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
+        
+        tmp += ")"; i++;
+
+        // Reformateo el string temporal y lo guardo en el atributo de la clase
+        string id = tmp;
+        id = FormatString(id, 6);
+
+        //.......................................................................
+        // Almaceno la clave secundaria en el string temporal
+        tmp = "";
+        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
+
+        // Guardo la clave secundaria en el atributo de la clase
+        string nombre = tmp;
+
+        SetId_Dpto(id);
+        SetNombre(nombre);
+    }
 
 /***************************************************************************/
+// Destructor
+    Departamento :: ~Departamento()
+    {
+        if (Nombre)
+        {
+            delete [] Nombre;
+            Nombre = nullptr;
+        }
+
+        if (Id_depto)
+        {
+            delete [] Id_depto;
+            Id_depto = nullptr;  
+        }   
+    }
+
+/*************************************************************************/
+//----------------------------MÉTODOS------------------------------------//
+/*************************************************************************/
 // Métodos get, dado que no quiero modificarlos, los declaro como const
 
-string Departamento :: getNombre() const
-{
-    return Nombre;
-}
+    string Departamento :: GetNombre() const
+    {return Nombre;}
 
-string Departamento :: getId() const
-{
-    return Id_depto;
-}
+
+    string Departamento :: GetId_Dpto() const
+    {return Id_depto;}
 
 /***************************************************************************/
 // Métodos set
 
-void Departamento :: setNombre(string nombre)
-{
-    stoptr(nombre, Nombre);
-}
+    void Departamento :: SetNombre(string nombre)
+    {stoptr(nombre, Nombre);}
 
-void Departamento :: setId(string id)
-{
-    stoptr(id, Id_depto);
-}
+
+    void Departamento :: SetId_Dpto(string id)
+    {stoptr(id, Id_depto);}
 
 /***************************************************************************/
 // Método ToString
 
-string Departamento :: ToString() const
-{   
-    string cadena = "";
+    string Departamento :: ToString() const
+    {   
+        string cadena = "";
 
-    if (Id_depto && Nombre)
-    {
-        cadena += (string) Id_depto + "    ";
-        cadena += (string) Nombre + "\n";
+        if (Id_depto || Nombre)
+        {
+            if (strlen(Id_depto) && strlen(Nombre))
+            {
+                cadena += (string) Id_depto + "    ";
+                cadena += (string) Nombre + "\n";
+            }
+            else    {cadena += "DEPARTAMENTO VACIO\n";}
+        }
+        else    {cadena += "DEPARTAMENTO NO INICALIZADO\n";}
+        
+
+        return cadena;
     }
 
-    return cadena;
-}
+/***********************************************************************/
+// Sobrecarga del operador de asignación para copia profunda.
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
 
-/***************************************************************************/
-// Método Clona
+    Departamento & Departamento :: operator = (const Departamento & otro)
+    {
+        if (this != &otro)
+        {
+            CopiarDatos(otro);
+        }
 
-void Departamento :: Clona(Departamento & origen)
-{
-    setId(origen.getId());
-    setNombre(origen.getNombre());
-}
+        return *this;
+    }
 
-/***************************************************************************/
-// Destructor
-Departamento :: ~Departamento()
-{
-    if (Nombre) delete [] Nombre;
-    Nombre = nullptr;
 
-    if (Id_depto) delete [] Id_depto;
-    Id_depto = nullptr;
-}
-/***************************************************************************/
-/***************************************************************************/
+/*************************************************************************/
+//------------------------MÉTODOS PRIVADOS-------------------------------//
+/*************************************************************************/
+// Copiar datos desde otro objeto de la clase
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
+//
+// PRE: Se ha reservado memoria para los datos
+
+    void Departamento :: CopiarDatos (const Departamento & otro)
+    {
+        SetId_Dpto(otro.GetId_Dpto());
+        SetNombre(otro.GetNombre());
+    }
+
+/***********************************************************************/
+// Pide memoria para guardar una copia de los datos de "otro"
+// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+    void Departamento :: ReservarMemoria (const Departamento & otro)
+    {
+        LiberarMemoria();
+        Nombre = new char [otro.GetNombre().size() + 1];
+        Id_depto = new char [otro.GetId_Dpto().size() + 1];
+    }
+
+
+/***********************************************************************/
+// Libera memoria
+
+    void Departamento :: LiberarMemoria (void)
+    {
+        if (Nombre)
+        {
+            delete [] Nombre;
+            Nombre = nullptr;
+        }
+
+        if (Id_depto)
+        {
+            delete [] Id_depto;
+            Id_depto = nullptr;  
+        }   
+    }
+
+/***********************************************************************/
+// Compone y devuelve un dato string a partir de otro, tomando los 
+// caracteres desde una posición dada hasta encontrar un carácter dado.
+// Parámetros: cad_fuente, string desde donde se extrae la palabra.
+//			   pos, posición inicial.
+//			   delimitador, carácter que marca el final.
+//
+// PRE: 0 <= pos 
+// PRE: "cad_fuente" es correcta.
+
+    string Departamento :: FormaPalabra (string cad_fuente, int pos, \
+                        char delimitador)
+    { return "hola";}
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

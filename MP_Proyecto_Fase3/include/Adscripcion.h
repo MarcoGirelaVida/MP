@@ -5,7 +5,7 @@
 // GRUPO: 1ºB
 // FECHA: 08/04/2023
 //
-// PROYECTO FASE 1
+// PROYECTO FASE 3
 //
 // Fichero: Adscripcion.h
 /*****************************************************************************/
@@ -23,50 +23,110 @@ using namespace std;
 class Adscripcion
 {
 
-    private:
+private:
         char * DNI = nullptr;
         char * Id_depto = nullptr;
 
-    public:
-    
-/***************************************************************************/
-// Constructor por defecto
+        static const char DELIMITADOR_ADS = '*';
 
-        Adscripcion();
+public:
+        /*********************************************************************/
+        //-------------------------CONSTRUCTORES----------------------------//
+        /*********************************************************************/
+        // Constructor sin argumentos. 
+        // Inicializa todos los campos a valor nulo (cadena vacía).
+        // Necesario para crear arrays o matrices de objetos Adscripcion.
 
-/***************************************************************************/
-// Constructor con argumentos
+        Adscripcion (void);
 
-        Adscripcion(string linea, char delimitador = '*');
+        /*********************************************************************/
+        // Constructor desde un string.
+        // Compone un dato Adscripcion a patir de un dato string. 
+        // Parámetros: linea, el dato string del que se extraen los valores.
+        // 			   delimitador, el caracter que delimita los campos. 
+                        
+        Adscripcion (string linea, char delimitador=DELIMITADOR_ADS);
 
-/***************************************************************************/
-// Métodos get
+        /*********************************************************************/
+        // Constructor desde dos string.
+        // Parámetros: el_DNI, string con el id del Adscripcion. 
+        //             Id_depto, string con el nombre del Adscripcion. 
+
+        Adscripcion (string el_id_depto, string el_DNI); 
+
+
+        /*********************************************************************/
+        // Constructor de copia
+        // Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+        Adscripcion (const Adscripcion & otro);
+
+        /*********************************************************************/
+        // Destructor.
+
+        ~Adscripcion (void);
+
+        /*********************************************************************/
+        //-------------------------MÉTODOS-----------------------------------//
+        /*********************************************************************/
+        // Métodos get
 
         string getDniProfesor() const;
 
         string getIdDepartamento() const;
 
-/***************************************************************************/
-// Métodos set
+        /*********************************************************************/
+        // Métodos set
 
         void setDniProfesor(string dni = "");
 
         void setIdDepartamento(string id = "");
 
-/***************************************************************************/
-// Método ToString
+        /*********************************************************************/
+        // Método ToString
 
         string ToString();
 
-/***************************************************************************/
-// Método Clona
+        /***********************************************************************/
+	// Sobrecarga del operador de asignación para copia profunda.
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
 
-        void Clona(Adscripcion & origen);
+        Adscripcion & operator = (const Adscripcion & otro);
 
-/***************************************************************************/
-// Destructor
+private: 	
+		   
+	/*************************************************************************/
+	//------------------------MÉTODOS PRIVADOS-------------------------------//
+	/*************************************************************************/
+	// Copiar datos desde otro objeto de la clase
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
+	//
+	// PRE: Se ha reservado memoria para los datos
 
-        ~Adscripcion();
+	void CopiarDatos (const Adscripcion & otro);
 
+        /***********************************************************************/
+	// Pide memoria para guardar una copia de los datos de "otro"
+	// Parámetros: otro (referencia), objeto que sirve de modelo. 
+
+	void ReservarMemoria (const Adscripcion & otro);
+
+        /***********************************************************************/
+	// Libera memoria
+	
+	void LiberarMemoria (void);
+
+        /***********************************************************************/
+	// Compone y devuelve un dato string a partir de otro, tomando los 
+	// caracteres desde una posición dada hasta encontrar un carácter dado.
+	// Parámetros: cad_fuente, string desde donde se extrae la palabra.
+	//			   pos, posición inicial.
+	//			   delimitador, carácter que marca el final.
+	//
+	// PRE: 0 <= pos 
+	// PRE: "cad_fuente" es correcta.
+
+	string FormaPalabra (string cad_fuente, int pos, 
+		                 char delimitador=DELIMITADOR_ADS); 	
 };
 #endif

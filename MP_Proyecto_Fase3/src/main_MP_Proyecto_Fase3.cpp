@@ -47,7 +47,7 @@ string Cabecera (const char * titulo);
 
 int main()
 {
-    cout.setf(ios::fixed);		// Notación de punto fijo para los reales
+	cout.setf(ios::fixed);		// Notación de punto fijo para los reales
 	cout.setf(ios::showpoint);	// Mostrar siempre decimales
 
 	int cont_departamentos = 0;
@@ -74,7 +74,6 @@ int main()
 		
 		cont_departamentos++; // Un departamento más (no se leyó TERMINADOR)	
 			
-
 		Departamento un_departamento (linea);
 
 		cout << "Leido: " << un_departamento.ToString() << endl; 
@@ -120,20 +119,20 @@ int main()
 
 		Profesor un_profesor (linea);
 
-		cout << "Leido: " << un_profesor.ToString() << endl; 
+		cout << "Leido: " << un_profesor.ToString(true) << endl; 
 
 
 
 		#ifdef DEBUG_PROFESORES
 
 		Profesor tmp; 
-		cout << "TMP (VACIO): " << tmp.ToString() << endl; 
+		cout << "TMP (VACIO): " << tmp.ToString(true) << endl; 
 
 		Profesor copia = un_profesor;
-		cout << "CONST.COPIA: " << copia.ToString() << endl; 
+		cout << "CONST.COPIA: " << copia.ToString(true) << endl; 
 
 		tmp = un_profesor;
-		cout << "TMP (ASIG) : " << tmp.ToString() << endl; 
+		cout << "TMP (ASIG) : " << tmp.ToString(true) << endl; 
 		
 		#endif
 
