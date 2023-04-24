@@ -1,14 +1,14 @@
 /***************************************************************************/
 // METODOLOGIA DE LA PROGRAMACION
 //
-// (C) FRANCISCO JOSE CORTIJO BON
-// DEPARTAMENTO DE CIENCIAS DE LA COMPUTACION E INTELIGENCIA ARTIFICIAL
+// AUTOR: MARCO GIRELA VIDA
+// GRUPO: 1ºB
+// FECHA: xx/04/2023
 //
-// Fichero de cabecera asociado al tipo base de la clase "Secuencia"
+// RELACION DE PROBLEMAS 2
 //
-// Fichero: TipoBase_Secuencia.h
-//
-/***************************************************************************/
+// Fichero: TipoBase_Matriz2D.h
+/*****************************************************************************/
 
 #ifndef TIPOBASE_MATRIZ2D
 #define TIPOBASE_MATRIZ2D
@@ -17,7 +17,8 @@
 // Definiciones de tipos
 
 typedef int TipoBase;	// Tipo de los datos de la matriz
-typedef struct {
+typedef struct
+{
 
 	TipoBase ** datos;	// Puntero a vector de punteros a los datos
 
