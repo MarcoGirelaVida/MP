@@ -156,7 +156,7 @@ public:
     // Compone un string con todos los caracteres que están
     // almacenados en la secuencia y lo devuelve.
 
-    string ToString();
+    string ToString() const;
 
     /***********************************************************************/
 

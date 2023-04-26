@@ -1,4 +1,5 @@
 /***************************************************************************/
+/***************************************************************************/
 // METODOLOGIA DE LA PROGRAMACION
 //
 // AUTOR: MARCO GIRELA VIDA
@@ -7,58 +8,83 @@
 //
 // RELACION DE PROBLEMAS 3
 //
-// Fichero: .h
-/*****************************************************************************/
+//  
+// 
+//
+// Declaraciones en: 
+//
+// Fichero: 
+//
+/***************************************************************************/
+/***************************************************************************/
 
-#ifndef PILA
-#define PILA
+#include <iostream>
 
-#include "Secuencia.h"
+#include "Pila.h"
+
 using namespace std;
-
-class Pila
-{
-
-private:
-    Secuencia pila;
-
-public:
 
 /***************************************************************************/
 /*---------------------------CONSTRUCTORES/DESTRUCTOR----------------------*/
 /***************************************************************************/
 // Constructor sin argumentos, que crea una cola vacía.
-    Pila();
+    Pila :: Pila()
+    {
+        pila = Secuencia();
+    }
 
 /***************************************************************************/
 // Constructor de copia
-    Pila(const Pila &otra);
+    Pila :: Pila(const Pila &otra)
+    {
+        pila = Secuencia(otra.pila);
+    }
 
 /***************************************************************************/
 // Destructor
-    ~Pila();
+    Pila :: ~Pila()
+    {
+        pila.~Secuencia();
+        //¿Esto se puede hacer?, es que no se como liberar la memoria de la Pila
+    }
 
 /***************************************************************************/
 /*-----------------------------MÉTODOS PÚBLICOS------------------------*/
 /***************************************************************************/
 // Sobrecarga del operador de asignación
-    Pila & operator=(const Pila &otra);
-
+    Pila & Pila :: operator = (const Pila &otra)
+    {
+        Pila copia_pila(otra);
+        return  copia_pila;
+    }
 /***************************************************************************/
 // Método de consulta para saber si la pila está vacía
-    bool EstaVacia(void) const;
+    bool Pila :: EstaVacia(void) const
+    {
+        return  pila.EstaVacia();
+    }
 
 /***************************************************************************/
 // Método para añadir un valor. La cola se modifica
-    void aniade(TipoBaseSecuencia const &valor);
+    void Pila :: aniade(TipoBaseSecuencia const &valor)
+    {
+        // Gracias a la clase secuencia, se redimensiona solo
+        pila.Aniade(valor);
+    }
 
 /***************************************************************************/
 // Método para sacar un valor. Obtiene el elemento extraido.
-    TipoBaseSecuencia sacavalor(void);
+    TipoBaseSecuencia Pila :: sacavalor(void)
+    {
+        TipoBaseSecuencia valor = Cabecera();
+        pila.Elimina(pila.TotalUtilizados() - 1);
+
+        return valor;
+    }
 
 /***************************************************************************/
 // Método para consultar el elemento que está en la cabecera de la pila
-    TipoBaseSecuencia Cabecera(void) const;
-};
-
-#endif
+    TipoBaseSecuencia Pila :: Cabecera(void) const
+    {
+        return pila.Valor(pila.TotalUtilizados() - 1);
+    }

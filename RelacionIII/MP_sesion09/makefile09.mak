@@ -35,6 +35,8 @@ all:  preambulo \
       $(BIN)/III_Demo-Matriz2D \
 	  $(BIN)/III_Demo-Secuencia \
 	  $(LIB)/libMatriz2D.a \
+	  $(BIN)/III_Demo_Cola \
+	  $(BIN)/III_Demo_Pila \
 	  final
 
 #................................................
@@ -79,6 +81,29 @@ $(BIN)/III_Demo-Secuencia : \
          $(OBJ)/III_Demo-Secuencia.o \
 		 $(OBJ)/Secuencia.o -L$(LIB) -lSecuencia
 
+$(BIN)/III_Demo_Cola : \
+              $(OBJ)/III_Demo_Cola.o \
+              $(OBJ)/Cola.o
+	@echo 
+	@echo Creando ejecutable: III_Demo_Cola
+	@echo 
+	g++ -o $(BIN)/III_Demo_Cola \
+         $(OBJ)/III_Demo_Cola.o \
+		 $(OBJ)/Cola.o \
+		 $(OBJ)/Secuencia.o
+
+$(BIN)/III_Demo_Pila : \
+              $(OBJ)/III_Demo_Pila.o \
+			  $(OBJ)/Pila.o \
+			  $(OBJ)/Secuencia.o
+	@echo 
+	@echo Creando ejecutable: III_Demo_Pila
+	@echo 
+	g++ -o $(BIN)/III_Demo_Pila \
+         $(OBJ)/III_Demo_Pila.o \
+		 $(OBJ)/Pila.o \
+		 $(OBJ)/Secuencia.o
+
 #................................................
 # OBJETOS 
 $(OBJ)/III_Demo-Matriz2D.o : $(SRC)/III_Demo-Matriz2D.cpp \
@@ -114,6 +139,33 @@ $(OBJ)/Secuencia.o : $(SRC)/Secuencia.cpp \
 	@echo  
 	g++ -c -o $(OBJ)/Secuencia.o  $(SRC)/Secuencia.cpp \
        -I$(INCLUDE) -std=c++14
+
+$(OBJ)/Cola.o : $(SRC)/Cola.cpp \
+                     $(INCLUDE)/Cola.h
+	@echo 
+	@echo Creando objeto: Cola.o
+	@echo  
+	g++ -c -o $(OBJ)/Cola.o  $(SRC)/Cola.cpp -I$(INCLUDE) -std=c++14
+
+$(OBJ)/Pila.o : $(SRC)/Pila.cpp $(INCLUDE)/Pila.h
+	@echo 
+	@echo Creando objeto: Pila.o
+	@echo  
+	g++ -c -o $(OBJ)/Pila.o  $(SRC)/Pila.cpp -I$(INCLUDE) -std=c++14
+
+$(OBJ)/III_Demo_Pila.o : $(SRC)/III_Demo_Pila.cpp \
+	                     $(INCLUDE)/Pila.h $(INCLUDE)/Secuencia.h
+	@echo 
+	@echo Creando objeto: III_Demo_Pila.o
+	@echo  
+	g++ -c -o $(OBJ)/III_Demo_Pila.o  $(SRC)/III_Demo_Pila.cpp -I$(INCLUDE) -std=c++14
+	
+$(OBJ)/III_Demo_Cola.o : $(SRC)/III_Demo_Cola.cpp \
+	                     $(INCLUDE)/Cola.h $(INCLUDE)/Secuencia.h
+	@echo 
+	@echo Creando objeto: III_Demo_Cola.o
+	@echo  
+	g++ -c -o $(OBJ)/III_Demo_Cola.o  $(SRC)/III_Demo_Cola.cpp -I$(INCLUDE) -std=c++14
 
 #................................................
 # BIBLIOTECAS 

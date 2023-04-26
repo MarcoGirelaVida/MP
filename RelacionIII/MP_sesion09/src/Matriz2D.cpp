@@ -356,10 +356,10 @@ void Matriz2D :: Aniade (const Secuencia & fila_nueva)
 	if (fila_nueva.TotalUtilizados() != cols)
 	{
 		cerr << "Error: La fila a añadir no tiene el mismo número de columnas\
-		 que la matriz" << endl;
+ que la matriz" << endl;
 		 exit(1);
 	}
-	
+
 	// Guardo los datos de la matriz original en un vector dinámico
 	TipoBase * tmp = new TipoBase[fils*cols];
 	memcpy(tmp, datos[0], fils*cols*sizeof(TipoBase));
@@ -370,7 +370,7 @@ void Matriz2D :: Aniade (const Secuencia & fila_nueva)
 	// Copio los datos de tmp a la original y le añado la nueva fila
 	memcpy(datos[0], tmp, fils*cols*sizeof(TipoBase));
 	delete [] tmp;
-	memcpy(&datos[fils-1], &fila_nueva.Valor(0), cols*sizeof(TipoBase));
+	memcpy(datos[fils-1], &fila_nueva.Valor(0), cols*sizeof(TipoBase));
 }
 
 /****************************************************************************/

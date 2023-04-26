@@ -1,4 +1,5 @@
 /***************************************************************************/
+/***************************************************************************/
 // METODOLOGIA DE LA PROGRAMACION
 //
 // AUTOR: MARCO GIRELA VIDA
@@ -7,58 +8,85 @@
 //
 // RELACION DE PROBLEMAS 3
 //
-// Fichero: .h
-/*****************************************************************************/
+//  
+// 
+//
+// Declaraciones en: 
+//
+// Fichero: 
+//
+/***************************************************************************/
+/***************************************************************************/
 
-#ifndef COLA
-#define COLA
+#include <iostream>
 
-#include "Secuencia.h"
+#include "Cola.h"
+
 using namespace std;
 
-class Cola
-{
-
-private:
-    Secuencia cola;
-
-public:
 /***************************************************************************/
 /*---------------------------CONSTRUCTORES/DESTRUCTOR----------------------*/
 /***************************************************************************/
 // Constructor sin argumentos, que crea una cola vacía.
-    Cola();
+    Cola :: Cola()
+    {
+        cola = Secuencia();
+    }
 
 /***************************************************************************/
 // Constructor de copia
-    Cola(const Cola &otra);
+    Cola :: Cola(const Cola &otra)
+    {
+        cola = Secuencia(otra.cola);
+    }
 
 /***************************************************************************/
 // Destructor
-    ~Cola();
+    Cola :: ~Cola()
+    {
+        cola.~Secuencia();
+        //¿Esto se puede hacer?, es que no se como liberar la memoria de la cola
+    }
 
 /***************************************************************************/
 /*-----------------------------MÉTODOS PÚBLICOS------------------------*/
 /***************************************************************************/
 // Sobrecarga del operador de asignación
-    Cola &operator = (const Cola &otra);
+    Cola & Cola :: operator = (const Cola &otra)
+    { 
+        Cola copia_cola(otra);
+        return copia_cola;
+    }
 
 /***************************************************************************/
 // Método de consulta para saber si la cola está vacía
-    bool EstaVacia(void) const;
+    bool Cola :: EstaVacia(void) const
+    {
+        return  cola.EstaVacia();
+    }
 
 /***************************************************************************/
 // Método para añadir un valor. La cola se modifica
-    void Aniade(TipoBaseSecuencia const &valor);
+    void Cola :: Aniade(TipoBaseSecuencia const &valor)
+    {
+        // Gracias a la clase secuencia, la cola se redimensiona automaticamente
+        // antes de llenarse
+        cola.Aniade(valor);
+    }
 
 /***************************************************************************/
 // Método para sacar un valor. Obtiene el elemento extraido.
-    TipoBaseSecuencia sacavalor(void);
+    TipoBaseSecuencia Cola :: sacavalor(void)
+    {
+        TipoBaseSecuencia valor = cola.Valor(0);
+        cola.Elimina(0);
+
+        return valor;
+    }
 
 /***************************************************************************/
 // Método para consultar el elemento que está en la cabecera de la cola
-    TipoBaseSecuencia Cabecera(void) const;
-
-};
-
-#endif
+    TipoBaseSecuencia Cola :: Cabecera(void) const
+    {
+        return cola.Valor(cola.TotalUtilizados() - 1);
+    }

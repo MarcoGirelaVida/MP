@@ -149,11 +149,31 @@ que debe devolver una de 3x3: ";
 	cout << "Matriz base reflejada horizontalmente: ";
 	cout << mbase.ToString ();
 
+	//......................................................................	
+	// Crear una secuencia para añadir como fila
+    Secuencia secuencia(mbase.NumColumnas());
+    
+	for (int i = 0; i < mbase.NumColumnas(); i++)
+		secuencia.Aniade(i*2);
+	
+	//......................................................................
+    // Prueba del método Aniade
+    mbase.Aniade(secuencia);
+
+	cout << "Matriz base con fila añadida: ";
+	cout << mbase.ToString ();
+
+	//......................................................................
+    // Prueba del método Inserta
+    mbase.Inserta(1, secuencia);
+	cout << "Matriz base con fila insertada en la fila 1: ";
+	cout << mbase.ToString ();
+
 	//......................................................................
 	// Clon de matriz base
-	Matriz2D matrizclonada(mbase);
+	Matriz2D matrizclonada = mbase;
 
-	cout << "Clon de matriz base: ";
+	cout << "Clon de matriz base (operador asignación): ";
 	cout << matrizclonada.ToString ();
 
 	//......................................................................
@@ -163,13 +183,11 @@ que debe devolver una de 3x3: ";
 	cout << matrizclonada.EsIgualA(mbase) << endl << endl;
 
 	//......................................................................
-	// Busco el menor de la fila y columna 2
-	/*
-	cout << "La columna con el menor elemento de la fila 3: "
-	<< menorenfila(mbase, 2) << endl;
-	cout << "La fila con el menor elemento de la columna 3: "
-	<< menorencolumna(mbase, 2) << endl << endl;
-	*/
+	// Matriz con todos eliminados
+	mbase.EliminaTodos();
+	cout << "Matriz base con todos eliminados: ";
+	cout << mbase.ToString ();
+
 	return 0; 
 }
 

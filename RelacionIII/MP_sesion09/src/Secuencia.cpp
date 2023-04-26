@@ -219,7 +219,7 @@ void Secuencia :: Elimina (int indice)
 // Compone un string con todos los caracteres que están
 // almacenados en la secuencia y lo devuelve.
 
-string Secuencia :: ToString()
+string Secuencia :: ToString() const
 {
     string cadena;
 
@@ -341,7 +341,7 @@ void Secuencia :: Redimensionar (void)
 
 TipoBaseSecuencia & Secuencia :: el_valor (int indice) const
 {
-    return (vector_privado[indice-1]);
+    return (vector_privado[indice]);
 }
 
 /***************************************************************************/
