@@ -24,8 +24,8 @@ class Adscripcion
 {
 
 private:
-        char * DNI = nullptr;
-        char * Id_depto = nullptr;
+        char * DNI;
+        char * Id_depto;
 
         static const char DELIMITADOR_ADS = '*';
 

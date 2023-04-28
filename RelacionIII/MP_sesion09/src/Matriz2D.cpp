@@ -33,19 +33,15 @@ using namespace std;
 /*---------------------------CONSTRUCTORES/DESTRUCTOR----------------------*/
 /***************************************************************************/
 // Constructor sin argumentos, que crea una matriz vacía.
-Matriz2D :: Matriz2D(void)
-{
-	// Por defecto, matriz vacía
-	datos = nullptr;
-	fils  = 0;
-	cols  = 0;
-}
+Matriz2D :: Matriz2D(void) : datos(nullptr), fils(0), cols(0)
+{}
 
 /***************************************************************************/
 // Constructor con 1 argumento: Crea una matriz cuadrada con el número de filas
 // y columnas indicado en el argumento.
 
 Matriz2D :: Matriz2D(int n)
+				: datos(nullptr), fils(0), cols(0)
 {
 	// Pedir memoria para los datos
 	ReservaMemoria (n, n);
@@ -59,6 +55,7 @@ Matriz2D :: Matriz2D(int n)
 // PRE: nfils >= 0 && ncols >= 0
 
 Matriz2D :: Matriz2D(int nfils, int ncols)
+				: datos(nullptr), fils(0), cols(0)
 {
 	// Pedir memoria para los datos
 	ReservaMemoria (nfils, ncols);
@@ -74,6 +71,7 @@ Matriz2D :: Matriz2D(int nfils, int ncols)
 // PRE: nfils >= 0 && ncols >= 0 
 
 Matriz2D :: Matriz2D(int nfils, int ncols, TipoBase valor)
+				 : datos(nullptr), fils(0), cols(0)
 {
 	// Pedir memoria para los datos
 	ReservaMemoria (nfils, ncols); 
@@ -87,6 +85,7 @@ Matriz2D :: Matriz2D(int nfils, int ncols, TipoBase valor)
 // Constructor de copia
 
 Matriz2D :: Matriz2D(Matriz2D &otra)
+				: datos(nullptr), fils(0), cols(0)
 {
 	CopiarDatos(otra);
 }

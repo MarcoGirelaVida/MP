@@ -23,8 +23,8 @@ using namespace std;
 class Encargo
 {
     private:
-        int categoria = 0;  // Categoría del profesor (valor entre 1 y 5)
-        double creditos = 0; // Créditos asociados a la categoría
+        int categoria;  // Categoría del profesor (valor entre 1 y 5)
+        double creditos; // Créditos asociados a la categoría
 
         static const char DELIMITADOR_ENCARGO = '*';
 

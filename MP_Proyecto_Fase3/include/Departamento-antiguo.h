@@ -25,8 +25,8 @@ class Departamento
 {
 
 private:
-    char * Nombre = nullptr;
-    char * Id_depto = nullptr;
+    char * Nombre;
+    char * Id_depto;
 
 public:
 /***************************************************************************/

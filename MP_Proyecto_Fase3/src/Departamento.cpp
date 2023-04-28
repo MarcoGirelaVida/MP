@@ -33,6 +33,7 @@ using namespace std;
 // Constructor por defecto
 
     Departamento :: Departamento()
+                        : Id_depto(nullptr), Nombre(nullptr)
     {   
         SetNombre();
         SetId_Dpto();
@@ -44,6 +45,7 @@ using namespace std;
 //             el_nombre, string con el nombre del departamento. 
 
     Departamento :: Departamento(string el_id_depto, string el_nombre)
+                        : Id_depto(nullptr), Nombre(nullptr)
     {
         SetId_Dpto(el_id_depto);
         SetNombre(el_nombre);
@@ -54,7 +56,9 @@ using namespace std;
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
 
     Departamento :: Departamento(const Departamento & otro)
+                        : Id_depto(nullptr), Nombre(nullptr)
     {
+        // Copiar datos ya reserva/libera memoria
         CopiarDatos(otro);
     }
 
@@ -65,6 +69,7 @@ using namespace std;
 // 			   delimitador, el caracter que delimita los campos. 
         
     Departamento :: Departamento(string linea, char delimitador)
+                        : Id_depto(nullptr), Nombre(nullptr)
     {
         string tmp = "";
         int i = 0;
@@ -96,7 +101,7 @@ using namespace std;
 // Destructor
     Departamento :: ~Departamento()
     {
-        iLiberarMemoria(); 
+        LiberarMemoria(); 
     }
 
 /*************************************************************************/
@@ -151,6 +156,7 @@ using namespace std;
     {
         if (this != &otro)
         {
+            // Copiar datos ya reserva/libera memoria
             CopiarDatos(otro);
         }
 
@@ -168,6 +174,7 @@ using namespace std;
 
     void Departamento :: CopiarDatos (const Departamento & otro)
     {
+        // Los métodos set ya se encargan de liberar y reservar memoria
         SetId_Dpto(otro.GetId_Dpto());
         SetNombre(otro.GetNombre());
     }

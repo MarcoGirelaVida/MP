@@ -30,6 +30,7 @@ using namespace std;
 // Constructor por defecto
 
     Adscripcion :: Adscripcion()
+                        : DNI(nullptr) , Id_depto(nullptr)
     {
         setDniProfesor();
         setIdDepartamento();
@@ -42,6 +43,7 @@ using namespace std;
 // 			   delimitador, el caracter que delimita los campos. 
         
     Adscripcion :: Adscripcion(string linea, char delimitador)
+                        : DNI(nullptr), Id_depto(nullptr)
     {
         string tmp = "";
         int i = 0;
@@ -71,6 +73,7 @@ using namespace std;
 //             Id_depto, string con el nombre del Adscripcion. 
 
     Adscripcion :: Adscripcion(string el_id_depto, string el_DNI)
+                        : DNI(nullptr), Id_depto(nullptr)
     {
         setDniProfesor(el_DNI);
         setIdDepartamento(el_id_depto);
@@ -82,6 +85,7 @@ using namespace std;
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
 
     Adscripcion :: Adscripcion (const Adscripcion & otro)
+                        : DNI(nullptr), Id_depto(nullptr)
     {
         CopiarDatos(otro);
     }

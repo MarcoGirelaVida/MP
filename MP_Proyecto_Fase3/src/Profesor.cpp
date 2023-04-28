@@ -33,12 +33,13 @@ using namespace std;
 // Constructor por defecto
 
     Profesor :: Profesor()
+                    : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
+                      Categoria(0)
     {
         setDni();
         setNombre();
         setApellidos();
         FechaNacimiento = Fecha();
-        Categoria = 0;
     }
 
 /************************************************************************/
@@ -46,7 +47,10 @@ using namespace std;
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
 
     Profesor :: Profesor(const Profesor & otro)
+                    : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
+                      Categoria(0)
     {
+        // Copiar datos ya reserva/libera memoria
         CopiarDatos(otro);
     }
 
@@ -60,6 +64,8 @@ using namespace std;
 
     Profesor :: Profesor(string el_DNI, string el_nombre, string el_apellidos,\
                                 string la_fecha, int la_categoria)
+                    : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
+                      Categoria(0)
     {
         setDni(el_DNI);
         setNombre(el_nombre);
@@ -75,6 +81,8 @@ using namespace std;
 // 			   delimitador, el caracter que delimita los campos. 
         
     Profesor :: Profesor(string linea, char delimitador)
+                    : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
+                      Categoria(0)
     {
 
         string dni, nombre, apellidos, fechanacimiento, categoria;
@@ -259,6 +267,7 @@ using namespace std;
     {
         if (this != &otro)
         {
+            // CopiarDatos ya se encarga de reservar/liberar memoria
             CopiarDatos(otro);
         }
 
@@ -277,6 +286,7 @@ using namespace std;
 
     void Profesor :: CopiarDatos (const Profesor & otro)
     {
+        // Los métodos set ya se encargan de reservar/liberar memoria
         setDni(otro.getDni());
         setNombre(otro.getNombre());
         setApellidos(otro.getApellidos());

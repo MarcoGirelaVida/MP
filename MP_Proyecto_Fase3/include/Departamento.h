@@ -27,8 +27,8 @@ class Departamento {
 
 private: 
 
-	char * Id_depto = nullptr;	
-	char * Nombre = nullptr;
+	char * Id_depto;	
+	char * Nombre;
 
 	// Delimitador del final de un campo en una línea de datos
 	static const char DELIMITADOR_DEPARTAMENTO = '*';

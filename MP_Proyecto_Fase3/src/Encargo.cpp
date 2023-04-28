@@ -32,10 +32,8 @@ using namespace std;
 // Constructor por defecto
 
     Encargo :: Encargo()
-    {
-        categoria = 0;
-        creditos = 0;
-    }
+                    : categoria(0), creditos(0)
+    {}
 
 /*************************************************************************/
 // Constructor desde un string.
@@ -44,6 +42,7 @@ using namespace std;
 // 			   delimitador, el caracter que delimita los campos. 
         
     Encargo :: Encargo(string linea, char delimitador)
+                    : categoria(0), creditos(0)
     {
             string tmp = "";
             int i = 0;
@@ -68,17 +67,19 @@ using namespace std;
 // Parámetros: la_categoría, int con la categoría del Encargo. 
 //             los_creditos, double con creditos del Encargo. 
 
-        Encargo :: Encargo (int la_categoria, double los_creditos)
-        {
-            setCategoria(la_categoria);
-            setCreditos(los_creditos);
-        }
+    Encargo :: Encargo (int la_categoria, double los_creditos)
+                    : categoria(0), creditos(0)
+    {
+        setCategoria(la_categoria);
+        setCreditos(los_creditos);
+    }
 
 /*********************************************************************/
 // Constructor de copia
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
 
         Encargo :: Encargo (const Encargo & otro)
+                    : categoria(0), creditos(0)
         {
             CopiarDatos(otro);
         }
@@ -163,6 +164,7 @@ using namespace std;
 
     void Encargo :: CopiarDatos (const Encargo & otro)
     {
+
         setCategoria(otro.getCategoria());
         setCreditos(otro.getCreditos());
     }

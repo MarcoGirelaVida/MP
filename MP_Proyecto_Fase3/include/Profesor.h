@@ -25,9 +25,9 @@ class Profesor
 
 private:
 
-    char * DNI = nullptr;
-    char * Nombre = nullptr;
-    char * Apellidos = nullptr;
+    char * DNI;
+    char * Nombre;
+    char * Apellidos;
     Fecha FechaNacimiento;
     int Categoria;
 
