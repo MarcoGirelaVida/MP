@@ -81,7 +81,8 @@ public:
 /***************************************************************************/
 // Sobrecarga del operador de asignación
     Matriz2D & operator = (const Matriz2D & otro);
-
+    Matriz2D & operator = (TipoBase valor);
+    
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una matriz.
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
@@ -214,6 +215,6 @@ private:
 /***************************************************************************/
 // Copia profunda. Hace una copia profunda de origen en destino.
     void CopiarDatos(const Matriz2D & otra);
-    
+
 };
 #endif

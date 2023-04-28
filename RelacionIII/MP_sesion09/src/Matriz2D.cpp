@@ -114,6 +114,12 @@ Matriz2D & Matriz2D :: operator = (const Matriz2D & otro)
 	return *this;
 }
 
+Matriz2D & Matriz2D :: operator = (TipoBase valor)
+{
+	Ecualiza(valor);
+
+	return *this;
+}
 
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una 
