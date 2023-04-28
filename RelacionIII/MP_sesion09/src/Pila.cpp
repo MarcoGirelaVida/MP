@@ -54,8 +54,13 @@ using namespace std;
 // Sobrecarga del operador de asignación
     Pila & Pila :: operator = (const Pila &otra)
     {
-        Pila copia_pila(otra);
-        return  copia_pila;
+        // Si la pila destino es distinta de la pila origen
+        if (this != &otra)
+        {
+            pila.Clona (otra.pila);
+        }
+
+        return *this;
     }
 /***************************************************************************/
 // Método de consulta para saber si la pila está vacía

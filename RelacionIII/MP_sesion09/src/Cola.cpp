@@ -54,8 +54,13 @@ using namespace std;
 // Sobrecarga del operador de asignación
     Cola & Cola :: operator = (const Cola &otra)
     { 
-        Cola copia_cola(otra);
-        return copia_cola;
+        // Si la cola destino es distinta de la  origen
+        if (this != &otra)
+        {
+            cola.Clona (otra.cola);
+        }
+
+        return *this;
     }
 
 /***************************************************************************/
