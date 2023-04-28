@@ -43,10 +43,7 @@ using namespace std;
 /***************************************************************************/
 // Destructor
     Pila :: ~Pila()
-    {
-        pila.~Secuencia();
-        //¿Esto se puede hacer?, es que no se como liberar la memoria de la Pila
-    }
+    {}
 
 /***************************************************************************/
 /*-----------------------------MÉTODOS PÚBLICOS------------------------*/

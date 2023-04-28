@@ -43,10 +43,7 @@ using namespace std;
 /***************************************************************************/
 // Destructor
     Cola :: ~Cola()
-    {
-        cola.~Secuencia();
-        //¿Esto se puede hacer?, es que no se como liberar la memoria de la cola
-    }
+    {}
 
 /***************************************************************************/
 /*-----------------------------MÉTODOS PÚBLICOS------------------------*/
