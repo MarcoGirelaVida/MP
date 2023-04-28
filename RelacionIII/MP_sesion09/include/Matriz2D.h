@@ -127,9 +127,6 @@ public:
     void Ecualiza (TipoBase valor=VALOR_DEF);
 
 
-/***************************************************************************/
-// Copia profunda. Hace una copia profunda de origen en destino.
-    void CopiarDatos(const Matriz2D & otra);
 
 
 /***************************************************************************/
@@ -213,5 +210,10 @@ private:
 // POST: La matriz queda vacía (todos sus campos a cero)
 
     void LiberaMemoria ();
+
+/***************************************************************************/
+// Copia profunda. Hace una copia profunda de origen en destino.
+    void CopiarDatos(const Matriz2D & otra);
+    
 };
 #endif

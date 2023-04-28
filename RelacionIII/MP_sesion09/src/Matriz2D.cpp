@@ -255,19 +255,6 @@ void Matriz2D :: Ecualiza (TipoBase valor)
 }
 
 
-/***************************************************************************/
-// Copia profunda. Hace una copia profunda de origen en destino.
-void Matriz2D :: CopiarDatos (const Matriz2D & otra)
-{
-	// Limpio la matriz destino (me da igual lo que hubiese)
-	LiberaMemoria();
-
-	// Reservo memoria para la matriz destino
-	ReservaMemoria(otra.NumFilas(), otra.NumColumnas());
-
-	// Copio los datos de la matriz origen en la matriz destino
-	memcpy(datos[0], &otra.Valor(0,0), (otra.NumFilas()*cols)*sizeof(TipoBase));
-}
 
 
 /***************************************************************************/
@@ -598,5 +585,21 @@ void Matriz2D :: LiberaMemoria ()
 		cols  = 0;
 	}
 }
+
+/***************************************************************************/
+// Copia profunda. Hace una copia profunda de origen en destino.
+
+void Matriz2D :: CopiarDatos (const Matriz2D & otra)
+{
+	// Limpio la matriz destino (me da igual lo que hubiese)
+	LiberaMemoria();
+
+	// Reservo memoria para la matriz destino
+	ReservaMemoria(otra.NumFilas(), otra.NumColumnas());
+
+	// Copio los datos de la matriz origen en la matriz destino
+	memcpy(datos[0], &otra.Valor(0,0), (otra.NumFilas()*cols)*sizeof(TipoBase));
+}
+
 ////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
