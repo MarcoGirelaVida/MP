@@ -12,7 +12,7 @@
 
 #ifndef COLA
 #define COLA
-Matriz2D & Matriz2D :: operator = (TipoBase valor)
+
 #include "Secuencia.h"
 using namespace std;
 
