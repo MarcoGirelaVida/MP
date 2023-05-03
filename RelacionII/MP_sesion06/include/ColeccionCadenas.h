@@ -18,31 +18,34 @@
 
 /***************************************************************************/
 /***************************************************************************/
-
-typedef struct {
+class ColeccionCadenas
+{
+private:
 
 	char * lineas; 	// Puntero para acceder a los datos
 	int usados;		// Num. casillas usadas
 
-} ColeccionCadenas;
+public:
+/***************************************************************************/
+/***************************************************************************/
+//Constructor sin argumentos
+
+	ColeccionCadenas (void);
 
 /***************************************************************************/
 /***************************************************************************/
-// Crear colección de cadenas.
-// Devuelve: el dato ColeccionCadenas creado (vacío).
-// POST: El número de casillas usadas es 0.
-
-ColeccionCadenas CreaColeccionCadenas (void);
-
-/***************************************************************************/
-/***************************************************************************/
-// Inicializar colección de cadenas.
+// Constructor de copia
 // Argumentos: 
 // 		v (referencia), la colección de cadenas que se va a inicializar. 
 // Devuelve: el dato ColeccionCadenas creado (vacío).
 // POST: El número de casillas usadas es 0.
 
-void InicializaColeccionCadenas (ColeccionCadenas & v);
+	ColeccionCadenas (ColeccionCadenas & v);
+
+/***************************************************************************/
+/***************************************************************************/
+// Destructor
+	~ColeccionCadenas(void);
 
 /***************************************************************************/
 /***************************************************************************/
@@ -50,7 +53,7 @@ void InicializaColeccionCadenas (ColeccionCadenas & v);
 // Argumentos: v (referencia), la colección que se va a consultar.
 // Devuelve: el número de casillas usadas de una colección de cadenas.
 
-int CadenasEnColeccionCadenas  (const ColeccionCadenas & v);
+	int CadenasEnColeccionCadenas  () const;
 
 /***************************************************************************/
 /***************************************************************************/
@@ -59,7 +62,7 @@ int CadenasEnColeccionCadenas  (const ColeccionCadenas & v);
 //		v (referencia), referencia a la colección que se va a modificar. 
 //		cadena, cadena que se va a añadir. 
 
-void AniadeCadenaColeccionCadenas (ColeccionCadenas & v, char * cadena);
+	void AniadeCadena (char * cadena);
 
 /***************************************************************************/
 /***************************************************************************/
@@ -70,8 +73,7 @@ void AniadeCadenaColeccionCadenas (ColeccionCadenas & v, char * cadena);
 //		indice, índice (número) de la cadena que se va a consultar. 
 // PRE: 0 <= indice < CadenasEnColeccionCadenas(v)
 
-void ExtraeCadenaColeccionCadenas (char * & cadena, 
-	                               const ColeccionCadenas & v, int indice);
+	void ExtraeCadena (char * & cadena, int indice) const;
 
 /***************************************************************************/
 /***************************************************************************/
@@ -83,8 +85,7 @@ void ExtraeCadenaColeccionCadenas (char * & cadena,
 //		cv (referencia), número de líneas vacías.
 //		cp (referencia), número de párrafos.
 
-void CalculosLineasColeccionCadenas (const ColeccionCadenas & v, 
-	                                 int & cl, int & cv, int & cp);
+	void CalculosLineas (int & cl, int & cv, int & cp) const;
 
 /***************************************************************************/
 /***************************************************************************/
@@ -92,16 +93,8 @@ void CalculosLineasColeccionCadenas (const ColeccionCadenas & v,
 // Argumentos: 	
 //		v (referencia), colección de cadenas. 
 
-void MostrarColeccionCadenas (const ColeccionCadenas & v);
+	void Mostrar () const;
 
-/***************************************************************************/
-/***************************************************************************/
-// Libera la memoria ocupada por la colección de cadenas.
-// Argumentos: 	
-//		v (referencia), colección de cadenas. 
-// POST: lineas = 0 Y num_lineas = 0
-
-void LiberaMemoriaColeccionCadenas (ColeccionCadenas & v);
 
 /***************************************************************************/
 /***************************************************************************/
@@ -109,9 +102,17 @@ void LiberaMemoriaColeccionCadenas (ColeccionCadenas & v);
 // Argumentos: 	
 //		v (referencia), colección de cadenas. 
 
-int BytesColeccionCadenas (const ColeccionCadenas & v); 
+	int Bytes () const; 
 
+private:
 /***************************************************************************/
 /***************************************************************************/
+// Libera la memoria ocupada por la colección de cadenas.
+// Argumentos: 	
+//		v (referencia), colección de cadenas. 
+// POST: lineas = 0 Y num_lineas = 0
 
+	void LiberaMemoria ();
+
+};
 #endif

@@ -23,31 +23,34 @@ using namespace std;
 
 /***************************************************************************/
 /***************************************************************************/
-// Crear colección de cadenas.
-// Devuelve: el dato ColeccionCadenas creado (vacío).
-// POST: El número de casillas usadas es 0.
+// Constructor sin argumentos
 
-ColeccionCadenas CreaColeccionCadenas (void)
+ColeccionCadenas :: ColeccionCadenas (void) : usados(0), lineas(nullptr)
+{}
+
+/***************************************************************************/
+/***************************************************************************/
+// Constructor de copia
+
+ColeccionCadenas :: ColeccionCadenas (ColeccionCadenas & v) : usados(0), lineas(nullptr)
 {
-	ColeccionCadenas nuevo; 
+	LiberaMemoria ();
 
-	nuevo.usados = 0;
-	nuevo.lineas = nullptr;
-
-	return (nuevo); 
+	for (int i = 0; i < v.CadenasEnColeccionCadenas(); i++)
+	{
+		char * tmp = nullptr;
+		v.ExtraeCadena(tmp, i);
+		AniadeCadena(tmp);
+	}
+	
 }
 
 /***************************************************************************/
 /***************************************************************************/
-// Inicializar colección de cadenas.
-// Argumentos: 
-// 		v (referencia), la colección de cadenas que se va a inicializar. 
-// Devuelve: el dato ColeccionCadenas creado (vacío).
-// POST: El número de casillas usadas es 0.
-
-void InicializaColeccionCadenas (ColeccionCadenas & v)
+// Destructor
+ColeccionCadenas :: ColeccionCadenas()
 {
-	LiberaMemoriaColeccionCadenas (v);
+	LiberaMemoria();
 }
 
 /***************************************************************************/
@@ -56,9 +59,9 @@ void InicializaColeccionCadenas (ColeccionCadenas & v)
 // Argumentos: v (referencia), la colección que se va a consultar.
 // Devuelve: el número de casillas usadas de una colección de cadenas.
 
-int CadenasEnColeccionCadenas  (const ColeccionCadenas & v)
+int ColeccionCadenas :: CadenasEnColeccionCadenas  () const
 {
-	return (v.usados);
+	return (usados);
 }
 
 /***************************************************************************/
@@ -68,12 +71,12 @@ int CadenasEnColeccionCadenas  (const ColeccionCadenas & v)
 //		v (referencia), referencia a la colección que se va a modificar. 
 //		cadena, cadena que se va a añadir. 
 
-void AniadeCadenaColeccionCadenas (ColeccionCadenas & v, char * cadena)
+void ColeccionCadenas :: AniadeCadena (char * cadena)
 {
 	// Reservar memoria para el nuevo "supervector" apuntado por "tmp" y 
-	// copiar el contenido del antiguo (apuntado por v.lineas)
+	// copiar el contenido del antiguo (apuntado por lineas)
 
-	int tam_actual = BytesColeccionCadenas  (v);	
+	int tam_actual = Bytes();	
 
 	int nuevo_tam  = tam_actual + strlen(cadena) + 1;
 
@@ -83,21 +86,21 @@ void AniadeCadenaColeccionCadenas (ColeccionCadenas & v, char * cadena)
 	char * tmp = new char[nuevo_tam]; 
 
 	// Copiar el contenido actual
-	memcpy (tmp, v.lineas, tam_actual);
+	memcpy (tmp, lineas, tam_actual);
 
 	// Copiar al final de "tmp", a continuación del contenido que había 
 	// anteriormente y que acaba de ser copiado, el contenido de "cadena"
 	memcpy (tmp+tam_actual, cadena, strlen(cadena)+1); // +1 copia el '\0' 
 
 
-	// Liberar el "supervector" (obsoleto) en v.lineas
-	delete [] v.lineas;
+	// Liberar el "supervector" (obsoleto) en lineas
+	delete [] lineas;
 
 
 	// Actualizar estructura de datos 
 	
-	v.lineas = tmp;	// Enlazar nuevo "supervector"
-	v.usados++; 	// Actualizar el contador
+	lineas = tmp;	// Enlazar nuevo "supervector"
+	usados++; 	// Actualizar el contador
 }
 
 /***************************************************************************/
@@ -109,10 +112,9 @@ void AniadeCadenaColeccionCadenas (ColeccionCadenas & v, char * cadena)
 //		indice, índice (número) de la cadena que se va a consultar. 
 // PRE: 0 <= indice < CadenasEnColeccionCadenas(v)
 
-void ExtraeCadenaColeccionCadenas (char * & cadena, 
-	                               const ColeccionCadenas & v, int indice)
+void ColeccionCadenas :: ExtraeCadena (char * & cadena, int indice) const
 { 
-	char * cad = v.lineas; // "cad" está al principio de la primera cadena.
+	char * cad = lineas; // "cad" está al principio de la primera cadena.
 	
 	// Saltar cadenas anteriores a la de la posición "indice"
 
@@ -140,23 +142,22 @@ void ExtraeCadenaColeccionCadenas (char * & cadena,
 //		cv (referencia), número de líneas vacías.
 //		cp (referencia), número de párrafos.
 
-void CalculosLineasColeccionCadenas (const ColeccionCadenas & v, 
-	                                 int & cl, int & cv, int & cp)
+void ColeccionCadenas :: CalculosLineas (int & cl, int & cv, int & cp) const
 {
 	// Número de líneas (trivial)
 
-	cl = v.usados;
+	cl = usados;
 
 
 	char * cad; 
 
 	// Número de líneas vacías
 
-	cad = v.lineas; // Nos colocamos al principio
+	cad = lineas; // Nos colocamos al principio
 
 	cv = 0;
 
-	for (int l=0; l<v.usados; l++) {
+	for (int l=0; l<usados; l++) {
 
 		int long_cad = strlen(cad);
 
@@ -170,13 +171,13 @@ void CalculosLineasColeccionCadenas (const ColeccionCadenas & v,
 
 	// Número de párrafos
 
-	cad = v.lineas; // Nos colocamos al principio
+	cad = lineas; // Nos colocamos al principio
 	
 	cp = 0;
 
 	bool en_parrafo = false;
 
-	for (int l=0; l<v.usados; l++) {
+	for (int l=0; l<usados; l++) {
 
 		int long_cad = strlen(cad);
 
@@ -199,18 +200,18 @@ void CalculosLineasColeccionCadenas (const ColeccionCadenas & v,
 // Argumentos: 	
 //		v (referencia), colección de cadenas. 
 
-void MostrarColeccionCadenas (const ColeccionCadenas & v)
+void ColeccionCadenas :: Mostrar () const
 {
 	cout << endl; 
-	cout << "Usados    = " << v.usados << endl; 	
+	cout << "Usados    = " << usados << endl; 	
 	cout << endl; 
 
 
-	char * cad = v.lineas; // "cad" está al principio de la primera cadena.
+	char * cad = lineas; // "cad" está al principio de la primera cadena.
 	
-	// Para cada cadena (v.usados)
+	// Para cada cadena (usados)
 
-	for (int l=0; l<v.usados; l++) {
+	for (int l=0; l<usados; l++) {
 
 		cout << "[" << setw(4) << l << "] " <<"|"<< cad <<"|"<< endl;
 
@@ -223,23 +224,6 @@ void MostrarColeccionCadenas (const ColeccionCadenas & v)
 	cout << endl; 
 }
 
-/***************************************************************************/
-/***************************************************************************/
-// Libera la memoria ocupada por la colección de cadenas.
-// Argumentos: 	
-//		v (referencia), colección de cadenas. 
-// POST: lineas = 0 Y num_lineas = 0
-
-void LiberaMemoriaColeccionCadenas (ColeccionCadenas & v)
-{
-	if (v.lineas) {
-					
-		delete [] v.lineas;
-
-		v.usados = 0;
-		v.lineas = nullptr; 
-	}
-}
 
 /***************************************************************************/
 /***************************************************************************/
@@ -247,15 +231,15 @@ void LiberaMemoriaColeccionCadenas (ColeccionCadenas & v)
 // Argumentos: 	
 //		v (referencia), colección de cadenas. 
 
-int BytesColeccionCadenas (const ColeccionCadenas & v)
+int ColeccionCadenas :: Bytes () const
 {
 	int num_bytes = 0;
 
-	char * cad = v.lineas; // "cad" está al principio de la primera cadena.
+	char * cad = lineas; // "cad" está al principio de la primera cadena.
 
-	// Para cada cadena (v.usados)
+	// Para cada cadena (usados)
 
-	for (int l=0; l<v.usados; l++) {
+	for (int l=0; l<usados; l++) {
 		
 		// Actualizo el número de bytes ocupados. Como "cad" apunta al 
 		// inicio de una cadena, strlen(cad) devuelve el número de bytes 
@@ -265,12 +249,29 @@ int BytesColeccionCadenas (const ColeccionCadenas & v)
 
 		// Actualizamos "cad" para que apunte a la siguiente cadena.
 
-		cad = v.lineas + num_bytes; 
+		cad = lineas + num_bytes; 
 	}
 
 	return num_bytes; 
 }
 
+/***************************************************************************/
+/***************************************************************************/
+// Libera la memoria ocupada por la colección de cadenas.
+// Argumentos: 	
+//		v (referencia), colección de cadenas. 
+// POST: lineas = 0 Y num_lineas = 0
+
+void ColeccionCadenas :: LiberaMemoria ()
+{
+	if (lineas) {
+					
+		delete [] lineas;
+
+		usados = 0;
+		lineas = nullptr; 
+	}
+}
 
 /***************************************************************************/
 /***************************************************************************/
