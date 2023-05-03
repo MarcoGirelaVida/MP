@@ -85,7 +85,7 @@ public:
         /*********************************************************************/
         // Método ToString
 
-        string ToString();
+        string ToString(string cadena_inical = "");
 
         /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.

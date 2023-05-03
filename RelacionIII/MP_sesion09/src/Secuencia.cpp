@@ -266,7 +266,8 @@ void Secuencia :: ReservarMemoria (const int num_casillas)
 
 void Secuencia :: LiberarMemoria (void)
 {
-	if (vector_privado) { 
+	if (vector_privado)
+	{ 
 
 		delete [] vector_privado;
 

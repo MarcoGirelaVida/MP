@@ -99,7 +99,7 @@ public:
     /***************************************************************************/
     // Método ToString
 
-    string ToString(bool mes_string = false) const;
+    string ToString(bool mes_string = false, string cadena_inicial = "") const;
 
     /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.

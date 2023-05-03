@@ -95,7 +95,7 @@ public :
 	/***********************************************************************/
 	// Serializa un dato "Departamento"
 
-	string ToString (void) const; 
+	string ToString (string cadena_inicial = "") const; 
 
 
 private: 	
