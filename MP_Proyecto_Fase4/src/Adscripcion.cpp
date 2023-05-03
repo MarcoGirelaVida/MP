@@ -126,9 +126,9 @@ using namespace std;
 /***************************************************************************/
 // Método ToString
 
-    string Adscripcion :: ToString()
+    string Adscripcion :: ToString(string cadena_inicial)
     {   
-        string cadena = "";
+        string cadena = cadena_inicial;
         
         if (DNI || Id_depto)
         {

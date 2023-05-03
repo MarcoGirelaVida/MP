@@ -39,6 +39,7 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
 	  $(BIN)/MP_Proyecto_Fase4 \
+	  #$(BIN)/MP_Proyecto_Fase3# \
 	  #$(BIN)/MP_Proyecto_Fase2# \
 	  #$(BIN)/MP_Proyecto_Fase1# \
 	  final
@@ -223,6 +224,46 @@ $(OBJ_CLASES_UTILS)/Adscripcion.o : $(SRC_CLASES_UTILS)/Adscripcion.cpp \
 	          $(SRC_CLASES_UTILS)/Adscripcion.cpp \
         -I$(INCLUDE_CLASES_UTILS) -std=c++14
 
+$(OBJ_CLASES_UTILS)/VectorProfesor.o : $(SRC_CLASES_UTILS)/VectorProfesor.cpp \
+	           $(INCLUDE_CLASES_UTILS)/VectorProfesor.h \
+				$(INCLUDE_CLASES_UTILS)/Profesor.h
+	@echo 
+	@echo Creando objeto: VectorProfesor.o
+	@echo 
+	g++ -c -o $(OBJ_CLASES_UTILS)/VectorProfesor.o	\
+	          $(SRC_CLASES_UTILS)/VectorProfesor.cpp \
+        -I$(INCLUDE_CLASES_UTILS) -std=c++14
+
+$(OBJ_CLASES_UTILS)/VectorDepartamento.o : $(SRC_CLASES_UTILS)/VectorDepartamento.cpp \
+	           $(INCLUDE_CLASES_UTILS)/VectorDepartamento.h \
+	           $(INCLUDE_CLASES_UTILS)/Departamento.h
+	@echo 
+	@echo Creando objeto: VectorDepartamento.o
+	@echo 
+	g++ -c -o $(OBJ_CLASES_UTILS)/VectorDepartamento.o	\
+	          $(SRC_CLASES_UTILS)/VectorDepartamento.cpp \
+        -I$(INCLUDE_CLASES_UTILS) -std=c++14
+
+$(OBJ_CLASES_UTILS)/VectorEncargo.o : $(SRC_CLASES_UTILS)/VectorEncargo.cpp \
+	           $(INCLUDE_CLASES_UTILS)/VectorEncargo.h \
+	           $(INCLUDE_CLASES_UTILS)/Encargo.h
+	@echo 
+	@echo Creando objeto: VectorEncargo.o
+	@echo 
+	g++ -c -o $(OBJ_CLASES_UTILS)/VectorEncargo.o	\
+	          $(SRC_CLASES_UTILS)/VectorEncargo.cpp \
+        -I$(INCLUDE_CLASES_UTILS) -std=c++14
+
+$(OBJ_CLASES_UTILS)/VectorAdscripcion.o : $(SRC_CLASES_UTILS)/VectorAdscripcion.cpp \
+	           $(INCLUDE_CLASES_UTILS)/VectorAdscripcion.h \
+	           $(INCLUDE_CLASES_UTILS)/Adscripcion.h
+	@echo 
+	@echo Creando objeto: VectorAdscripcion.o
+	@echo 
+	g++ -c -o $(OBJ_CLASES_UTILS)/VectorAdscripcion.o	\
+	          $(SRC_CLASES_UTILS)/VectorAdscripcion.cpp \
+        -I$(INCLUDE_CLASES_UTILS) -std=c++14
+
 $(OBJ_CLASES_UTILS)/utils.o : $(SRC_CLASES_UTILS)/utils.cpp \
 	           $(INCLUDE_CLASES_UTILS)/utils.h
 	@echo 
@@ -252,6 +293,7 @@ $(LIB_CLASES_UTILS)/libutils.a : \
 
 $(LIB_CLASES_UTILS)/libProfesor.a : \
 	           $(OBJ_CLASES_UTILS)/Profesor.o \
+			   $(OBJ_CLASES_UTILS)/VectorProfesor.o \
 	           $(OBJ_CLASES_UTILS)/Fecha.o \
 			   $(OBJ_CLASES_UTILS)/utils.o
 	@echo 
@@ -259,39 +301,45 @@ $(LIB_CLASES_UTILS)/libProfesor.a : \
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libProfesor.a \
 	       $(OBJ_CLASES_UTILS)/Profesor.o \
+		   $(OBJ_CLASES_UTILS)/VectorProfesor.o \
 	       $(OBJ_CLASES_UTILS)/Fecha.o \
 	       $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libDepartamento.a : \
 	           $(OBJ_CLASES_UTILS)/Departamento.o \
+			   $(OBJ_CLASES_UTILS)/VectorDepartamento.o \
 			   $(OBJ_CLASES_UTILS)/utils.o
 	@echo 
 	@echo Creando biblioteca: libDepartamento.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libDepartamento.a \
 	       $(OBJ_CLASES_UTILS)/Departamento.o \
+		   $(OBJ_CLASES_UTILS)/VectorDepartamento.o \
 		   $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libEncargo.a : \
 	           $(OBJ_CLASES_UTILS)/Encargo.o \
+			   $(OBJ_CLASES_UTILS)/VectorEncargo.o \
 			   $(OBJ_CLASES_UTILS)/utils.o
 	@echo 
 	@echo Creando biblioteca: libEncargo.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libEncargo.a \
 	       $(OBJ_CLASES_UTILS)/Encargo.o \
+		   $(OBJ_CLASES_UTILS)/VectorEncargo.o \
 		   $(OBJ_CLASES_UTILS)/utils.o
 
 $(LIB_CLASES_UTILS)/libAdscripcion.a : \
-	           $(OBJ_CLASES_UTILS)/Adscripcion.o
+	           $(OBJ_CLASES_UTILS)/Adscripcion.o \
+			   $(OBJ_CLASES_UTILS)/VectorAdscripcion.o
 	@echo 
 	@echo Creando biblioteca: libAdscripcion.a
 	@echo
 	ar rvs $(LIB_CLASES_UTILS)/libAdscripcion.a \
-	       $(OBJ_CLASES_UTILS)/Adscripcion.o
+	       $(OBJ_CLASES_UTILS)/Adscripcion.o \
+		   $(OBJ_CLASES_UTILS)/VectorAdscripcion.o
 
-$(LIB_CLASES_UTILS)/libFecha.a : \
-	           $(OBJ_CLASES_UTILS)/Fecha.o
+$(LIB_CLASES_UTILS)/libFecha.a : $(OBJ_CLASES_UTILS)/Fecha.o
 	@echo 
 	@echo Creando biblioteca: libFecha.a
 	@echo

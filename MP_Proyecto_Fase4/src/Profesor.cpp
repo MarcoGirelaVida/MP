@@ -230,9 +230,9 @@ using namespace std;
 /***************************************************************************/
 // Método ToString: Devuelve una cadena con los valores de los atributos
 
-    string Profesor :: ToString(bool mes_string) const
+    string Profesor :: ToString(bool mes_string, string cadena_inicial) const
     {
-        string cadena = "";
+        string cadena = cadena_inicial;
 
         // Solo mostrará una linea completamente vacía si los atributos son nullptr,
         // si son \0 se mostrará como "" sin más.

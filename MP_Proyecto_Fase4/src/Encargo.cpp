@@ -124,9 +124,9 @@ using namespace std;
 /***************************************************************************/
 // Método ToString
 
-    string Encargo :: ToString()
+    string Encargo :: ToString(string cadena_inicial)
     {
-        string cadena = "";
+        string cadena = cadena_inicial;
 
         if (categoria || creditos)
         {

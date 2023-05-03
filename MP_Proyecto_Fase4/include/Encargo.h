@@ -69,23 +69,23 @@ class Encargo
 	/*************************************************************************/
 	//--------------------------- MÉTODOS -----------------------------------//
 	/*************************************************************************/
-        // Métodos get
+    // Métodos get
 
-        int getCategoria() const;
-        int getCreditos() const;
+    int getCategoria() const;
+    int getCreditos() const;
 
-        /***************************************************************************/
-        // Métodos set
+    /***************************************************************************/
+    // Métodos set
 
-        void setCategoria(int cat);
-        void setCreditos(double cred);
+    void setCategoria(int cat);
+    void setCreditos(double cred);
 
-        /***************************************************************************/
-        // Método ToString
+    /***************************************************************************/
+    // Método ToString
 
-        string ToString();
+    string ToString(string cadena_inicial = "");
 
-        /***********************************************************************/
+    /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.
 	// Parámetros: otro (referencia), objeto que sirve de modelo. 
 

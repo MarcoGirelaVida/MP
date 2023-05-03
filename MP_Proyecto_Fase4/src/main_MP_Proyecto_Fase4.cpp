@@ -1,248 +1,175 @@
 /***************************************************************************/
 /***************************************************************************/
-// METODOLOGÍA DE LA PROGRAMACIÓN
+// METODOLOGIA DE LA PROGRAMACION
 //
-// (C) FRANCISCO JOSÉ CORTIJO BON
-// DEPARTAMENTO DE CIENCIAS DE LA COMPUTACIÓN E INTELIGENCIA ARTIFICIAL
-// 
-// Fichero: main_MP_Proyecto_Fase3.cpp
+// AUTOR: MARCO GIRELA VIDA
+// GRUPO: 1ºB
+// FECHA: 08/04/2023
 //
-// Función main del proyecto. 
+// PROYECTO FASE 4
 //
-// Proyecto. FASE 03. 
+//  Fichero main del proyecto.+
+//  Se encarga de leer un archivo de texto y mostrar los datos leidos.
+//
+// Fichero: main_MP_Proyecto_Fase04.cpp
 //
 /***************************************************************************/
 /***************************************************************************/
-
-#define DEBUG_DEPARTAMENTOS
-#define DEBUG_PROFESORES
-#define DEBUG_ADSCRIPCIONES
-
-/***************************************************************************/
-/***************************************************************************/
-
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <cstring>
 
-#include "Fecha.h"
-#include "Departamento.h"
-#include "Profesor.h"
-#include "Encargo.h"
-#include "Adscripcion.h"
-
-#include "utils.h"
+#include "VectorDepartamento.h"
+#include "VectorProfesor.h"
+#include "VectorEncargo.h"
+#include "VectorAdscripcion.h"
 
 using namespace std;
 
-
-/***************************************************************************/
-/***************************************************************************/
-
-string Cabecera (const char * titulo);
-
-/***************************************************************************/
-/***************************************************************************/
-
 int main()
 {
-	cout.setf(ios::fixed);		// Notación de punto fijo para los reales
-	cout.setf(ios::showpoint);	// Mostrar siempre decimales
+    string linea;
+    string TERMINADOR = "FIN";
+    string separador =\
+    "--------------------------------------------------------------\n";
 
-	int cont_departamentos = 0;
-	int cont_profesores = 0;
-	int cont_encargos = 0;
-	int cont_adscripciones = 0;
+// Inicializo los múltiples vectores
+	VectorDepartamento vdep;
+	VectorProfesor vprof;
+	VectorEncargo venc;
+	VectorAdscripcion vads;
+
+/*****************************************************************************/
+//--------------------------LECTURA DE DATOS------------------------------//
+/*****************************************************************************/
+//.......................................................................
+        // Leo el primer bloque (departamento)
+
+        cout << separador << "DEPARTAMENTOS: \n" << separador;
+        int contador_dep = 0;
+        getline(cin, linea);
+
+        while( linea != TERMINADOR)
+        {	
+            Departamento d(linea, '*');
+			vdep.AniadeDepartamento(d);
+            // Leo la siguiente linea
+            getline(cin,linea);
+        }
+
+        cout << "Total Departamentos = " << vdep.Totalutilizados() << endl << endl;
+
+//.......................................................................
+        // Leo el segundo bloque  (profesor)
+
+        cout << separador << "PROFESORES: \n" << separador;
+        int contador_prof = 0;
+
+        getline(cin, linea);
+
+        while( linea != TERMINADOR)
+        {
+            Profesor p(linea, '*');
+            vprof.AniadeProfesor(p);
+            
+            getline(cin,linea);
+        }
+
+        cout << "Total Profesores = " << vprof.Totalutilizados() << endl << endl;
 
 
-	// Terminador para los datos leidos/escritos 
-	const string TERMINADOR = "FIN";
+//.......................................................................
+        // Leo el tercer bloque (encargo)
 
-	// Cada linea del fichero se lee en un dato string. 
-	string linea;
+        cout << separador << "ENCARGOS: \n" << separador;
+        
+        getline(cin, linea);
+
+        while( linea != TERMINADOR)
+        {
+            Encargo e(linea, '*');
+			venc.AniadeEncargo(e);
+	
+            getline(cin,linea);
+        }
+
+        cout << "Total Encargos = " << venc.Totalutilizados() << endl << endl;
 
 
-	//......................................................................
-	// DEPARTAMENTOS
+//.......................................................................
+        // Leo el cuarto bloque (adscripción)
 
-	cout << Cabecera ("DEPARTAMENTOS:");
+        cout << separador\
+        << "ADSCRIPCIONES DE PROFESORES A DEPARTAMENTOS: \n"\
+        << separador;
+        
+        getline(cin, linea);
+        while( linea != TERMINADOR)
+        {
+            Adscripcion a(linea, '*');
+            vads.AniadeAdscripcion(a);
 
-	getline(cin, linea); // Lectura adelantada
+            getline(cin,linea);
+        }
 
-	while (linea != TERMINADOR) {
-		
-		cont_departamentos++; // Un departamento más (no se leyó TERMINADOR)	
+        cout << "Total Adscripciones = " << vads.Totalutilizados() << endl << endl;
+
+/*****************************************************************************/
+//--------------------------FIN LECTURA DE DATOS------------------------------//
+/*****************************************************************************/
+
+
+/*****************************************************************************/
+//--------------------------MOSTRAR DATOS-------------------------------------//
+/*****************************************************************************/
+//.......................................................................
+        // Muestro el primer bloque (departamento)
+
+        cout << separador << "DEPARTAMENTOS: \n" << separador;
+		cout << "Capacidad =  " << vdep.Capacidad() \
+			 << ".  Usados =  " << vdep.Totalutilizados()\
+			 << endl;
 			
-		Departamento un_departamento (linea);
+        vdep.Serializar();
+		cout << endl;
 
-		cout << "Leido: " << un_departamento.ToString() << endl; 
+//.......................................................................
+        // Muestro el segundo bloque  (profesor)
 
-
-		#ifdef DEBUG_DEPARTAMENTOS
-
-		Departamento tmp; 
-		cout << "TMP (VACIO): " << tmp.ToString() << endl; 
-
-		Departamento copia = un_departamento;
-		cout << "CONST.COPIA: " << copia.ToString() << endl; 
-
-		tmp = un_departamento;
-		cout << "TMP (ASIG) : " << tmp.ToString() << endl; 
-		
-		#endif
-
-
-		// Leer la siguiente linea 
-		getline(cin, linea); 
-		
-	} // while (linea != TERMINADOR)
-	
-
-	cout << "Total Departamentos = "<< setw(3) << cont_departamentos << endl; 
-	cout << endl; 
-
-
-
-	//......................................................................
-	// PROFESORES
-
-	
-	cout << Cabecera ("PROFESORES:");
-
-	getline(cin, linea); // Lectura adelantada
-
-	while (linea != TERMINADOR) {
-		
-		cont_profesores++; // Un profesor más (no se leyó TERMINADOR)	
+        cout << separador << "PROFESORES: \n" << separador;
+		cout << "Capacidad =  " << vprof.Capacidad() \
+			 << ".  Usados =  " << vprof.Totalutilizados()\
+			 << endl;
 			
+        vprof.Serializar();
+		cout << endl;
 
-		Profesor un_profesor (linea);
+//.......................................................................
+        // Muestro el tercer bloque (encargo)
 
-		cout << "Leido: " << un_profesor.ToString(true) << endl; 
-
-
-
-		#ifdef DEBUG_PROFESORES
-
-		Profesor tmp; 
-		cout << "TMP (VACIO): " << tmp.ToString(true) << endl; 
-
-		Profesor copia = un_profesor;
-		cout << "CONST.COPIA: " << copia.ToString(true) << endl; 
-
-		tmp = un_profesor;
-		cout << "TMP (ASIG) : " << tmp.ToString(true) << endl; 
-		
-		#endif
-
-
-		// Leer la siguiente linea 
-		getline(cin, linea); 
-		
-	} // while (linea != TERMINADOR)
-	
-
-	cout << "Total Profesores = "<< setw(3) << cont_profesores << endl; 
-	cout << endl; 
-
-
-
-	//......................................................................
-	// CATEGORIAS
-	 
-
-	cout << Cabecera ("ENCARGOS:");
-
-	getline(cin, linea); // Lectura adelantada
-
-	while (linea != TERMINADOR) {
-		
-		cont_encargos++; // Un encargo más (no se leyó TERMINADOR)	
+        cout << separador << "ENCARGOS: \n" << separador;
+		cout << "Capacidad =  " << venc.Capacidad() \
+			 << ".  Usados =  " << venc.Totalutilizados()\
+			 << endl;
 			
+        venc.Serializar();
+		cout << endl;
 
-		Encargo un_encargo (linea);
+//.......................................................................
+        // Muestro el cuarto bloque (adscripción)
 
-		cout << "Leido: " << un_encargo.ToString() << endl; 
+        cout << separador\
+        << "ADSCRIPCIONES DE PROFESORES A DEPARTAMENTOS: \n"\
+        << separador;
+        
+		cout << "Capacidad =  " << vads.Capacidad() \
+			 << ".  Usados =  " << vads.Totalutilizados()\
+			 << endl;
+			
+		vads.Serializar();
+		cout << endl;
 
-
-		// Leer la siguiente linea 
-		getline(cin, linea); 
-		
-	} // while (linea != TERMINADOR)
-	
-
-	cout << "Total Encargos = "<< setw(3) << cont_encargos << endl; 
-	cout << endl; 
-	
-
-
-	//......................................................................
-	// ADSCRIPCIONES
-	  
-
-	cout << Cabecera ("ADSCRIPCION DE PROFESORES A DEPARTAMENTOS:");
-
-	getline(cin, linea); // Lectura adelantada
-
-	while (linea != TERMINADOR) {
-		
-		cont_adscripciones++; // Una adscripción más (no se leyó TERMINADOR)	
-
-
-		Adscripcion una_adscripcion (linea);
-
-		cout << "Leido: " << una_adscripcion.ToString() << endl; 
-
-
-		#ifdef DEBUG_ADSCRIPCIONES
-
-		Adscripcion tmp; 
-		cout << "TMP (VACIO): " << tmp.ToString() << endl; 
-		
-		Adscripcion copia = una_adscripcion;
-		cout << "CONST.COPIA: " << copia.ToString() << endl; 
-
-		tmp = una_adscripcion;
-		cout << "TMP (ASIG) : " << tmp.ToString() << endl; 
-		
-		#endif
-
-
-		// Leer la siguiente linea 
-		getline(cin, linea); 
-		
-	} // while (linea != TERMINADOR)
-	
-
-	cout << "Total Adscripciones = "<< setw(3) << cont_adscripciones << endl; 
-	cout << endl; 
-
+/*****************************************************************************/
+//--------------------------FIN MOSTRAR DATOS------------------------------//
+/*****************************************************************************/
 
 	return 0;
 }
-
-/***************************************************************************/
-/***************************************************************************/
-
-string Cabecera (const char * titulo)
-{
-	const int TAM_GUIONES = 70; 
-	char guiones[TAM_GUIONES]; 
-
-	memset (guiones, '-', TAM_GUIONES-1); 
-	guiones[TAM_GUIONES-1] = '\0'; 
-
-	string cad_guiones (guiones); 
-
-	string cad;
-
-	cad = cad + cad_guiones + "\n";
-	cad = cad + titulo + "\n";
-	cad = cad + cad_guiones + "\n";
-
-	return cad; 
-}
-
-/***************************************************************************/
-/***************************************************************************/

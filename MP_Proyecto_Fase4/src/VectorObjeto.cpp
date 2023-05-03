@@ -31,7 +31,7 @@ using namespace std;
 // Si se llama con un argumento, su valor será la capacidad inicial. 
 // POST: La secuencia creada estará vacía (EstaVacia()== true)
 
-VectorObjeto :: VectorObjeto(int la_capacidad=TAMANIO)
+VectorObjeto :: VectorObjeto(int la_capacidad)
         : capacidad(la_capacidad), total_utilizados(0), vector_privado(nullptr)
 {}
 
@@ -87,21 +87,12 @@ void VectorObjeto :: setObjeto(int indice, Objeto &obj)
 // Método ToString
 void VectorObjeto :: Serializar() const
 {
-    for (int i = 0; i < Totalutilizados; i++)
+    for (int i = 0; i < Totalutilizados(); i++)
     {
-        string cadena_inicial = i + ".-";
-        Objeto.ToString(cadena_inicial);
+        int numero = i + 1;
+        string cadena_inicial = to_string(numero) + ".- ";
+        cout << vector_privado[i].ToString(cadena_inicial);
     }
-    
-}
-
-/***********************************************************************/
-// Sobrecarga del operador de asignación para copia profunda.
-// Parámetros: otro (referencia), Objeto que sirve de modelo. 
-VectorObjeto & VectorObjeto :: operator=(const VectorObjeto &otro)
-{
-    CopiarDatos(otro);
-    return *this;
 }
 
 /***********************************************************************/
@@ -109,7 +100,15 @@ VectorObjeto & VectorObjeto :: operator=(const VectorObjeto &otro)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Objeto & VectorObjeto :: operator[](int indice) const
 {
-    return getObjeto(indice);
+    return vector_privado[indice - 1];
+}
+
+/***********************************************************************/
+// Sobrecarga del ().
+// Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
+Objeto & VectorObjeto :: operator[](int indice)
+{
+    return vector_privado[indice - 1];
 }
 
 /***********************************************************************/
@@ -117,9 +116,16 @@ Objeto & VectorObjeto :: operator[](int indice) const
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Objeto & VectorObjeto :: operator()(int indice) const
 {
-    return getObjeto(indice);
+    return vector_privado[indice - 1];
 }
 
+/***********************************************************************/
+// Sobrecarga del ().
+// Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
+Objeto & VectorObjeto :: operator()(int indice)
+{
+    return vector_privado[indice - 1];
+}
 /***************************************************************************/
 // Aniade Objeto al final del vector
 void VectorObjeto :: AniadeObjeto(Objeto &obj)
@@ -129,7 +135,7 @@ void VectorObjeto :: AniadeObjeto(Objeto &obj)
 
     vector_privado[Totalutilizados()-1] = obj;
 
-    Objeto.ToString("Leido: ");
+    cout << obj.ToString("Leido: ");
 }
 
 /***************************************************************************/
@@ -151,7 +157,7 @@ void VectorObjeto :: InsertaObjeto(Objeto &obj, int indice)
 // Elimina Objeto del vector
 void VectorObjeto :: EliminaObjeto(int indice)
 {
-    for (int indice < Totalutilizados(); i < Totalutilizados(); indice++)
+    for (int indice; indice < Totalutilizados(); indice++)
     {
         vector_privado[indice] = vector_privado[indice+1];
     }
@@ -170,7 +176,7 @@ void VectorObjeto :: EliminaTodos()
 
 /***************************************************************************/
 // Extrae Objeto del vector 
-Objeto VectorObjeto :: ExtraeObjeto(int indice = Totalutilizados()-1)
+Objeto VectorObjeto :: ExtraeObjeto(int indice)
 {
     Objeto obj;
 
@@ -210,7 +216,7 @@ void VectorObjeto :: CopiarDatos(const VectorObjeto &otro)
     if (this != &otro)
     {
         LiberarMemoria();
-        Reservamemoria(otro.Capacidad());
+        ReservaMemoria(otro.Capacidad());
 
         for (int i = 0; i < otro.Totalutilizados(); i++)
         {
@@ -264,7 +270,7 @@ void VectorObjeto :: LiberarMemoria()
 */
 void VectorObjeto :: Redimensionar (void)
 {
-    haceralgo = true;
+    bool haceralgo = true;
 
     if (total_utilizados < PORC_REDUCCION*capacidad/100)
     {
@@ -299,7 +305,7 @@ void VectorObjeto :: Redimensionar (void)
         Objeto * tmp = new Objeto[capacidad]; 
 
         // Copiar los datos 
-        for (int i = 0; i < Totalutilizados(); i++)
+        for (int i = 0; i < Totalutilizados()-1; i++)
         {
             tmp[i] = vector_privado[i]; // El operador = debe estar correctamente implementado
         }

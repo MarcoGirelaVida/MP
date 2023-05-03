@@ -99,12 +99,22 @@ public:
     /***********************************************************************/
     // Sobrecarga del [].
     // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
-    Objeto & VectorObjeto :: operator[](int indice) const;
-    
+    Objeto & operator[](int indice) const;
+
+    /***********************************************************************/
+    // Sobrecarga del [].
+    // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
+    Objeto & operator[](int indice);
+
     /***********************************************************************/
     // Sobrecarga del ().
     // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
-    Objeto & VectorObjeto :: operator()(int indice) const;
+    Objeto & operator()(int indice) const;
+
+    /***********************************************************************/
+    // Sobrecarga del ().
+    // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
+    Objeto & operator()(int indice) ;
 
     /***************************************************************************/
     // Aniade Objeto al final del vector
@@ -128,7 +138,7 @@ public:
 
     /***************************************************************************/
     // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
-    void VectorObjeto :: Reajustar()
+    void Reajustar()
     
 private:
     /*************************************************************************/

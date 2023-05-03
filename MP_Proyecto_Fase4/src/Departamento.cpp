@@ -129,9 +129,9 @@ using namespace std;
 /***************************************************************************/
 // Método ToString
 
-    string Departamento :: ToString() const
+    string Departamento :: ToString(string cadena_inicial) const
     {   
-        string cadena = "";
+        string cadena = cadena_inicial;
 
         if (Id_depto || Nombre)
         {
