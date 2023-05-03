@@ -376,4 +376,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_Proyecto_Fase2.tar src include obj lib bin MP_Proyecto_Fase2.mak
+	tar -cvf MP_Proyecto_Fase2.tar src include obj lib bin MP_Proyecto_Fase2.mak todos_datos.txt
