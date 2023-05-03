@@ -11,7 +11,7 @@ presentacion:
 	@echo Autor: $(AUTOR)
 
 nuevo:
-	if [ -d $(HOME)/MP_sesion$(n) ]; then \
+	@if [ -d $(HOME)/MP_sesion$(n) ]; then \
 		echo "El proyecto $(n) ya existe, ¿Quieres continuar? (y/n)"; \
 		read -n 1 respuesta; \
 		if [ "$$respuesta" == "y" ]; then \
@@ -19,9 +19,7 @@ nuevo:
 			mkdir $(HOME)/MP_sesion$(n); \
 			mkdir $(extras); \
 			cp $(HOME)/.templates/template_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-			for ((i=0; i<$(p); i++)); do \
-				cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
-			done; \
+			cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/III_.cpp; \
 			cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/include/headers.h; \
 			echo "Hecho"; \
 		elif [ "$$respuesta" == "n" ]; then \
@@ -33,15 +31,13 @@ nuevo:
 		mkdir $(HOME)/MP_sesion$(n); \
 		mkdir $(extras); \
 		cp $(HOME)/.templates/template_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-		for ((i=0; i<$(p); i++)); do \
-			cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/$$i.cpp; \
-		done; \
+		cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/III_.cpp; \
 		cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/include/headers.h; \
 	fi; \
 
 
 borrar:
-	echo "Estas seguro de que quieres borrar la carpeta MP_sesion$(n)? (y/n)"; \
+	@echo "Estas seguro de que quieres borrar la carpeta MP_sesion$(n)? (y/n)"; \
 	read -n 1 respuesta; \
 	if [ "$$respuesta" == "y" ]; then \
 		rm -rf $(HOME)/MP_sesion$(n); \
