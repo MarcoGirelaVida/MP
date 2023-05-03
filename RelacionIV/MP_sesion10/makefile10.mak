@@ -32,15 +32,16 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
 #................................................
 all:  preambulo \
-      $(BIN)/III_ \
-	  $(LIB)/lib.a \
+	  $(LIB)/libMatriz2D.a \
+	  $(LIB)/libSecuencia.a \
+      $(BIN)/IV_Demo-Matriz2D \
 	  final
 
 #................................................
 preambulo:
 	@echo
 	@echo ------------------------------------------------------------
-	@echo Ejercicios de la Relación de Problemas III
+	@echo Ejercicios de la Relación de Problemas IV
 	@echo PROYECTO: $(shell basename "$$PWD")
 	@echo
 	@echo METODOLOGÍA DE LA PROGRAMACIÓN
@@ -59,37 +60,60 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/I_ : $(OBJ)/III_.o \
-	        $(OBJ)/.o  \
-	        $(LIB_CLASES_UTILS)/lib.a                     
+$(BIN)/IV_Demo-Matriz2D : $(OBJ)/IV_Demo-Matriz2D.o \
+	                       $(OBJ)/Matriz2D.o \
+	                       $(OBJ)/Secuencia.o
 	@echo 
-	@echo Creando ejecutable: III_
+	@echo Creando ejecutable: IV_Demo-Matriz2D
 	@echo 
-	g++ -o $(BIN)/III_ $(OBJ)/III_.o \
-	       $(OBJ)/.o   \
-	       -l -L$(LIB_CLASES_UTILS)
+	g++ -o $(BIN)/IV_Demo-Matriz2D $(OBJ)/IV_Demo-Matriz2D.o \
+	        -lSecuencia \
+	        -lMatriz2D \
+	        -L$(LIB_CLASES_UTILS)
 
 #................................................
 # OBJETOS 
+$(OBJ)/IV_Demo-Matriz2D.o : $(SRC)/IV_Demo-Matriz2D.cpp \
+             $(INCLUDE)/Matriz2D.h
+	@echo 
+	@echo Creando objeto: IV_Demo-Matriz2D.o
+	@echo 
+	g++ -c -o $(OBJ)/IV_Demo-Matriz2D.o $(SRC)/IV_Demo-Matriz2D.cpp \
+            -I$(INCLUDE) -std=c++14
 
-$(OBJ)/III_.o : $(SRC)/III_.cpp \
-	           $(INCLUDE)/.h
+$(OBJ)/Matriz2D.o : $(SRC)/Matriz2D.cpp \
+	                $(INCLUDE)/Matriz2D.h \
+	                $(INCLUDE)/TipoBase_Matriz2D.h \
+	                $(INCLUDE)/Secuencia.h
 	@echo 
-	@echo Creando objeto: III_.o
+	@echo Creando objeto: Matriz2D.o
 	@echo 
-	g++ -c -o $(OBJ)/III_.o $(SRC)/III_.cpp \
-        -I$(INCLUDE) -std=c++14
+	g++ -c -o $(OBJ)/Matriz2D.o $(SRC)/Matriz2D.cpp -I$(INCLUDE) -std=c++14
+
+$(OBJ)/Secuencia.o : $(SRC)/Secuencia.cpp \
+                     $(INCLUDE)/Secuencia.h $(INCLUDE)/TipoBase_Secuencia.h
+	@echo 
+	@echo Creando objeto: Secuencia.o
+	@echo  
+	g++ -c -o $(OBJ)/Secuencia.o  $(SRC)/Secuencia.cpp \
+       -I$(INCLUDE) -std=c++14
 
 #................................................
 # BIBLIOTECAS 
 
-$(LIB)/lib.a : \
-	           $(OBJ)/.o
+$(LIB)/libMatriz2D.a : $(OBJ)/Matriz2D.o
 	@echo 
-	@echo Creando biblioteca: lib.a
+	@echo Creando biblioteca: libMatriz2D.a
 	@echo
-	ar rvs $(LIB)/lib.a \
-	       $(OBJ)/.o
+	ar rvs $(LIB)/libMatriz2D.a \
+	       $(OBJ)/Matriz2D.o
+
+$(LIB)/libSecuencia.a : $(OBJ)/Secuencia.o
+	@echo 
+	@echo Creando biblioteca: libSecuencia.a 
+	@echo  
+	ar rvs $(LIB)/libSecuencia.a  $(OBJ)/Secuencia.o
+
 
 #................................................
 # LIMPEZA
@@ -121,4 +145,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_sesion$(n).tar src include obj lib bin makefile$(n).mak
+	tar -cvf MP_sesion10.tar src include obj lib bin makefile10.mak
