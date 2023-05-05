@@ -27,6 +27,8 @@ private:
 	int fils;			// Num. de filas
 	int cols; 			// Num. de columnas
 
+    // PRE: fils >= 0 Y cols >= 0
+    // PRE: Si fils = 0 entonces cols = 0
 public:
 
 
@@ -40,7 +42,7 @@ public:
 /***************************************************************************/
 // Constructor con 1 argumento: Crea una matriz cuadrada con el número de filas
 // y columnas indicado en el argumento.
-
+// Parametros: n = número de filas y columnas de la matriz.
     Matriz2D(int n);
 
 
@@ -67,12 +69,11 @@ public:
 
 /***************************************************************************/
 // Constructor de copia
-
+// Copia los datos de la matriz "otra" en la matriz a crear
     Matriz2D(Matriz2D &otra);
 
 /***************************************************************************/
 // Destructor de la clase Matriz2D
-
     ~Matriz2D (void);
 
 
@@ -80,45 +81,34 @@ public:
 /*-----------------------------MÉTODOS PÚBLICOS------------------------*/
 /***************************************************************************/
 // Sobrecarga del operador de asignación
+// Copia los datos de otro en la matriz implicita
     Matriz2D & operator = (const Matriz2D & otro);
     Matriz2D & operator = (TipoBase valor);
     
 /***************************************************************************/
-// Sobrecarga del operador ()
-int& operator()(int fila, int columna);
-const int& operator()(int fila, int columna) const;
+// Sobrecarga del operador () para usarlo como rvalue o lvalue
+// Parámetros: Posición del elemento (fils, cols) a consultar o modificar.
+// Devuelve: referencia al dato al que se accede.
+// PRE: 0<=fila<NumFilas(m) && 0<=columna<NumColumnas(m)
+int& operator()(const int fila, const int columna);
+int& operator()(const int fila, const int columna) const;
 
 /***************************************************************************/
 // Sobrecarga de los operadores == y !=
+// Devuelve: bool que determina si las dimensiones y elementos de ambas matrices
+// son iguales o no.
 bool operator==(const Matriz2D &otra) const;
 bool operator!=(const Matriz2D &otra) const;
 
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una matriz.
-// Parámetros: matriz (referencia), la matriz que va a serializarse. 
-
     string ToString (string Cadena="Fila", int empiezaen=0) const;
-
 
 
 /***************************************************************************/
 // Métodos de consulta de las dimensiones de la matriz.
     int NumFilas () const;
     int NumColumnas () const;
-
-
-/***************************************************************************/
-// Método para acceder a un elemento de la matriz, dadas sus coordenadas (índi-
-// ces). El método puede actuar como lvalue ó rvalue.
-// Parámetros: matriz (referencia), la matriz. 
-//			   num_fila, número de fila.
-//			   num_columna, número de columna.
-// PRE: 0<=num_fila<NumFilas(m)
-// PRE: 0<=num_columna<NumColumnas(m)
-// Permite procesar la matriz como un array. (matriz tipo 2)
-
-    TipoBase & Valor (const int num_fila = 0, const int num_columna = 0); 
-    TipoBase & Valor (const int num_fila = 0, const int num_columna = 0) const;
 
 /***************************************************************************/
 // Método que consulta si la matriz está vacía
@@ -136,8 +126,6 @@ bool operator!=(const Matriz2D &otra) const;
 /***************************************************************************/
 // Ecualizar. Cambia todos los todos valores de la matriz por valor.
     void Ecualiza (TipoBase valor=VALOR_DEF);
-
-
 
 
 /***************************************************************************/
@@ -226,5 +214,16 @@ private:
 // Copia profunda. Hace una copia profunda de origen en destino.
     void CopiarDatos(const Matriz2D & otra);
 
+/***************************************************************************/
+// Método para acceder a un elemento de la matriz, dadas sus coordenadas (índi-
+// ces). El método puede actuar como lvalue ó rvalue.
+// Parámetros: matriz (referencia), la matriz. 
+//			   num_fila, número de fila.
+//			   num_columna, número de columna.
+// PRE: 0<=num_fila<NumFilas(m)
+// PRE: 0<=num_columna<NumColumnas(m)
+// Permite procesar la matriz como un array. (matriz tipo 2)
+
+    TipoBase & Valor (const int num_fila = 0, const int num_columna = 0) const;
 };
 #endif

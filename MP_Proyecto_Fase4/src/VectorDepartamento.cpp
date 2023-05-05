@@ -137,7 +137,8 @@ Departamento & VectorDepartamento :: operator()(int indice)
 }
 
 /***************************************************************************/
-// Aniade Departamento al final del vector
+// Aniade Departamento al final del vector 
+<<<<<<<<CUIDADO, AÑADIR COMPROBACIÓN DE QUE NO ESTÉ YA DENTRO>>>>>>>>>>>>>
 void VectorDepartamento :: AniadeDepartamento(Departamento &obj)
 {
     total_utilizados++;

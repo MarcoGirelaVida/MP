@@ -122,20 +122,24 @@ Matriz2D & Matriz2D :: operator = (TipoBase valor)
 }
 
 /***************************************************************************/
-// Sobrecarga del operador ()
-int& Matriz2D :: operator()(int fila, int columna)
+/***************************************************************************/
+// Sobrecarga del operador () para usarlo como rvalue o lvalue
+// Parámetros: Posición del elemento (fils, cols) a consultar o modificar.
+// Devuelve: referencia al dato al que se accede.
+// PRE: 0<=fila<NumFilas(m) && 0<=columna<NumColumnas(m)
+int& Matriz2D :: operator()(const int fila, const int columna)
 {
-	return (datos[fila][columna]);
+	return Valor(fila, columna);
 }
-const int& Matriz2D :: operator()(int fila, int columna) const
+int& Matriz2D :: operator()(const int fila, const int columna) const
 {
-	return (datos[fila][columna]);
+	return Valor(fila, columna);
 }
 
 /***************************************************************************/
 // Sobrecarga de los operadores == y !=
-/*serán iguales si tienen el mismo número de filas y columnas, y los contenidos
-son iguales y en las mismas posiciones.*/
+// Devuelve: bool que determina si las dimensiones y elementos de ambas matrices
+// son iguales o no.
 bool Matriz2D :: operator==(const Matriz2D &otra) const
 {
 	return EsIgualA(otra);
@@ -190,47 +194,6 @@ int Matriz2D :: NumColumnas () const
 }
 
 
-/***************************************************************************/
-// Método para acceder a un elemento de la matriz, dadas sus coordenadas (índi-
-// ces). El método puede actuar como lvalue ó rvalue.
-// Parámetros: matriz (referencia), la matriz. 
-//			   num_fila, número de fila.
-//			   num_columna, número de columna.
-// PRE: 0<=num_fila<NumFilas(m)
-// PRE: 0<=num_columna<NumColumnas(m)
-// Permite procesar la matriz como un array (matriz tipo 2)
-
-TipoBase & Matriz2D :: Valor (const int num_fila, const int num_columna)
-{
-	// El primer if es para que se pueda procesar la matriz como tipo dos
-	if (num_fila!=0)
-	{
-		if (num_fila < 0 || num_fila >= fils || 
-		num_columna < 0 || num_columna >= cols)
-		{
-			cerr << "Error: Acceso a una posición no válida de la matriz" << endl;
-			exit(1);
-		}
-	}
-	
-	return (datos[num_fila][num_columna]);
-}	
-
-TipoBase & Matriz2D :: Valor (const int num_fila, const int num_columna) const
-{
-	// El primer if es para que se pueda procesar la matriz como tipo dos
-	if (num_fila!=0)
-	{
-		if (num_fila < 0 || num_fila >= fils || 
-		num_columna < 0 || num_columna >= cols)
-		{
-			cerr << "Error: Acceso a una posición no válida de la matriz" << endl;
-			exit(1);
-		}
-	}
-	
-	return (datos[num_fila][num_columna]);
-}
 
 /***************************************************************************/
 // Consultar el estado vacía/ocupada.
@@ -632,5 +595,30 @@ void Matriz2D :: CopiarDatos (const Matriz2D & otra)
 	memcpy(datos[0], &otra.Valor(0,0), (otra.NumFilas()*cols)*sizeof(TipoBase));
 }
 
+/***************************************************************************/
+// Método para acceder a un elemento de la matriz, dadas sus coordenadas (índi-
+// ces). El método puede actuar como lvalue ó rvalue.
+// Parámetros: matriz (referencia), la matriz. 
+//			   num_fila, número de fila.
+//			   num_columna, número de columna.
+// PRE: 0<=num_fila<NumFilas(m)
+// PRE: 0<=num_columna<NumColumnas(m)
+// Permite procesar la matriz como un array (matriz tipo 2)
+
+TipoBase & Matriz2D :: Valor (const int num_fila, const int num_columna) const
+{
+	// El primer if es para que se pueda procesar la matriz como tipo dos
+	if (num_fila!=0)
+	{
+		if (num_fila < 0 || num_fila >= fils || 
+		num_columna < 0 || num_columna >= cols)
+		{
+			cerr << "Error: Acceso a una posición no válida de la matriz" << endl;
+			exit(1);
+		}
+	}
+	
+	return (datos[num_fila][num_columna]);
+}
 ////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

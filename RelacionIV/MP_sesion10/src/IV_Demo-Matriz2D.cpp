@@ -55,7 +55,7 @@ int main (void)
 
 	for (int f=0; f<m.NumFilas(); f++) 
 		for (int c=0; c<m.NumColumnas(); c++) 
-			m.Valor(f,c) = ((10*(f+1))+c+1);
+			m(f,c) = ((10*(f+1))+c+1);
 
 	cout << "Matriz rellena: ";
 	cout << m.ToString();
@@ -101,7 +101,7 @@ int main (void)
 
 	for (int f=0; f<mbase.NumFilas(); f++) 
 		for (int c=0; c<mbase.NumColumnas(); c++) 
-			mbase.Valor(f,c) = ((10*(f+1))+c+1);
+			mbase(f,c) = ((10*(f+1))+c+1);
 		
 	cout << "Matriz base de 5x8: ";
 	cout << mbase.ToString ();
