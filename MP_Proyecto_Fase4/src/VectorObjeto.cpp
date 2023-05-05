@@ -32,8 +32,10 @@ using namespace std;
 // POST: La secuencia creada estará vacía (EstaVacia()== true)
 
 VectorObjeto :: VectorObjeto(int la_capacidad)
-        : capacidad(la_capacidad), total_utilizados(0), vector_privado(nullptr)
-{}
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{
+    ReservaMemoria(la_capacidad);
+}
 
 /************************************************************************/
 // Constructor de copia
@@ -85,13 +87,15 @@ void VectorObjeto :: setObjeto(int indice, Objeto &obj)
 
 /***************************************************************************/
 // Método ToString
-void VectorObjeto :: Serializar() const
+string VectorObjeto :: Serializar() const
 {
+    string cad;
+
     for (int i = 0; i < Totalutilizados(); i++)
     {
         int numero = i + 1;
         string cadena_inicial = to_string(numero) + ".- ";
-        cout << vector_privado[i].ToString(cadena_inicial);
+        cad += vector_privado[i].ToString(cadena_inicial) + "\n";
     }
 }
 
@@ -100,7 +104,7 @@ void VectorObjeto :: Serializar() const
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Objeto & VectorObjeto :: operator[](int indice) const
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -108,7 +112,7 @@ Objeto & VectorObjeto :: operator[](int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Objeto & VectorObjeto :: operator[](int indice)
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -116,7 +120,7 @@ Objeto & VectorObjeto :: operator[](int indice)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Objeto & VectorObjeto :: operator()(int indice) const
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***********************************************************************/
@@ -124,7 +128,7 @@ Objeto & VectorObjeto :: operator()(int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Objeto & VectorObjeto :: operator()(int indice)
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 /***************************************************************************/
 // Aniade Objeto al final del vector
@@ -319,6 +323,20 @@ void VectorObjeto :: Redimensionar (void)
     }
 }
 
+/***********************************************************************/
+// VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+// Puede funcionar como lvalue y como rvalue
+// PRE: 0 <= indice < total_utilizados
+Objeto & VectorObjeto :: Valor(int indice) const
+{
+    if (indice < 0 || indice >= Totalutilizados())
+    {
+        cerr << "Error en la función Valor: índice fuera de rango" << endl;
+        exit(1);
+    }
+    
+    return vector_privado[indice];
+}
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 

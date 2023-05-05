@@ -32,8 +32,10 @@ using namespace std;
 // POST: La secuencia creada estará vacía (EstaVacia()== true)
 
 VectorAdscripcion :: VectorAdscripcion(int la_capacidad)
-        : capacidad(la_capacidad), total_utilizados(0), vector_privado(nullptr)
-{}
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{
+    ReservaMemoria(la_capacidad);
+}
 
 /************************************************************************/
 // Constructor de copia
@@ -85,13 +87,15 @@ void VectorAdscripcion :: setAdscripcion(int indice, Adscripcion &obj)
 
 /***************************************************************************/
 // Método ToString
-void VectorAdscripcion :: Serializar() const
+string VectorAdscripcion :: Serializar() const
 {
+    string cad;
+
     for (int i = 0; i < Totalutilizados(); i++)
     {
         int numero = i + 1;
         string cadena_inicial = to_string(numero) + ".- ";
-        cout << vector_privado[i].ToString(cadena_inicial);
+        cad += vector_privado[i].ToString(cadena_inicial) + "\n";
     }
 }
 
@@ -109,7 +113,7 @@ VectorAdscripcion & VectorAdscripcion :: operator=(const VectorAdscripcion &otro
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Adscripcion & VectorAdscripcion :: operator[](int indice) const
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -117,7 +121,7 @@ Adscripcion & VectorAdscripcion :: operator[](int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Adscripcion & VectorAdscripcion :: operator[](int indice)
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -125,7 +129,7 @@ Adscripcion & VectorAdscripcion :: operator[](int indice)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Adscripcion & VectorAdscripcion :: operator()(int indice) const
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***********************************************************************/
@@ -133,7 +137,7 @@ Adscripcion & VectorAdscripcion :: operator()(int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Adscripcion & VectorAdscripcion :: operator()(int indice)
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***************************************************************************/
@@ -245,6 +249,12 @@ void VectorAdscripcion :: CopiarDatos(const VectorAdscripcion &otro)
 // Parámetros: otro (referencia), Adscripcion que sirve de modelo. 
 void VectorAdscripcion :: ReservaMemoria(const int num_casillas)
 {
+    if (num_casillas < 0)
+    {
+        cerr << "ERROR: No se puede reservar memoria negativa" << endl;
+        exit(1);
+    }
+
 	vector_privado = new Adscripcion[num_casillas]; 
 	capacidad = num_casillas; 
 }
@@ -329,6 +339,20 @@ void VectorAdscripcion :: Redimensionar (void)
     }
 }
 
+/***********************************************************************/
+// VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+// Puede funcionar como lvalue y como rvalue
+// PRE: 0 <= indice < total_utilizados
+Adscripcion & VectorAdscripcion :: Valor(int indice) const
+{
+    if (indice < 0 || indice >= Totalutilizados())
+    {
+        cerr << "Error en la función Valor: índice fuera de rango" << endl;
+        exit(1);
+    }
+    
+    return vector_privado[indice];
+}
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 

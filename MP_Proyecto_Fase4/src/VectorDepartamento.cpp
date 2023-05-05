@@ -30,10 +30,11 @@ using namespace std;
 // Si se llama sin argumentos crea una secuencia con capacidad = TAMANIO.
 // Si se llama con un argumento, su valor será la capacidad inicial. 
 // POST: La secuencia creada estará vacía (EstaVacia()== true)
-
 VectorDepartamento :: VectorDepartamento(int la_capacidad)
-        : capacidad(la_capacidad), total_utilizados(0), vector_privado(nullptr)
-{}
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{
+    ReservaMemoria(la_capacidad);
+}
 
 /************************************************************************/
 // Constructor de copia
@@ -85,13 +86,15 @@ void VectorDepartamento :: setDepartamento(int indice, Departamento &obj)
 
 /***************************************************************************/
 // Método ToString
-void VectorDepartamento :: Serializar() const
+string VectorDepartamento :: Serializar() const
 {
+    string cad;
+
     for (int i = 0; i < Totalutilizados(); i++)
     {
         int numero = i + 1;
         string cadena_inicial = to_string(numero) + ".- ";
-        cout << vector_privado[i].ToString(cadena_inicial);
+        cad += vector_privado[i].ToString(cadena_inicial) + "\n";
     }
 }
 
@@ -109,7 +112,7 @@ VectorDepartamento & VectorDepartamento :: operator=(const VectorDepartamento &o
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator[](int indice) const
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -117,7 +120,7 @@ Departamento & VectorDepartamento :: operator[](int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator[](int indice)
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -125,7 +128,7 @@ Departamento & VectorDepartamento :: operator[](int indice)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator()(int indice) const
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***********************************************************************/
@@ -133,7 +136,7 @@ Departamento & VectorDepartamento :: operator()(int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator()(int indice)
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***************************************************************************/
@@ -330,6 +333,20 @@ void VectorDepartamento :: Redimensionar (void)
     }
 }
 
+/***********************************************************************/
+// VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+// Puede funcionar como lvalue y como rvalue
+// PRE: 0 <= indice < total_utilizados
+Departamento & VectorDepartamento :: Valor(int indice) const
+{
+    if (indice < 0 || indice >= Totalutilizados())
+    {
+        cerr << "Error en la función Valor: índice fuera de rango" << endl;
+        exit(1);
+    }
+    
+    return vector_privado[indice];
+}
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 

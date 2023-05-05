@@ -32,8 +32,10 @@ using namespace std;
 // POST: La secuencia creada estará vacía (EstaVacia()== true)
 
 VectorProfesor :: VectorProfesor(int la_capacidad)
-        : capacidad(la_capacidad), total_utilizados(0), vector_privado(nullptr)
-{}
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{
+    ReservaMemoria(la_capacidad);
+}
 
 /************************************************************************/
 // Constructor de copia
@@ -85,13 +87,15 @@ void VectorProfesor :: setProfesor(int indice, Profesor &obj)
 
 /***************************************************************************/
 // Método ToString
-void VectorProfesor :: Serializar() const
+string VectorProfesor :: Serializar() const
 {
+    string cad;
+
     for (int i = 0; i < Totalutilizados(); i++)
     {
         int numero = i + 1;
         string cadena_inicial = to_string(numero) + ".- ";
-        cout << vector_privado[i].ToString(true, cadena_inicial);
+        cad += vector_privado[i].ToString(true, cadena_inicial) + "\n";
     }   
 }
 
@@ -109,7 +113,7 @@ VectorProfesor & VectorProfesor :: operator=(const VectorProfesor &otro)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Profesor & VectorProfesor :: operator[](int indice) const
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -117,7 +121,7 @@ Profesor & VectorProfesor :: operator[](int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Profesor & VectorProfesor :: operator[](int indice)
 {
-    return vector_privado[indice - 1];
+    return Valor(indice-1);
 }
 
 /***********************************************************************/
@@ -125,7 +129,7 @@ Profesor & VectorProfesor :: operator[](int indice)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Profesor & VectorProfesor :: operator()(int indice) const
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***********************************************************************/
@@ -133,7 +137,7 @@ Profesor & VectorProfesor :: operator()(int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Profesor & VectorProfesor :: operator()(int indice)
 {
-    return vector_privado[indice - 1];
+    return (*this)[indice-1];
 }
 
 /***************************************************************************/
@@ -329,6 +333,20 @@ void VectorProfesor :: Redimensionar (void)
     }
 }
 
+/***********************************************************************/
+// VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+// Puede funcionar como lvalue y como rvalue
+// PRE: 0 <= indice < total_utilizados
+Profesor & VectorProfesor :: Valor(int indice) const
+{
+    if (indice < 0 || indice >= Totalutilizados())
+    {
+        cerr << "Error en la función Valor: índice fuera de rango" << endl;
+        exit(1);
+    }
+    
+    return vector_privado[indice];
+}
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 

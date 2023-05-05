@@ -89,7 +89,7 @@ public:
 
     /***************************************************************************/
     // Método ToString
-    void Serializar() const;
+    string Serializar() const;
 
     /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.
@@ -178,6 +178,11 @@ private:
     */
 	void Redimensionar (void);
 
+    /***********************************************************************/
+    // VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+    // Puede funcionar como lvalue y como rvalue
+    // PRE: 0 <= indice < total_utilizados
+    Encargo & Valor(int indice) const;
 };
 
 #endif

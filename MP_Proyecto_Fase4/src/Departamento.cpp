@@ -151,7 +151,7 @@ using namespace std;
 /***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
-
+<<<<<<<<<<<<<<<CUIDADO, AÑADIR OPERADOR == PARA HACER LA BUSQUEDA/ AÑADIR>>>>>>>
     Departamento & Departamento :: operator = (const Departamento & otro)
     {
         if (this != &otro)
