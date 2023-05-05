@@ -95,11 +95,15 @@ int& operator()(const int fila, const int columna) const;
 
 /***************************************************************************/
 // Sobrecarga de los operadores == y !=
+// Versión 1: Compara si dos matrices son iguales/distintas
+// Versión 2: Compara si una matriz es igual/distinta a un valor común
 // Devuelve: bool que determina si las dimensiones y elementos de ambas matrices
 // son iguales o no.
-bool operator==(const Matriz2D &otra) const;
-bool operator!=(const Matriz2D &otra) const;
+bool operator ==(const Matriz2D &otra) const;
+bool operator !=(const Matriz2D &otra) const;
 
+bool operator ==(const int valor) const;
+bool operator !=(const int valor) const;
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una 
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 

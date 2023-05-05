@@ -138,6 +138,8 @@ int& Matriz2D :: operator()(const int fila, const int columna) const
 
 /***************************************************************************/
 // Sobrecarga de los operadores == y !=
+// Versión 1: Compara si dos matrices son iguales/distintas
+// Versión 2: Compara si una matriz es igual/distinta a un valor común
 // Devuelve: bool que determina si las dimensiones y elementos de ambas matrices
 // son iguales o no.
 bool Matriz2D :: operator==(const Matriz2D &otra) const
@@ -148,6 +150,17 @@ bool Matriz2D :: operator==(const Matriz2D &otra) const
 bool Matriz2D :: operator!=(const Matriz2D &otra) const
 {
 	return (!(*this == otra));
+}
+
+bool Matriz2D :: operator==(const int valor) const
+{
+	Matriz2D MatrizValor(NumFilas(), NumColumnas(), valor);
+	return (*this == MatrizValor);
+}	
+
+bool Matriz2D :: operator!=(const int valor) const
+{
+	return (!(*this == valor));
 }
 
 /***************************************************************************/
