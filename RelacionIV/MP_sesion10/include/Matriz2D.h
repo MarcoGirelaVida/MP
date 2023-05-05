@@ -89,7 +89,7 @@ public:
 // Sobrecarga del operador () para usarlo como rvalue o lvalue
 // Parámetros: Posición del elemento (fils, cols) a consultar o modificar.
 // Devuelve: referencia al dato al que se accede.
-// PRE: 0<=fila<NumFilas(m) && 0<=columna<NumColumnas(m)
+// PRE: 0<fila<=NumFilas(m) && 0<columna<=NumColumnas(m)
 int& operator()(const int fila, const int columna);
 int& operator()(const int fila, const int columna) const;
 
@@ -101,8 +101,13 @@ bool operator==(const Matriz2D &otra) const;
 bool operator!=(const Matriz2D &otra) const;
 
 /***************************************************************************/
-// Devuelve un string con el resultado de "serializar" una matriz.
-    string ToString (string Cadena="Fila", int empiezaen=0) const;
+// Devuelve un string con el resultado de "serializar" una 
+// Parámetros: matriz (referencia), la matriz que va a serializarse. 
+// Parámetros: Cadena: Texto que se pondrá al inicio de cada fila.
+// "Fila" por defecto
+// Parámetros: empiezaen: Número de fila en la que se empezará a serializar.
+// 1 por defecto.
+    string ToString (string Cadena="Fila", int empiezaen=1) const;
 
 
 /***************************************************************************/
@@ -137,7 +142,7 @@ bool operator!=(const Matriz2D &otra) const;
 
 /***************************************************************************/
 /*
-Submatriz.
+Sub
 Extrae una submatriz de original y la deja en resultado.
 La submatriz resultado es una zona rectangular de
 original que empieza en la casilla (fila_inic, col_inic) y que
@@ -146,6 +151,7 @@ tiene (un máximo de) num_filas filas y num_cols columnas.
 La función construirá y “rellenará” una matriz vacía. Lo mismo ocurre
 si la casilla inicial fuera, por ejemplo, la casilla 2 (fila), -2 (columna).
 */
+// PRE: 0 < fila_inic <= fils y 0 < col_inic <= cols
     Matriz2D SubMatriz (int fila_inic, int col_inic,
                         int num_filas, int num_cols);
 
@@ -160,13 +166,16 @@ si la casilla inicial fuera, por ejemplo, la casilla 2 (fila), -2 (columna).
 //Secuencia) debe tener el mismo número de casillas que columnas tenga la
 //matriz. La posición indicada será la posición que tendrá la fila después de la
 //inserción.
+//PRE: 0 < indice <= fils
     void Inserta (int indice, const Secuencia & fila_nueva);
 
 /***************************************************************************/
 //Eliminar fila. Elimina la fila num_fila de la matriz matriz.
+//PRE: 0 < num_fila <= fils
     void EliminaFila (int num_fila);
 
 //Eliminar columna. Elimina la columna num_col de la matriz matriz.
+// PRE: 0 < num_col <= cols
     void EliminaColumna (int num_col);
 
 

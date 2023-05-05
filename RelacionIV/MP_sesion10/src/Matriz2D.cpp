@@ -126,14 +126,14 @@ Matriz2D & Matriz2D :: operator = (TipoBase valor)
 // Sobrecarga del operador () para usarlo como rvalue o lvalue
 // Parámetros: Posición del elemento (fils, cols) a consultar o modificar.
 // Devuelve: referencia al dato al que se accede.
-// PRE: 0<=fila<NumFilas(m) && 0<=columna<NumColumnas(m)
+// PRE: 0<fila<=NumFilas(m) && 0<columna<=NumColumnas(m)
 int& Matriz2D :: operator()(const int fila, const int columna)
 {
-	return Valor(fila, columna);
+	return Valor(fila-1, columna-1);
 }
 int& Matriz2D :: operator()(const int fila, const int columna) const
 {
-	return Valor(fila, columna);
+	return Valor(fila-1, columna-1);
 }
 
 /***************************************************************************/
@@ -153,7 +153,10 @@ bool Matriz2D :: operator!=(const Matriz2D &otra) const
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una 
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
-
+// Parámetros: Cadena: Texto que se pondrá al inicio de cada fila.
+// "Fila" por defecto
+// Parámetros: empiezaen: Número de fila en la que se empezará a serializar.
+// 1 por defecto.
 string Matriz2D :: ToString (string Cadena, int empiezaen) const
 {
 	string cad;
@@ -292,9 +295,12 @@ tiene (un máximo de) num_filas filas y num_cols columnas.
 La función construirá y “rellenará” una matriz vacía. Lo mismo ocurre
 si la casilla inicial fuera, por ejemplo, la casilla 2 (fila), -2 (columna).
 */
+// PRE: 0 < fila_inic <= fils y 0 < col_inic <= cols
 Matriz2D Matriz2D :: SubMatriz (int fila_inic, int col_inic,\
 								 int num_filas, int num_cols)
 {
+	fila_inic--;
+	col_inic--;
 
 	//.........................................................................
 	// Si el número de filas o columnas solicitadas es excesivo, se adapta
@@ -358,8 +364,10 @@ void Matriz2D :: Aniade (const Secuencia & fila_nueva)
 //Secuencia) debe tener el mismo número de casillas que columnas tenga la
 //matriz. La posición indicada será la posición que tendrá la fila después de la
 //inserción.
+//PRE: 0 < indice <= fils
 void Matriz2D :: Inserta (int indice, const Secuencia & fila_nueva)
 {
+	indice--;
 	// Compruebo que la fila a añadir tiene el mismo número de columnas
 	if (fila_nueva.TotalUtilizados() != cols)
 	{
@@ -387,8 +395,10 @@ void Matriz2D :: Inserta (int indice, const Secuencia & fila_nueva)
 /***************************************************************************/
 /***************************************************************************/
 //Eliminar fila/Columuna. Elimina la fila/columna solicitada
+// PRE: 0 < num_fila/num_col <= fils/cols
 void Matriz2D :: EliminaFila (int num_fila)
 {
+	num_fila--;
 	// Uso la función "memmove" para sobreescribir sobre el fragmento a borrar
 	memmove(datos[num_fila-1], datos[num_fila],
 			cols*(fils-(num_fila))*sizeof(TipoBase));
