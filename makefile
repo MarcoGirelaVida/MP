@@ -19,7 +19,7 @@ nuevo:
 			mkdir $(HOME)/MP_sesion$(n); \
 			mkdir $(extras); \
 			cp $(HOME)/.templates/template_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-			cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/III_.cpp; \
+			cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/IV_.cpp; \
 			cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/include/headers.h; \
 			echo "Hecho"; \
 		elif [ "$$respuesta" == "n" ]; then \
@@ -31,7 +31,7 @@ nuevo:
 		mkdir $(HOME)/MP_sesion$(n); \
 		mkdir $(extras); \
 		cp $(HOME)/.templates/template_makefile.mak $(HOME)/MP_sesion$(n)/makefile$(n).mak; \
-		cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/III_.cpp; \
+		cp $(HOME)/.templates/template_code.cpp $(HOME)/MP_sesion$(n)/src/IV_.cpp; \
 		cp $(HOME)/.templates/template_headers.h $(HOME)/MP_sesion$(n)/include/headers.h; \
 	fi; \
 
