@@ -151,7 +151,6 @@ using namespace std;
 /***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
-<<<<<<<<<<<<<<<CUIDADO, AÑADIR OPERADOR == PARA HACER LA BUSQUEDA/ AÑADIR>>>>>>>
     Departamento & Departamento :: operator = (const Departamento & otro)
     {
         if (this != &otro)
@@ -163,6 +162,29 @@ using namespace std;
         return *this;
     }
 
+/***********************************************************************/
+// Sobrecarga del operador == para comprobar si un departamento es igual 
+// a otro (tiene la misma clave primaria)
+
+    bool Departamento :: operator == (const Departamento & otro)
+    {
+        bool son_iguales = false;
+
+        if (this != &otro)
+        {
+            if (strcmp(Id_depto, otro.GetId_Dpto()) == 0)
+            {
+                son_iguales = true;
+            }
+        }
+        else
+        {
+            son_iguales = true;
+        }
+        
+
+        return son_iguales;
+    }
 
 /*************************************************************************/
 //------------------------MÉTODOS PRIVADOS-------------------------------//

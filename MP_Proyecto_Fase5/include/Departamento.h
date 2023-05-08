@@ -93,6 +93,12 @@ public :
 	Departamento & operator = (const Departamento & otro);
 
 	/***********************************************************************/
+	// Sobrecarga del operador == para comprobar si un departamento es igual 
+	// a otro (tiene la misma clave primaria)
+
+	bool operator == (const Departamento & otro);
+
+	/***********************************************************************/
 	// Serializa un dato "Departamento"
 
 	string ToString (string cadena_inicial = "") const; 

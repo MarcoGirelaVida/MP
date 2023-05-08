@@ -117,6 +117,11 @@ public:
     Departamento & operator()(int indice) ;
 
     /***************************************************************************/
+    // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
+    // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
+    int BuscarDepto(Departamento dep) const;
+
+    /***************************************************************************/
     // Aniade Departamento al final del vector
     void AniadeDepartamento(Departamento &obj);
 
@@ -183,6 +188,11 @@ private:
     // Puede funcionar como lvalue y como rvalue
     // PRE: 0 <= indice < total_utilizados
     Departamento & Valor(int indice) const;
+
+    /***********************************************************************/
+    // comprobacion_indice: Comprueba si el índice es válido
+    // PRE: 0 <= indice < total_utilizados
+    void comprobacion_indice(int indice) const;
 };
 
 #endif

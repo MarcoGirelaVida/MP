@@ -38,7 +38,8 @@ all:  preambulo \
 	  $(LIB_CLASES_UTILS)/libEncargo.a \
 	  $(LIB_CLASES_UTILS)/libFecha.a \
 	  $(LIB_CLASES_UTILS)/libProfesor.a \
-	  $(BIN)/MP_Proyecto_Fase4 \
+	  $(BIN)/MP_Proyecto_Fase5 \
+	  #$(BIN)/MP_Proyecto_Fase4# \
 	  #$(BIN)/MP_Proyecto_Fase3# \
 	  #$(BIN)/MP_Proyecto_Fase2# \
 	  #$(BIN)/MP_Proyecto_Fase1# \
@@ -48,7 +49,7 @@ all:  preambulo \
 preambulo:
 	@echo
 	@echo ------------------------------------------------------------
-	@echo Proyecto Fase 04
+	@echo Proyecto Fase 05
 	@echo PROYECTO: $(shell basename "$$PWD")
 	@echo
 	@echo METODOLOGÍA DE LA PROGRAMACIÓN
@@ -144,8 +145,36 @@ $(BIN)/MP_Proyecto_Fase4 : $(OBJ)/main_MP_Proyecto_Fase4.o \
 	       -lFecha \
 	       -L$(LIB_CLASES_UTILS)
 
+$(BIN)/MP_Proyecto_Fase5 : $(OBJ)/main_MP_Proyecto_Fase5.o \
+            $(LIB_CLASES_UTILS)/libutils.a \
+            $(LIB_CLASES_UTILS)/libAdscripcion.a \
+            $(LIB_CLASES_UTILS)/libDepartamento.a \
+            $(LIB_CLASES_UTILS)/libEncargo.a \
+            $(LIB_CLASES_UTILS)/libFecha.a \
+            $(LIB_CLASES_UTILS)/libProfesor.a           
+	@echo 
+	@echo Creando ejecutable: MP_Proyecto_Fase5
+	@echo 
+	g++ -o $(BIN)/MP_Proyecto_Fase4 $(OBJ)/main_MP_Proyecto_Fase5.o \
+	       -lAdscripcion \
+	       -lDepartamento \
+	       -lProfesor \
+	       -lEncargo \
+	       -lutils \
+	       -lFecha \
+	       -L$(LIB_CLASES_UTILS)
+
 #................................................
 # OBJETOS
+
+$(OBJ)/main_MP_Proyecto_Fase5.o : $(SRC)/main_MP_Proyecto_Fase5.cpp \
+	           $(wildcard $(INCLUDE)/*.h)
+	@echo 
+	@echo Creando objeto: main_MP_Proyecto_Fase5.o
+	@echo 
+	g++ -c -o $(OBJ)/main_MP_Proyecto_Fase5.o \
+	          $(SRC)/main_MP_Proyecto_Fase5.cpp \
+        -I$(INCLUDE) -std=c++14
 
 $(OBJ)/main_MP_Proyecto_Fase4.o : $(SRC)/main_MP_Proyecto_Fase4.cpp \
 	           $(wildcard $(INCLUDE)/*.h)
@@ -376,4 +405,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_Proyecto_Fase2.tar src include obj lib bin MP_Proyecto_Fase2.mak todos_datos.txt
+	tar -cvf MP_Proyecto_Fase5.tar src include obj lib bin MP_Proyecto_Fase5.mak todos_datos.txt

@@ -40,6 +40,7 @@ VectorDepartamento :: VectorDepartamento(int la_capacidad)
 // Constructor de copia
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
 VectorDepartamento :: VectorDepartamento(const VectorDepartamento &otro)
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
 {
     CopiarDatos(otro);
 }
@@ -67,7 +68,7 @@ int VectorDepartamento :: Capacidad() const
 
 int VectorDepartamento :: EstaVacia() const
 {
-    return (total_utilizados == 0);
+    return (Totalutilizados() == 0);
 }
 
 /*************************************************************************/
@@ -81,6 +82,12 @@ Departamento VectorDepartamento :: getDepartamento(int indice) const
 // Métodos set
 void VectorDepartamento :: setDepartamento(int indice, Departamento &obj)
 {
+    if (BuscarDepto(obj) != -1)
+    {
+        cerr << "Error: El departamento ya existe" << endl;
+        exit(1);
+    }
+
     vector_privado[indice] = obj;
 }
 
@@ -140,14 +147,38 @@ Departamento & VectorDepartamento :: operator()(int indice)
 }
 
 /***************************************************************************/
+// Método BuscarDepto: Recibe un departamento y lo busca en el vector
+// Si está, devuelve el índice donde está almacenado, sino, devuelve -1
+int VectorDepartamento :: BuscarDepto(Departamento dep) const
+{
+    int indice = -1;
+
+    for (int i = 0; i < Totalutilizados(); i++)
+    {
+        if (vector_privado[i] == dep)
+        {
+            indice = i;
+        }
+    }
+
+    return indice;
+}
+
+/***************************************************************************/
 // Aniade Departamento al final del vector 
-<<<<<<<<CUIDADO, AÑADIR COMPROBACIÓN DE QUE NO ESTÉ YA DENTRO>>>>>>>>>>>>>
 void VectorDepartamento :: AniadeDepartamento(Departamento &obj)
 {
+    if (BuscarDepto(obj) != -1)
+    {
+        cerr << "Error: Se ha intentado añadir un departamento que ya existe"\
+             << endl;
+        exit(1);
+    }
+    
     total_utilizados++;
     Redimensionar();
 
-    vector_privado[Totalutilizados()-1] = obj;
+    setDepartamento(Totalutilizados()-1, obj);
 
     cout << obj.ToString("Leido: ");
 }
@@ -156,6 +187,13 @@ void VectorDepartamento :: AniadeDepartamento(Departamento &obj)
 // Inserta Departamento en el vector
 void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
 {
+    if (BuscarDepto(obj) != -1)
+    {
+        cerr << "Error: Se ha intentado insertar un departamento que ya existe"\
+             << endl;
+        exit(1);
+    }
+    
     total_utilizados++;
     Redimensionar();
 
@@ -164,13 +202,16 @@ void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
         vector_privado[i] = vector_privado[i-1];
     }
 
-    vector_privado[indice] = obj;
+    setDepartamento(indice, obj);
 }
 
 /***************************************************************************/
 // Elimina Departamento del vector
+// PRE: 0 <= indice < Totalutilizados()
 void VectorDepartamento :: EliminaDepartamento(int indice)
 {
+    comprobacion_indice(indice);
+
     for (int indice; indice < Totalutilizados(); indice++)
     {
         vector_privado[indice] = vector_privado[indice+1];
@@ -189,9 +230,12 @@ void VectorDepartamento :: EliminaTodos()
 }
 
 /***************************************************************************/
-// Extrae Departamento del vector 
+// Extrae Departamento del vector
+// PRE: 0 <= indice < Totalutilizados()
 Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
 {
+    comprobacion_indice(indice);
+    
     Departamento obj;
 
     obj = getDepartamento(indice);
@@ -201,7 +245,8 @@ Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
 }
 
 /***************************************************************************/
-// Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
+// Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar,
+// (Más que nada para no tener total_utilizados siempre "pegado" a capacidad)
 void VectorDepartamento :: Reajustar()
 {
     if (Totalutilizados() < Capacidad())
@@ -223,8 +268,6 @@ void VectorDepartamento :: Reajustar()
 // COPIARDATOS
 // Copiar datos desde otro Departamento de la clase
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
-//
-// PRE: Se ha reservado memoria para los datos
 void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 {
     if (this != &otro)
@@ -240,6 +283,7 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
         total_utilizados = otro.Totalutilizados();
     }
 
+    // Redimensiono para no estár "ajustado" entre capacidad y total_utilizados
     Redimensionar();
 }
 
@@ -247,8 +291,15 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 // RESERVAMEMORIA
 // Pide memoria para guardar una copia de los datos de "otro"
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
+// PRE: num_casillas > 0
 void VectorDepartamento :: ReservaMemoria(const int num_casillas)
 {
+    if (num_casillas <= 0)
+    {
+        cerr << "Error: El número de casillas debe ser mayor que 0" << endl;
+        exit(1);
+    }
+    
 	vector_privado = new Departamento[num_casillas]; 
 	capacidad = num_casillas; 
 }
@@ -339,13 +390,21 @@ void VectorDepartamento :: Redimensionar (void)
 // PRE: 0 <= indice < total_utilizados
 Departamento & VectorDepartamento :: Valor(int indice) const
 {
+    comprobacion_indice(indice);
+    
+    return vector_privado[indice];
+}
+
+/***********************************************************************/
+// comprobacion_indice: Comprueba si el índice es válido
+// PRE: 0 <= indice < total_utilizados
+void VectorDepartamento :: comprobacion_indice(int indice) const
+{
     if (indice < 0 || indice >= Totalutilizados())
     {
         cerr << "Error en la función Valor: índice fuera de rango" << endl;
         exit(1);
     }
-    
-    return vector_privado[indice];
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
