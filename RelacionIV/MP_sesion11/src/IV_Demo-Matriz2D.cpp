@@ -161,12 +161,13 @@ que debe devolver una de 3x3: ";
 	//......................................................................
     // Prueba del método Inserta
     mbase.Inserta(1, secuencia);
-	cout << "Matriz base con fila insertada en la fila 1: ";
+	cout << "Matriz base con fila insertada en la fila 1:";
 	cout << mbase.ToString ();
 
 	//......................................................................
 	// Clon de matriz base
-	Matriz2D matrizclonada = mbase;
+	Matriz2D matrizclonada;
+	matrizclonada = mbase;
 	
 	cout << "Clon de matriz base (operador asignación): ";
 	cout << matrizclonada.ToString ();
@@ -203,14 +204,14 @@ que debe devolver una de 3x3: ";
     cout << "Pruebo el operador + (Matriz2D + Matriz2D):\n";
     cout << "m1:\n" << m1.ToString() << endl;
     cout << "m2:\n" << m2.ToString() << endl;
-    Matriz2D suma1 = m1 + m2;
+    Matriz2D suma1(m1 + m2);
     cout << "m1 + m2: \n" << suma1.ToString() << endl;
 
 	//......................................................................
     // Probar el operador + con Matriz2D y TipoBase
     cout << "Pruebo el operador + (Matriz2D + TipoBase):\n";
     cout << "m1:\n" << m1.ToString() << endl;
-    Matriz2D suma2 = m1 + 3;
+    Matriz2D suma2(m1 + 3);
     cout << "m1 + 3: \n" << suma2.ToString() << endl;
 
 	//......................................................................
@@ -218,15 +219,15 @@ que debe devolver una de 3x3: ";
     cout << "Pruebo el operador - (Matriz2D - Matriz2D):\n";
     cout << "m1:\n" << m1.ToString() << endl;
     cout << "m2:\n" << m2.ToString() << endl;
-    Matriz2D resta1 = m1 - m2;
+    Matriz2D resta1(m1 - m2);
     cout << "m1 - m2: \n" << resta1.ToString() << endl;
 
 	//......................................................................
     // Probar el operador - con Matriz2D y TipoBase
     cout << "Pruebo el operador - (Matriz2D - TipoBase):\n";
     cout << "m1:\n" << m1.ToString() << endl;
-    Matriz2D resta2 = m1 - 5;
-    cout << "m1 - 0.5: \n" << resta2.ToString() << endl;
+    Matriz2D resta2(m1 - 5);
+    cout << "m1 - 5	: \n" << resta2.ToString() << endl;
 
 	//......................................................................
     // Probar el operador +=
@@ -248,15 +249,23 @@ que debe devolver una de 3x3: ";
 	// Probar el operador * con Matriz2D y TipoBase
 	cout << "Pruebo el operador * (Matriz2D * TipoBase):\n";
 	cout << "m1:\n" << m1.ToString() << endl;
-	Matriz2D mult1 = m1 * 2;
+	Matriz2D mult1(m1 * 2);
 	cout << "m1 * 2: \n" << mult1.ToString() << endl;
 
 	//......................................................................
 	// Probar el operador * con TipoBase y Matriz2D
 	cout << "Pruebo el operador * (TipoBase * Matriz2D):\n";
 	cout << "m2:\n" << m2.ToString() << endl;
-	Matriz2D mult2 = 3 * m2;
+	Matriz2D mult2(3 * m2);
 	cout << "3 * m2: \n" << mult2.ToString() << endl;
+	
+	//......................................................................
+	// Probar el operador + y - Matriz2D
+	cout << "Pruebo el operador + y - (Matriz2D + Matriz2D - Matriz2D):\n";
+	Matriz2D m1pos(+m1);
+	cout << "+m1:\n" << m1pos.ToString() << endl;
+	Matriz2D m1neg(-m1);
+	cout << "-m1:\n" << m1neg.ToString() << endl;
 	
 	return 0; 
 }

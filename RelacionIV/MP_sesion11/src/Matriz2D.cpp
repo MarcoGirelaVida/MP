@@ -85,6 +85,7 @@ Matriz2D :: Matriz2D(int nfils, int ncols, TipoBase valor)
 // Constructor de copia
 // Copia los datos de la matriz "otra" en la matriz a crear
 Matriz2D :: Matriz2D(const Matriz2D &otra)
+				 : datos(nullptr), fils(0), cols(0)
 {
 	CopiarDatos(otra);
 }
@@ -166,13 +167,13 @@ bool Matriz2D :: operator!=(const int valor) const
 /***************************************************************************/
 // Sobrecarga de los operadores unarios + y -
 // Operador +: Devuelve la matriz implícita sin modificar
-const Matriz2D & Matriz2D :: operator+ (void) const
+Matriz2D Matriz2D :: operator+ (void) const
 {
 	return *this;
 }
 
 // Operador -: Se invierten los valores de la matriz implítica
-const Matriz2D Matriz2D :: operator- (void) const
+Matriz2D Matriz2D :: operator- (void) const
 {
 	return ((*this) * (-1));
 }
@@ -190,13 +191,13 @@ Matriz2D operator+ (const Matriz2D m1, const Matriz2D & m2)
 {
 	// Inicializo la matriz resultado a m1 con el constructor copia
 	Matriz2D resultado(m1);
-	
+
 	// Sumo los valores de cada matriz uno a uno
 	for (int i = 1; i <= resultado.NumFilas(); i++)
 	{
 		for (int j = 1; j <= resultado.NumColumnas(); j++)
 		{
-			resultado(i, j) + m2(i+1, j+1);
+			resultado(i, j) += m2(i, j);
 		}
 	}
 
@@ -273,9 +274,9 @@ Matriz2D operator* (const Matriz2D & original, const TipoBase valor)
 	Matriz2D resultado(original);
 
 	// Multiplico cada elemento de original por valor
-	for (int i = 0; i < resultado.NumFilas(); i++)
+	for (int i = 1; i <= resultado.NumFilas(); i++)
 	{
-		for (int j = 0; j < resultado.NumColumnas(); j++)
+		for (int j = 1; j <= resultado.NumColumnas(); j++)
 		{
 			resultado(i, j) *= valor;
 		}
@@ -361,9 +362,6 @@ void Matriz2D :: EliminaTodos ()
 	{	
 		// Libero la memoria reservada para los datos
 		LiberaMemoria ();
-		datos = nullptr;
-		fils = 0;
-		cols = 0;
 	}
 }
 
@@ -413,13 +411,15 @@ bool Matriz2D :: EsIgualA (const Matriz2D & otra) const
 	// Si las matrices tienen las mismas dimensiones, comparo los datos
 	// Comparo los datos, si no da 0, son distintas.
 	int i = 0;
-	while (i<fils*cols && lo_son)
+	for (i = 1; i <= NumFilas() && lo_son; i++)
 	{
-		if (datos[0][i] != otra.Valor(0,i))
+		for (int j = 1; j <= NumColumnas() && lo_son; j++)
 		{
-			lo_son = false;
+			if ((*this)(i,j) != otra(i, j))
+			{
+				lo_son = false;
+			}
 		}
-		i++;
 	}
 	
 	return (lo_son);
@@ -481,24 +481,27 @@ Matriz2D Matriz2D :: SubMatriz (int fila_inic, int col_inic,\
 void Matriz2D :: Aniade (const Secuencia & fila_nueva)
 {
 	// Compruebo que la fila a añadir tiene el mismo número de columnas
-	if (fila_nueva.TotalUtilizados() != cols)
+	if (fila_nueva.TotalUtilizados() != NumColumnas())
 	{
 		cerr << "Error: La fila a añadir no tiene el mismo número de columnas\
- que la matriz" << endl;
+que la matriz" << endl;
 		 exit(1);
 	}
 
 	// Guardo los datos de la matriz original en un vector dinámico
-	TipoBase * tmp = new TipoBase[fils*cols];
-	memcpy(tmp, datos[0], fils*cols*sizeof(TipoBase));
+	TipoBase * tmp = new TipoBase[NumFilas()*NumColumnas()];
+	memcpy(tmp, datos[0], NumFilas()*NumColumnas()*sizeof(TipoBase));
 
+	int num_filas = NumFilas()+1;
+	int num_columnas = NumColumnas();
 	// Reservo memoria para la nueva matriz
-	ReservaMemoria(fils+1, cols);
+	LiberaMemoria();
+	ReservaMemoria(num_filas, num_columnas);
 
 	// Copio los datos de tmp a la original y le añado la nueva fila
-	memcpy(datos[0], tmp, fils*cols*sizeof(TipoBase));
+	memcpy(datos[0], tmp, (NumFilas()-1)*NumColumnas()*sizeof(TipoBase));
 	delete [] tmp;
-	memcpy(datos[fils-1], &fila_nueva.Valor(0), cols*sizeof(TipoBase));
+	memcpy(datos[NumFilas()-1], &fila_nueva.Valor(0), NumColumnas()*sizeof(TipoBase));
 }
 
 /****************************************************************************/
@@ -513,7 +516,7 @@ void Matriz2D :: Inserta (int indice, const Secuencia & fila_nueva)
 	if (fila_nueva.TotalUtilizados() != cols)
 	{
 		cerr << "Error: La fila a añadir no tiene el mismo número de columnas\
-		 que la matriz" << endl;
+que la matriz" << endl;
 		 exit(1);
 	}
 
@@ -529,7 +532,11 @@ void Matriz2D :: Inserta (int indice, const Secuencia & fila_nueva)
 	memcpy(tmp, datos[0], fils*cols*sizeof(TipoBase));
 
 	// Reservo memoria para la nueva matriz
-	ReservaMemoria(fils+1, cols);
+	int num_filas = NumFilas()+1;
+	int num_columnas = NumColumnas();
+
+	LiberaMemoria();
+	ReservaMemoria(num_filas, num_columnas);
 
 	// Copio el primer fragmento en la matriz original
 	memcpy(datos[0], &tmp[(indice-1)*cols], (indice-1)*cols*sizeof(TipoBase));
@@ -547,6 +554,13 @@ void Matriz2D :: Inserta (int indice, const Secuencia & fila_nueva)
 // PRE: 0 < num_fila/num_col <= fils/cols
 void Matriz2D :: EliminaFila (int num_fila)
 {
+	// Compruebo que el índice es correcto
+	if (num_fila < 1 || num_fila > fils)
+	{
+		cerr << "Error: El índice de la fila a eliminar no es correcto" << endl;
+		exit(1);
+	}
+
 	num_fila--;
 	// Uso la función "memmove" para sobreescribir sobre el fragmento a borrar
 	memmove(datos[num_fila-1], datos[num_fila],
@@ -572,6 +586,13 @@ void Matriz2D :: EliminaFila (int num_fila)
 //.............................................................................
 void Matriz2D :: EliminaColumna (int num_col)
 {
+	if (num_col < 1 || num_col > cols)
+	{
+		cerr << "Error: El número de columna a eliminar no es correcto" << endl;
+		exit(1);
+	}
+	
+	num_col--;
 	// Debido a que voy a liberar la memoria de matriz, almaceno los nfils/cols
 	int nuevo_nfils = fils;
 	int nuevo_ncols = cols - 1;
@@ -587,8 +608,8 @@ void Matriz2D :: EliminaColumna (int num_col)
 	He marcado con un * los componentes del a tercera columna (a omitir)
 
 	datos = | 1 2 3* 4 | 5 6 7* 8 | 9 1 2* 3 | 4 5 6* 7 | 8 9 1* 2 |
-					 ---    -------    -------    -------    -------   ---
-					 INI	  B1          B2         B3         B4     FIN
+			  ---    -------    -------    -------    -------   ---
+			  INI		B1			B2        B3         B4     FIN
 
 	Observe que para copiar el contenido de datos sin la tercera columna
 	lo que debemos hacer es copiar:
@@ -685,32 +706,35 @@ void Matriz2D :: EspejoVertical ()
 
 void Matriz2D :: ReservaMemoria (int nfils, int ncols)
 {
-
-	// Por defecto, matriz vacía
-	datos = nullptr;
-	fils  = 0;
-	cols  = 0;
-
-	// Solo si se cumplen las precondiciones se reserva memoria 
-	if (nfils>0 && ncols>0)
+	if (datos != nullptr)
 	{
-		// Actualizo los campos de la matriz
-		fils = nfils;
-		cols = ncols;
+		cerr << "ERROR: No se ha liberado memoria antes de reservar memoria" << endl;
+		exit(1);
+	}
+	
+	// Solo si se cumplen las precondiciones se reserva memoria 
+	if (nfils<0 || ncols<0)
+	{
+		cerr << "ERROR: No se puede reservar memoria para una matriz vacía" << endl;
+		exit(1);
+	}
 
-		// "matriz" apuntará a un vector de punteros a cada filas
-		datos = new int * [nfils];
+	// Actualizo los campos de la matriz
+	fils = nfils;
+	cols = ncols;
 
-		// El primer elemento de datos apuntará al inicio de la "super-fila"
-		// Esta será una super-fila de nfilas*ncols TipoBases (en este caso int)
-		datos[0] = new TipoBase [nfils*ncols];
+	// "matriz" apuntará a un vector de punteros a cada filas
+	datos = new TipoBase * [nfils];
 
-		// Asigno a cada fila su posición de inicio
-		// (numero de la fila * numero de columnas)
-		for (int f=1; f<nfils; f++)
-		{
-			datos[f] = &datos[0][f*ncols];
-		}
+	// El primer elemento de datos apuntará al inicio de la "super-fila"
+	// Esta será una super-fila de nfilas*ncols TipoBases (en este caso int)
+	datos[0] = new TipoBase [nfils*ncols];
+
+	// Asigno a cada fila su posición de inicio
+	// (numero de la fila * numero de columnas)
+	for (int f=1; f<nfils; f++)
+	{
+		datos[f] = &datos[0][f*ncols];
 	}
 }
 
@@ -744,14 +768,28 @@ void Matriz2D :: LiberaMemoria ()
 
 void Matriz2D :: CopiarDatos (const Matriz2D & otra)
 {
-	// Limpio la matriz destino (me da igual lo que hubiese)
-	LiberaMemoria();
+	if (this != &otra)
+	{
+		// Limpio la matriz destino (me da igual lo que hubiese)
+		LiberaMemoria();
 
-	// Reservo memoria para la matriz destino
-	ReservaMemoria(otra.NumFilas(), otra.NumColumnas());
+		// Reservo memoria para la matriz destino
+		ReservaMemoria(otra.NumFilas(), otra.NumColumnas());
 
-	// Copio los datos de la matriz origen en la matriz destino
-	memcpy(datos[0], &otra.Valor(0,0), (otra.NumFilas()*cols)*sizeof(TipoBase));
+		// Copio los datos de la matriz origen en la matriz destino
+		for (int i = 1; i <= otra.NumFilas(); i++)
+		{
+			for (int j = 1; j <= otra.NumColumnas(); j++)
+			{
+				(*this)(i,j) = otra(i, j);
+			}
+		}
+	}
+	else
+	{
+		cerr << "Error: Copia de una matriz sobre sí misma" << endl;
+		exit(1);
+	}
 }
 
 /***************************************************************************/
@@ -766,19 +804,19 @@ void Matriz2D :: CopiarDatos (const Matriz2D & otra)
 
 TipoBase & Matriz2D :: Valor (const int num_fila, const int num_columna) const
 {
-	// El primer if es para que se pueda procesar la matriz como tipo dos
-	if (num_fila!=0)
+	if (num_fila < 0 || num_fila >= fils || 
+	num_columna < 0 || num_columna >= cols)
 	{
-		if (num_fila < 0 || num_fila >= fils || 
-		num_columna < 0 || num_columna >= cols)
-		{
 			cerr << "Error: Acceso a una posición no válida de la matriz" << endl;
-			cout << "Se está intentando acceder a la posición: " << num_fila << ", " << num_columna << endl;
-			cout << "La matriz tiene " << fils << " filas y " << cols << " columnas" << endl;
+
+			cerr << "Se está intentando acceder a la posición: " \
+			<< num_fila << ", " << num_columna << endl;
+
+			cerr << "La matriz tiene " << fils << " filas y " <<\
+			cols << " columnas" << endl;
 			exit(1);
-		}
 	}
-	
+
 	return (datos[num_fila][num_columna]);
 }
 ////////////////////////////////////////////////////////////////////////////

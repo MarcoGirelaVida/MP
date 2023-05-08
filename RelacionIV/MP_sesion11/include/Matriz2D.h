@@ -108,10 +108,10 @@ bool operator !=(const int valor) const;
 /***************************************************************************/
 // Sobrecarga de los operadores unarios + y -
 // Operador +: Devuelve la matriz implícita sin modificar
-const Matriz2D & operator + (void) const;
+Matriz2D operator + (void) const;
 
 // Operador -: Se invierten los valores de la matriz implítica
-const Matriz2D operator - (void) const;
+Matriz2D operator - (void) const;
 
 /***************************************************************************/
 // Sobrecarga de los operadores binarios + y -
