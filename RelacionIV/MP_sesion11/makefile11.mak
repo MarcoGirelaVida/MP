@@ -145,4 +145,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_sesion10.tar src include obj lib bin makefile10.mak
+	tar -cvf MP_sesion11.tar src include obj lib bin makefile11.mak
