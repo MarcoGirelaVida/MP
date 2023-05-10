@@ -117,6 +117,55 @@ public:
     Departamento & operator()(int indice) ;
 
     /***************************************************************************/
+    // Sobrecarga de operador +
+    // Versión 1: VectorDepartamento + VectorDepartamento
+    // Concatena dos datos VectorDepartamento en uno nuevo. Los valo-
+    // res del segundo se añaden (en el mismo orden) en una copia del primero.
+    // Parámetros: otro (referencia), VectorDepartamento que se añade.
+    // no se añadirá Departamento a VectorDepartamento si ya está dentro
+    friend VectorDepartamento operator+(const VectorDepartamento &uno, \
+                                        const VectorDepartamento &otro);
+
+    //Versión 2: [VectorDepartamento] + [Departamento]
+    //Añade un dato Departamento al final de una copia del VectorDepartamento.
+    // no se añadirá Departamento a VectorDepartamento si ya está dentro
+    friend VectorDepartamento operator+(const VectorDepartamento &original, \
+                                        const Departamento &obj);
+    
+    //Versión 3: [Departamento] + [VectorDepartamento]
+    // Inserta el dato Departamento al principio de una copia del
+    // VectorDepartamento.
+    // no se añadirá Departamento a VectorDepartamento si ya está dentro
+    friend VectorDepartamento operator + (const Departamento &obj, \
+                                           const VectorDepartamento &original);
+
+    /***************************************************************************/
+    //Versión 1: [VectorDepartamento] - [VectorDepartamento]
+    //Elimina de una copia del objeto implícito los datos Departamento cuyo
+    //campo clave (Id_depto) esté presente en los datos Departamento
+    //del objeto explícito.
+    //si el valor del Id_depto usado para la eliminación no se
+    //encuentra en el objeto implícito no se haría nada.
+    VectorDepartamento operator-(const VectorDepartamento &obj);
+
+    //Versión 2: [VectorDepartamento] - [Departamento]
+    //Elimina de una copia del VectorDepartamento el dato
+    //Departamento cuyo campo clave (Id_depto) sea igual al del
+    //valor incluido en el objeto Departamento.
+    //si el valor del Id_depto usado para la eliminación no se
+    //encuentra en el objeto implícito no se haría nada 
+    VectorDepartamento operator-(const Departamento &obj);
+
+    //Versión 3: [VectorDepartamento] - [string]
+    //Elimina de una copia del VectorDepartamento el dato
+    //Departamento cuyo campo clave (Id_depto) sea igual al string dado.
+    //si el valor del Id_depto usado para la eliminación no se
+    //encuentra en el objeto implícito no se haría nada 
+    VectorDepartamento operator-(const string &obj);
+
+    /***************************************************************************/
+    // Operator *
+    /***************************************************************************/
     // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
     // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
     int BuscarDepto(Departamento dep) const;
