@@ -96,7 +96,9 @@ string VectorProfesor :: Serializar() const
         int numero = i + 1;
         string cadena_inicial = to_string(numero) + ".- ";
         cad += vector_privado[i].ToString(true, cadena_inicial) + "\n";
-    }   
+    }
+
+    return cad;
 }
 
 /***********************************************************************/

@@ -135,7 +135,7 @@ using namespace std;
 
         if (Id_depto || Nombre)
         {
-            if (strlen(Id_depto) && strlen(Nombre))
+            if (strlen(Id_depto) || strlen(Nombre))
             {
                 cadena += (string) Id_depto + "    ";
                 cadena += (string) Nombre + "\n";
@@ -172,7 +172,7 @@ using namespace std;
 
         if (this != &otro)
         {
-            if (strcmp(Id_depto, otro.GetId_Dpto()) == 0)
+            if (GetId_Dpto() == otro.GetId_Dpto())
             {
                 son_iguales = true;
             }

@@ -10,8 +10,8 @@
 // Fichero: VectorObjeto.h
 /*****************************************************************************/
 
-#ifndef VECTOR_OBJETO
-#define VECTOR_OBJETO
+#ifndef VECTOR_Objeto
+#define VECTOR_Objeto
 
 #include <iostream>
 #include <string>
@@ -45,8 +45,8 @@ private:
     //-------------------------ATRIBUTOS------------------------------------//
     /*************************************************************************/
     // ATRIBUTOS
-    Objeto * vector_privado; // Puntero a un vector de objetos
-    int total_utilizados; // Número de objetos almacenados
+    Objeto * vector_privado; // Puntero a un vector de Objetos
+    int total_utilizados; // Número de Objetos almacenados
     int capacidad; // Tamaño del vector
     
 public:
@@ -64,7 +64,7 @@ public:
 
     /************************************************************************/
     // Constructor de copia
-    // Parámetros: otro (referencia), objeto que sirve de modelo. 
+    // Parámetros: otro (referencia), Objeto que sirve de modelo. 
     VectorObjeto(const VectorObjeto &otro);
 
     /************************************************************************/
@@ -81,7 +81,7 @@ public:
 
     /*************************************************************************/
     // Métodos get
-    objeto getObjeto(int indice) const;
+    Objeto getObjeto(int indice) const;
 
     /***************************************************************************/
     // Métodos set
@@ -93,7 +93,7 @@ public:
 
     /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.
-	// Parámetros: otro (referencia), objeto que sirve de modelo. 
+	// Parámetros: otro (referencia), Objeto que sirve de modelo. 
     VectorObjeto &operator=(const VectorObjeto &otro);
 
     /***********************************************************************/
@@ -117,8 +117,130 @@ public:
     Objeto & operator()(int indice) ;
 
     /***************************************************************************/
+    // Sobrecarga de operador +
+    // Versión 1: VectorObjeto + VectorObjeto
+    // Concatena dos datos VectorObjeto en uno nuevo. Los valo-
+    // res del segundo se añaden (en el mismo orden) en una copia del primero.
+    // Parámetros: otro (referencia), VectorObjeto que se añade.
+    // no se añadirá Objeto a VectorObjeto si ya está dentro
+    friend VectorObjeto operator+ (const VectorObjeto &uno, \
+                                        const VectorObjeto &otro);
+
+    //Versión 2: [VectorObjeto] + [Objeto]
+    //Añade un dato Objeto al final de una copia del VectorObjeto.
+    // no se añadirá Objeto a VectorObjeto si ya está dentro
+    friend VectorObjeto operator+ (const VectorObjeto &v_obj, \
+                                        const Objeto &obj);
+    
+    //Versión 3: [Objeto] + [VectorObjeto]
+    // Inserta el dato Objeto al principio de una copia del
+    // VectorObjeto.
+    // no se añadirá Objeto a VectorObjeto si ya está dentro
+    friend VectorObjeto operator+ (const Objeto &obj, \
+                                           const VectorObjeto &v_obj);
+
+    /***************************************************************************/
+    //Versioperatorón 1: [VectorObjeto] - [VectorObjeto]
+    //Elimina de una copia del objeto implícito los datos Objeto cuyo
+    //campo clave esté presente en los datos Objeto
+    //del objeto explícito.
+    //si Objeto no se encuentra en el objeto implícito no se hará nada 
+    VectorObjeto operator- (const VectorObjeto &v_obj) const;
+
+    //Versión 2: [VectorObjeto] - [Objeto]
+    //Elimina de una copia del VectorObjeto el dato
+    //Objeto cuyo campo clave sea igual al del
+    //valor incluido en el objeto Objeto.
+    //si Objeto no se encuentra en el objeto implícito no se hará nada 
+    VectorObjeto operator- (const Objeto &obj) const;
+
+    //Versión 3: [VectorObjeto] - [string]
+    //Elimina de una copia del VectorObjeto el dato
+    //Objeto cuyo campo clave sea igual al string dado.
+    //si Objeto no se encuentra en el objeto implícito no se hará nada 
+    VectorObjeto operator- (const string &obj) const;
+
+    /***************************************************************************/
+    // Operator *
+    //Versión 1: [VectorObjeto] * [VectorObjeto]
+    //Devuelve un nuevo VectorObjeto que contiene to-
+    //dos los datos Objeto comunes entre los dos VectorObjeto
+    VectorObjeto operator* (const VectorObjeto &V_obj) const;
+
+    /***************************************************************************/
+    // Operator &&
+    //Versión 1: [VectorObjeto] && [VectorObjeto]
+    //Devuelve true si el primer VectorObjeto contiene todos los
+    //datos que están en el segundo VectorObjeto.
+    friend bool operator&& (const VectorObjeto &v_obj1,\
+                            const VectorObjeto &v_obj2);
+
+    // Versión 2: [VectorObjeto] && [Objeto]
+    //Devuelve true si VectorObjeto contiene al dato
+    friend bool operator&& (const VectorObjeto &v_obj,\
+                            const Objeto &obj);
+
+    // Versión 3: [Objeto] && [VectorObjeto]
+    //Devuelve true si VectorObjeto contiene al dato
+    friend bool operator&& (const Objeto &obj,\
+                            const VectorObjeto &v_obj);
+
+    // Versión 4: [VectorObjeto] && [string]
+    // Devuelve true si VectorObjeto contiene al dato
+    // Objeto cuyo campo clave coincide con el string
+    friend bool operator&& (const VectorObjeto &v_obj,\
+                            const string &cadena);
+
+    // Versión 5: [string] && [VectorObjeto]
+    // Devuelve true si VectorObjeto contiene al dato
+    // Objeto cuyo campo clave coincide con el string
+    friend bool operator&& (const string &cadena,\
+                            const VectorObjeto &v_obj);
+    /***************************************************************************/
+    // Operator +=
+    // Versión 1: [VectorObjeto] += [VectorObjeto]
+    // Todos los valores del objeto explícito se añaden (en el mismo orden en
+    // el que están en el objeto explícito) al objeto implícito 
+    // no se añadirá Objeto a VectorObjeto si ya está dentro
+    VectorObjeto & operator+= (const VectorObjeto & v_obj);
+
+    // Versión 2: [VectorObjeto] += [Objeto]
+    //Añade un dato Objeto al final del objeto implícito.
+    // no se añadirá Objeto a VectorObjeto si ya está dentro
+    VectorObjeto & operator+= (const Objeto & obj);
+
+    /***************************************************************************/
+    // Operador -=:
+    // Versión 1: [VectorObjeto] -= [VectorObjeto]
+    //Elimina del objeto implícito los datos Objeto que
+    // esté presente en los datos Objeto del objeto
+    //explícito.
+    //si Objeto no se encuentra en el objeto implícito no se hará nada 
+    VectorObjeto & operator-= (const VectorObjeto & v_obj);
+
+    //Versión 2: [VectorObjeto] -= [Objeto]
+    //Elimina del objeto implícito el dato Objeto
+    //si Objeto no se encuentra en el objeto implícito no se hará nada 
+    VectorObjeto & operator-= (const Objeto & obj);
+
+    //Versión 3: [VectorObjeto] -= [string]
+    //Elimina del objeto implícito el dato Objeto cuyo campo clave
+    //sea igual al string dado
+    //si Objeto no se encuentra en el objeto implícito no se hará nada 
+    VectorObjeto & operator-= (const string & obj);
+
+    /***************************************************************************/
+    // Método BuscarObjeto: Recibe una clave primaria y la busca en el vector
+    // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
+    // Versión 1: Busca el Objeto dado un objeto Objeto
+    int BuscarObjeto(const Objeto &obj) const;
+
+    // Versión 2: Busca el Objeto según el campo clave
+    int BuscarObjeto(const string &cadena) const;
+
+    /***************************************************************************/
     // Aniade Objeto al final del vector
-    void AniadeObjeto(Objeto &obj);
+    void AniadeObjeto(const Objeto &obj);
 
     /***************************************************************************/
     // Inserta Objeto en el vector
@@ -129,24 +251,24 @@ public:
     void EliminaObjeto(int indice);
 
     /***************************************************************************/
-    // Elimina todos los objetos del vector
+    // Elimina todos los Objetos del vector
     void EliminaTodos();
 
     /***************************************************************************/
     // Extrae Objeto del vector
-    Objeto ExtraeObjeto(int indice = Totalutilizados()-1);
+    Objeto ExtraeObjeto(int indice);
 
     /***************************************************************************/
     // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
-    void Reajustar()
+    void Reajustar();
     
 private:
     /*************************************************************************/
     //----------------------------MÉTODOS PRIVADOS----------------------------//
     /*************************************************************************/
     // COPIARDATOS
-    // Copiar datos desde otro objeto de la clase
-    // Parámetros: otro (referencia), objeto que sirve de modelo. 
+    // Copiar datos desde otro Objeto de la clase
+    // Parámetros: otro (referencia), Objeto que sirve de modelo. 
     //
     // PRE: Se ha reservado memoria para los datos
     void CopiarDatos(const VectorObjeto &otro);
@@ -154,7 +276,7 @@ private:
     /***********************************************************************/
     // RESERVAMEMORIA
     // Pide memoria para guardar una copia de los datos de "otro"
-    // Parámetros: otro (referencia), objeto que sirve de modelo. 
+    // Parámetros: otro (referencia), Objeto que sirve de modelo. 
     void ReservaMemoria(const int num_casillas);
 
     /***********************************************************************/
@@ -182,7 +304,21 @@ private:
     // VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
     // Puede funcionar como lvalue y como rvalue
     // PRE: 0 <= indice < total_utilizados
-    Objeto & Valor(int indice) const;
+    Objeto & Valor(const int indice) const;
+
+    /***********************************************************************/
+    // comprobacion_indice: Comprueba si el índice es válido
+    // PRE: 0 <= indice < total_utilizados
+    void comprobacion_indice_totalutilizados(const int indice) const;
+
+    /***********************************************************************/
+    // comprobacion_indice: Comprueba si el índice es válido
+    // PRE: 0 <= indice < capacidad
+    void comprobacion_indice_capacidad(const int indice) const;
+
+    bool indice_valido_usados(const int indice) const;
+
+    bool indice_valido_capacidad(const int indice) const;
 };
 
 #endif

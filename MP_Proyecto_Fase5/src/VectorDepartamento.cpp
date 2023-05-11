@@ -46,6 +46,17 @@ VectorDepartamento :: VectorDepartamento(const VectorDepartamento &otro)
 }
 
 /************************************************************************/
+// Constructor
+// Recibe como parámetro un Departamento que servirá para inicializar
+// el vector con un único elemento.
+VectorDepartamento :: VectorDepartamento(const Departamento &obj)
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{   
+    ReservaMemoria(TAMANIO);
+    (*this) += obj;
+}
+
+/************************************************************************/
 // Destructor
 VectorDepartamento :: ~VectorDepartamento()
 {
@@ -75,20 +86,21 @@ int VectorDepartamento :: EstaVacia() const
 // Métodos get
 Departamento VectorDepartamento :: getDepartamento(int indice) const
 {
-    return vector_privado[indice];
+    return (*this)[indice];
 }
 
 /***************************************************************************/
 // Métodos set
 void VectorDepartamento :: setDepartamento(int indice, Departamento &obj)
 {
-    if (BuscarDepto(obj) != -1)
+    if (BuscarDepartamento(obj))
     {
-        cerr << "Error: El departamento ya existe" << endl;
+        cerr << "Error: El Departamento ya existe" << endl;
         exit(1);
     }
 
-    vector_privado[indice] = obj;
+
+    (*this)[indice] = obj;
 }
 
 /***************************************************************************/
@@ -97,19 +109,21 @@ string VectorDepartamento :: Serializar() const
 {
     string cad;
 
-    for (int i = 0; i < Totalutilizados(); i++)
+    for (int i = 1; i <= Totalutilizados(); i++)
     {
-        int numero = i + 1;
+        int numero = i;
         string cadena_inicial = to_string(numero) + ".- ";
-        cad += vector_privado[i].ToString(cadena_inicial) + "\n";
+        cad += (*this)[i].ToString(cadena_inicial) + "\n";
     }
+
+    return cad;
 }
 
 /***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
 VectorDepartamento & VectorDepartamento :: operator=(const VectorDepartamento &otro)
-{
+{ 
     CopiarDatos(otro);
     return *this;
 }
@@ -119,6 +133,7 @@ VectorDepartamento & VectorDepartamento :: operator=(const VectorDepartamento &o
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator[](int indice) const
 {
+    comprobacion_indice_totalutilizados(indice);
     return Valor(indice-1);
 }
 
@@ -127,6 +142,7 @@ Departamento & VectorDepartamento :: operator[](int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator[](int indice)
 {
+    comprobacion_indice_capacidad(indice);
     return Valor(indice-1);
 }
 
@@ -135,7 +151,7 @@ Departamento & VectorDepartamento :: operator[](int indice)
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator()(int indice) const
 {
-    return (*this)[indice-1];
+    return (*this)[indice];
 }
 
 /***********************************************************************/
@@ -143,19 +159,274 @@ Departamento & VectorDepartamento :: operator()(int indice) const
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
 Departamento & VectorDepartamento :: operator()(int indice)
 {
-    return (*this)[indice-1];
+    return (*this)[indice];
 }
 
 /***************************************************************************/
-// Método BuscarDepto: Recibe un departamento y lo busca en el vector
-// Si está, devuelve el índice donde está almacenado, sino, devuelve -1
-int VectorDepartamento :: BuscarDepto(Departamento dep) const
+// Sobrecarga de operador +
+// Versión 1: VectorDepartamento + VectorDepartamento
+// Concatena los datos VectorDepartamento en uno nuevo. Los valo-
+// res del segundo se añaden (en el mismo orden) en una copia del primero.
+// Parámetros: otro (referencia), VectorDepartamento que se añade.
+// no se añadirá Departamento a VectorDepartamento si ya está dentro
+VectorDepartamento operator+ (const VectorDepartamento &uno, \
+                              const VectorDepartamento &otro)
 {
-    int indice = -1;
+    VectorDepartamento copia(uno);
 
-    for (int i = 0; i < Totalutilizados(); i++)
+    for (int i = 1; i <= otro.Totalutilizados(); i++)
     {
-        if (vector_privado[i] == dep)
+        copia += otro[i];
+    }
+    
+    return copia;
+}
+
+//Versión 2: [VectorDepartamento] + [Departamento]
+//Añade un dato Departamento al final de una copia del VectorDepartamento.
+// no se añadirá Departamento a VectorDepartamento si ya está dentro
+VectorDepartamento operator+ (const VectorDepartamento &v_obj, \
+                              const Departamento &obj)
+{
+    VectorDepartamento copia(v_obj);
+    copia.AniadeDepartamento(obj);
+    return copia;
+}
+
+// Versión 3: [Departamento] + [VectorDepartamento]
+// Inserta el dato Departamento al principio de una copia del
+// VectorDepartamento.
+// no se añadirá Departamento a VectorDepartamento si ya está dentro
+VectorDepartamento operator+ (const Departamento &obj, \
+                              const VectorDepartamento &v_obj)
+{
+    return v_obj + obj;
+}
+
+/***************************************************************************/
+//Versioperatorón 1: [VectorDepartamento] - [VectorDepartamento]
+//Elimina de una copia del objeto implícito los datos Departamento cuyo
+//campo clave esté presente en los datos Departamento
+//del objeto explícito.
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento VectorDepartamento :: operator-
+                                    (const VectorDepartamento &v_obj) const
+{
+    VectorDepartamento copia(*this);
+
+    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
+    {
+        copia -= v_obj[i];
+    }
+    
+    return copia;
+}
+
+//Versión 2: [VectorDepartamento] - [Departamento]
+//Elimina de una copia del VectorDepartamento el dato
+//Departamento cuyo campo clave sea igual al del
+//valor incluido en el objeto Departamento.
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento VectorDepartamento :: operator-
+                                            (const Departamento &obj) const
+{
+    VectorDepartamento copia(*this);
+
+    copia.EliminaDepartamento(copia.BuscarDepartamento(obj));
+
+    return copia;
+}
+
+//Versión 3: [VectorDepartamento] - [string]
+//Elimina de una copia del VectorDepartamento el dato
+//Departamento cuyo campo clave sea igual al string dado.
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento VectorDepartamento :: operator- (const string &cadena) const
+{
+    VectorDepartamento copia(*this);
+    copia.EliminaDepartamento(copia.BuscarDepartamento(cadena));
+
+    return copia;
+}
+
+/***************************************************************************/
+// Operator *
+//Versión 1: [VectorDepartamento] * [VectorDepartamento]
+//Devuelve un nuevo VectorDepartamento que contiene to-
+//dos los datos VectorDepartamento comunes entre los dos VectorDepartamento
+VectorDepartamento VectorDepartamento :: operator*
+                                    (const VectorDepartamento &v_obj) const
+{
+    VectorDepartamento comunes;
+
+    for (int i = 1; i <= Totalutilizados(); i++)
+    {
+        if (v_obj.BuscarDepartamento((*this)[i]))
+        {
+            comunes += (*this)[i];
+        }
+    }
+    
+    return comunes;
+}
+
+/***************************************************************************/
+// Operator &&
+//Versión 1: [VectorDepartamento] && [VectorDepartamento]
+//Devuelve true si el primer VectorDepartamento contiene todos los
+//datos que están en el segundo VectorDepartamento.
+bool operator&& (const VectorDepartamento &v_obj1,\
+                        const VectorDepartamento &v_obj2)
+{
+    bool estan_todos = true;
+
+    for (int i = 1; i <= v_obj2.Totalutilizados() && estan_todos; i++)
+    {
+        if (!(v_obj1 && v_obj2[i]))
+        {
+            estan_todos = false;
+        }
+    }
+    
+    return estan_todos;
+}
+
+// Versión 2: [VectorDepartamento] && [Departamento]
+//Devuelve true si VectorDepartamento contiene al dato
+bool operator&& (const VectorDepartamento &v_obj,\
+                        const Departamento &obj)
+{
+    bool esta_contenido = false;
+
+    if (v_obj.BuscarDepartamento(obj))
+    {
+        esta_contenido = true;
+    }
+    
+    return esta_contenido;
+}
+
+// Versión 3: [Departamento] && [VectorDepartamento]
+//Devuelve true si VectorDepartamento contiene al dato
+bool operator&& (const Departamento &obj,\
+                        const VectorDepartamento &v_obj)
+{
+    return v_obj && obj;
+}
+
+// Versión 4: [VectorDepartamento] && [string]
+// Devuelve true si VectorDepartamento contiene al dato
+// Departamento cuyo campo clave coincide con el string
+bool operator&& (const VectorDepartamento &v_obj,\
+                        const string &cadena)
+{
+    bool esta_contenido = false;
+
+    if (v_obj.BuscarDepartamento(cadena))
+    {
+        esta_contenido = true;
+    }
+    
+    return esta_contenido;
+}
+
+// Versión 5: [string] && [VectorDepartamento]
+// Devuelve true si VectorDepartamento contiene al dato
+// Departamento cuyo campo clave coincide con el string
+bool operator&& (const string &cadena,\
+                        const VectorDepartamento &v_obj)
+{
+    return v_obj && cadena;
+}
+/***************************************************************************/
+// Operator +=
+// Versión 1: [VectorDepartamento] += [VectorDepartamento]
+// Todos los valores del objeto explícito se añaden (en el mismo orden en
+// el que están en el objeto explícito) al objeto implícito 
+// no se añadirá Departamento a VectorDepartamento si ya está dentro
+VectorDepartamento & VectorDepartamento :: operator+= (const VectorDepartamento & v_obj)
+{
+    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
+    {
+        (*this) += v_obj[i];
+    }
+    
+    return *this;
+}
+
+// Versión 2: [VectorDepartamento] += [Departamento]
+//Añade un dato Departamento al final del objeto implícito.
+// no se añadirá Departamento a VectorDepartamento si ya está dentro
+VectorDepartamento & VectorDepartamento :: operator+= (const Departamento & obj)
+{
+    AniadeDepartamento(obj);
+    return *this;
+}
+
+/***************************************************************************/
+// Operador -=:
+// Versión 1: [VectorDepartamento] -= [VectorDepartamento]
+//Elimina del objeto implícito los datos Departamento que
+// esté presente en los datos Departamento del objeto
+//explícito.
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento & VectorDepartamento :: operator-= (const VectorDepartamento & v_obj)
+{
+    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
+    {
+        EliminaDepartamento(BuscarDepartamento(v_obj[i]));
+    }
+    
+    return *this;
+}
+
+//Versión 2: [VectorDepartamento] -= [Departamento]
+//Elimina del objeto implícito el dato Departamento
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento & VectorDepartamento :: operator-= (const Departamento & obj)
+{
+    EliminaDepartamento(BuscarDepartamento(obj));
+
+    return *this;
+}
+
+//Versión 3: [VectorDepartamento] -= [string]
+//Elimina del objeto implícito el dato Departamento cuyo campo clave
+//sea igual al string dado
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento & VectorDepartamento :: operator-= (const string & obj)
+{
+    EliminaDepartamento(BuscarDepartamento(obj));
+
+    return *this;
+}
+
+/***************************************************************************/
+// Método BuscarDepartamento: Recibe un Departamento y lo busca en el vector
+// Si está, devuelve el índice donde está almacenado, sino, devuelve 0
+// Versión 1: Busca el Departamento dado un objeto Departamento
+int VectorDepartamento :: BuscarDepartamento(const Departamento &obj) const
+{
+    int indice = 0;
+
+    for (int i = 1; i <= Totalutilizados(); i++)
+    {
+        if ((*this)[i] == obj)
+        {
+            indice = i;
+        }
+    }
+
+    return indice;
+}
+
+// Versión 2: Busca el Departamento según el campo clave ********
+int VectorDepartamento :: BuscarDepartamento(const string &cadena) const
+{
+    int indice = 0;
+    for (int i = 1; i <= Totalutilizados(); i++)
+    {
+        if ((*this)[i].GetId_Dpto() == cadena)
         {
             indice = i;
         }
@@ -166,60 +437,64 @@ int VectorDepartamento :: BuscarDepto(Departamento dep) const
 
 /***************************************************************************/
 // Aniade Departamento al final del vector 
-void VectorDepartamento :: AniadeDepartamento(Departamento &obj)
+void VectorDepartamento :: AniadeDepartamento(const Departamento &obj)
 {
-    if (BuscarDepto(obj) != -1)
+    if (BuscarDepartamento(obj))
     {
-        cerr << "Error: Se ha intentado añadir un departamento que ya existe"\
+        cerr << "Error: Se ha intentado añadir un Departamento que ya existe"\
              << endl;
         exit(1);
     }
-    
+
     total_utilizados++;
+
+    (*this)[Totalutilizados()] = obj;
+
     Redimensionar();
-
-    setDepartamento(Totalutilizados()-1, obj);
-
-    cout << obj.ToString("Leido: ");
 }
 
 /***************************************************************************/
 // Inserta Departamento en el vector
+// PRE: 1 <= indice <= Totalutilizados()
+// PRE: El Departamento no existe en el vector
 void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
 {
-    if (BuscarDepto(obj) != -1)
+    if (BuscarDepartamento(obj))
     {
-        cerr << "Error: Se ha intentado insertar un departamento que ya existe"\
+        cerr << "Error: Se ha intentado insertar un Departamento que ya existe"\
              << endl;
         exit(1);
     }
     
     total_utilizados++;
-    Redimensionar();
 
-    for (int i = Totalutilizados() - 1; i > indice; i--)
+    for (int i = Totalutilizados(); i >= indice; i--)
     {
-        vector_privado[i] = vector_privado[i-1];
+        (*this)[i] = (*this)[i-1];
     }
 
-    setDepartamento(indice, obj);
+    (*this)[indice] = obj;
+
+    Redimensionar();
+
 }
 
 /***************************************************************************/
 // Elimina Departamento del vector
-// PRE: 0 <= indice < Totalutilizados()
+// PRE: 1 <= indice <= Totalutilizados()
 void VectorDepartamento :: EliminaDepartamento(int indice)
 {
-    comprobacion_indice(indice);
-
-    for (int indice; indice < Totalutilizados(); indice++)
+    if(indice_valido_usados(indice))
     {
-        vector_privado[indice] = vector_privado[indice+1];
+        while (indice < Totalutilizados())
+        {
+            (*this)[indice] = (*this)[indice+1];
+            indice++;
+        }
+
+        total_utilizados--;
+        Redimensionar();
     }
-
-    total_utilizados--;
-
-    Redimensionar();
 }
 
 /***************************************************************************/
@@ -231,14 +506,12 @@ void VectorDepartamento :: EliminaTodos()
 
 /***************************************************************************/
 // Extrae Departamento del vector
-// PRE: 0 <= indice < Totalutilizados()
+// PRE: 1 <= indice <= Totalutilizados()
 Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
 {
-    comprobacion_indice(indice);
-    
     Departamento obj;
 
-    obj = getDepartamento(indice);
+    obj = (*this)[indice];
     EliminaDepartamento(indice);
 
     return obj;
@@ -275,9 +548,9 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
         LiberarMemoria();
         ReservaMemoria(otro.Capacidad());
 
-        for (int i = 0; i < otro.Totalutilizados(); i++)
+        for (int i = 1; i <= otro.Totalutilizados(); i++)
         {
-            vector_privado[i] = otro.getDepartamento(i);
+            (*this)[i] = otro[i];
         }
 
         total_utilizados = otro.Totalutilizados();
@@ -367,20 +640,16 @@ void VectorDepartamento :: Redimensionar (void)
         #endif
 
         // Pedir memoria para el nuevo almacen 
-        Departamento * tmp = new Departamento[capacidad]; 
+        // Versión Antigua: (por si acaso)
+        Departamento * tmp = new Departamento[capacidad];
 
-        // Copiar los datos 
-        for (int i = 0; i < Totalutilizados() - 1; i++)
+        for (int i = 1; i <= Totalutilizados() && Totalutilizados(); i++)
         {
-            tmp[i] = vector_privado[i]; // El operador = debe estar correctamente implementado
+            tmp[i-1] = (*this)[i];
         }
 
-        // Liberar la memoria del antiguo almacén
-        delete [] vector_privado; 
-
-        // Reasignacion del puntero "vector_privado" para que referencie 
-        // a la nueva zona de memoria ampliada y con los datos copiados. 
-        vector_privado = tmp; 
+        delete [] vector_privado;
+        vector_privado = tmp;
     }
 }
 
@@ -390,21 +659,45 @@ void VectorDepartamento :: Redimensionar (void)
 // PRE: 0 <= indice < total_utilizados
 Departamento & VectorDepartamento :: Valor(int indice) const
 {
-    comprobacion_indice(indice);
-    
     return vector_privado[indice];
 }
 
 /***********************************************************************/
 // comprobacion_indice: Comprueba si el índice es válido
 // PRE: 0 <= indice < total_utilizados
-void VectorDepartamento :: comprobacion_indice(int indice) const
+void VectorDepartamento :: comprobacion_indice_totalutilizados(const int indice) const
 {
-    if (indice < 0 || indice >= Totalutilizados())
+    if (!indice_valido_usados(indice))
     {
-        cerr << "Error en la función Valor: índice fuera de rango" << endl;
+        cerr << "Error en sobrecargo [] const: índice fuera de rango" << endl;
+        cerr << "El índice debe estar entre 1 y " << Totalutilizados() << endl;
+        cerr << "El índice introducido es: " << indice << endl;
         exit(1);
     }
+}
+
+/***********************************************************************/
+// comprobacion_indice: Comprueba si el índice es válido
+// PRE: 0 <= indice < capacidad
+void VectorDepartamento :: comprobacion_indice_capacidad(const int indice) const
+{
+    if (!indice_valido_capacidad(indice))
+    {
+        cerr << "Error en sobrecarga [] no-const: índice fuera de rango" << endl;
+        cerr << "El índice debe estar entre 1 y " << Capacidad() << endl;
+        cerr << "El índice introducido es: " << indice << endl;
+        exit(1);
+    }
+}
+
+bool VectorDepartamento ::  indice_valido_usados(const int indice) const
+{
+    return (indice >= 1 && indice <= Totalutilizados());
+}
+
+bool VectorDepartamento ::  indice_valido_capacidad(const int indice) const
+{
+    return (indice >= 1 && indice <= Capacidad());
 }
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

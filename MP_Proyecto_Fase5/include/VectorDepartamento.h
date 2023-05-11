@@ -68,6 +68,12 @@ public:
     VectorDepartamento(const VectorDepartamento &otro);
 
     /************************************************************************/
+    // Constructor
+    // Recibe como parámetro un Departamento que servirá para inicializar
+    // el vector con un único elemento.
+    VectorDepartamento(const Departamento &obj);
+
+    /************************************************************************/
     // Destructor
     ~VectorDepartamento();
 
@@ -123,56 +129,124 @@ public:
     // res del segundo se añaden (en el mismo orden) en una copia del primero.
     // Parámetros: otro (referencia), VectorDepartamento que se añade.
     // no se añadirá Departamento a VectorDepartamento si ya está dentro
-    friend VectorDepartamento operator+(const VectorDepartamento &uno, \
+    friend VectorDepartamento operator+ (const VectorDepartamento &uno, \
                                         const VectorDepartamento &otro);
 
     //Versión 2: [VectorDepartamento] + [Departamento]
     //Añade un dato Departamento al final de una copia del VectorDepartamento.
     // no se añadirá Departamento a VectorDepartamento si ya está dentro
-    friend VectorDepartamento operator+(const VectorDepartamento &original, \
+    friend VectorDepartamento operator+ (const VectorDepartamento &v_obj, \
                                         const Departamento &obj);
     
     //Versión 3: [Departamento] + [VectorDepartamento]
     // Inserta el dato Departamento al principio de una copia del
     // VectorDepartamento.
     // no se añadirá Departamento a VectorDepartamento si ya está dentro
-    friend VectorDepartamento operator + (const Departamento &obj, \
-                                           const VectorDepartamento &original);
+    friend VectorDepartamento operator+ (const Departamento &obj, \
+                                           const VectorDepartamento &v_obj);
 
     /***************************************************************************/
-    //Versión 1: [VectorDepartamento] - [VectorDepartamento]
+    //Versioperatorón 1: [VectorDepartamento] - [VectorDepartamento]
     //Elimina de una copia del objeto implícito los datos Departamento cuyo
-    //campo clave (Id_depto) esté presente en los datos Departamento
+    //campo clave esté presente en los datos Departamento
     //del objeto explícito.
-    //si el valor del Id_depto usado para la eliminación no se
-    //encuentra en el objeto implícito no se haría nada.
-    VectorDepartamento operator-(const VectorDepartamento &obj);
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento operator- (const VectorDepartamento &v_obj) const;
 
     //Versión 2: [VectorDepartamento] - [Departamento]
     //Elimina de una copia del VectorDepartamento el dato
-    //Departamento cuyo campo clave (Id_depto) sea igual al del
+    //Departamento cuyo campo clave sea igual al del
     //valor incluido en el objeto Departamento.
-    //si el valor del Id_depto usado para la eliminación no se
-    //encuentra en el objeto implícito no se haría nada 
-    VectorDepartamento operator-(const Departamento &obj);
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento operator- (const Departamento &obj) const;
 
     //Versión 3: [VectorDepartamento] - [string]
     //Elimina de una copia del VectorDepartamento el dato
-    //Departamento cuyo campo clave (Id_depto) sea igual al string dado.
-    //si el valor del Id_depto usado para la eliminación no se
-    //encuentra en el objeto implícito no se haría nada 
-    VectorDepartamento operator-(const string &obj);
+    //Departamento cuyo campo clave sea igual al string dado.
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento operator- (const string &obj) const;
 
     /***************************************************************************/
     // Operator *
+    //Versión 1: [VectorDepartamento] * [VectorDepartamento]
+    //Devuelve un nuevo VectorDepartamento que contiene to-
+    //dos los datos Departamento comunes entre los dos VectorDepartamento
+    VectorDepartamento operator* (const VectorDepartamento &V_obj) const;
+
+    /***************************************************************************/
+    // Operator &&
+    //Versión 1: [VectorDepartamento] && [VectorDepartamento]
+    //Devuelve true si el primer VectorDepartamento contiene todos los
+    //datos que están en el segundo VectorDepartamento.
+    friend bool operator&& (const VectorDepartamento &v_obj1,\
+                            const VectorDepartamento &v_obj2);
+
+    // Versión 2: [VectorDepartamento] && [Departamento]
+    //Devuelve true si VectorDepartamento contiene al dato
+    friend bool operator&& (const VectorDepartamento &v_obj,\
+                            const Departamento &obj);
+
+    // Versión 3: [Departamento] && [VectorDepartamento]
+    //Devuelve true si VectorDepartamento contiene al dato
+    friend bool operator&& (const Departamento &obj,\
+                            const VectorDepartamento &v_obj);
+
+    // Versión 4: [VectorDepartamento] && [string]
+    // Devuelve true si VectorDepartamento contiene al dato
+    // Departamento cuyo campo clave coincide con el string
+    friend bool operator&& (const VectorDepartamento &v_obj,\
+                            const string &cadena);
+
+    // Versión 5: [string] && [VectorDepartamento]
+    // Devuelve true si VectorDepartamento contiene al dato
+    // Departamento cuyo campo clave coincide con el string
+    friend bool operator&& (const string &cadena,\
+                            const VectorDepartamento &v_obj);
+    /***************************************************************************/
+    // Operator +=
+    // Versión 1: [VectorDepartamento] += [VectorDepartamento]
+    // Todos los valores del objeto explícito se añaden (en el mismo orden en
+    // el que están en el objeto explícito) al objeto implícito 
+    // no se añadirá Departamento a VectorDepartamento si ya está dentro
+    VectorDepartamento & operator+= (const VectorDepartamento & v_obj);
+
+    // Versión 2: [VectorDepartamento] += [Departamento]
+    //Añade un dato Departamento al final del objeto implícito.
+    // no se añadirá Departamento a VectorDepartamento si ya está dentro
+    VectorDepartamento & operator+= (const Departamento & obj);
+
+    /***************************************************************************/
+    // Operador -=:
+    // Versión 1: [VectorDepartamento] -= [VectorDepartamento]
+    //Elimina del objeto implícito los datos Departamento que
+    // esté presente en los datos Departamento del objeto
+    //explícito.
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento & operator-= (const VectorDepartamento & v_obj);
+
+    //Versión 2: [VectorDepartamento] -= [Departamento]
+    //Elimina del objeto implícito el dato Departamento
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento & operator-= (const Departamento & obj);
+
+    //Versión 3: [VectorDepartamento] -= [string]
+    //Elimina del objeto implícito el dato Departamento cuyo campo clave
+    //sea igual al string dado
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento & operator-= (const string & obj);
+
     /***************************************************************************/
     // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
     // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
-    int BuscarDepto(Departamento dep) const;
+    // Versión 1: Busca el departamento dado un objeto departamento
+    int BuscarDepartamento(const Departamento &obj) const;
+
+    // Versión 2: Busca el departamento según el campo clave
+    int BuscarDepartamento(const string &cadena) const;
 
     /***************************************************************************/
     // Aniade Departamento al final del vector
-    void AniadeDepartamento(Departamento &obj);
+    void AniadeDepartamento(const Departamento &obj);
 
     /***************************************************************************/
     // Inserta Departamento en el vector
@@ -236,12 +310,21 @@ private:
     // VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
     // Puede funcionar como lvalue y como rvalue
     // PRE: 0 <= indice < total_utilizados
-    Departamento & Valor(int indice) const;
+    Departamento & Valor(const int indice) const;
 
     /***********************************************************************/
     // comprobacion_indice: Comprueba si el índice es válido
     // PRE: 0 <= indice < total_utilizados
-    void comprobacion_indice(int indice) const;
+    void comprobacion_indice_totalutilizados(const int indice) const;
+
+    /***********************************************************************/
+    // comprobacion_indice: Comprueba si el índice es válido
+    // PRE: 0 <= indice < capacidad
+    void comprobacion_indice_capacidad(const int indice) const;
+
+    bool indice_valido_usados(const int indice) const;
+
+    bool indice_valido_capacidad(const int indice) const;
 };
 
 #endif
