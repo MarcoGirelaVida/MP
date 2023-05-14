@@ -93,9 +93,7 @@ int main()
 			
 
 		Departamento un_departamento (linea);
-
 		departamentos += un_departamento;
-
 		// Leer la siguiente linea 
 		getline(cin, linea); 
 		
@@ -303,7 +301,6 @@ int main()
 	cout << endl; 
 
 
-
 	// ..................................................................
 	// OPERATOR *
 
@@ -359,7 +356,7 @@ int main()
 	cout << inter3.Serializar() << endl;
 	cout << endl; 
 
-	VectorDepartamento prueba2(Departamento("(CCIA)", "hola?"));
+	VectorDepartamento prueba2(Departamento("(CCIA)", ""));
 	cout << "Prueba2: " << prueba2.Serializar();
 	VectorDepartamento inter4 = (departamentos * prueba2);
 
@@ -412,24 +409,23 @@ int main()
 	     << boolalpha << (suma && otro_vector) << endl;
 	cout << endl; 
 
-
-	Departamento buscado_esta ("CCIA", "");
-	Departamento buscado_no_esta ("PEPE", "");
+	Departamento buscado_esta ("(CCIA)", "");
+	Departamento buscado_no_esta ("(PEPE)", "");
 
 	cout << "buscado_esta: " << buscado_esta.ToString() << endl;	
 	cout << "buscado_no_esta: " << buscado_no_esta.ToString() << endl;	
 	cout << endl; 
 
 	cout << "departamentos && buscado_esta: "  
-	     << boolalpha << (departamentos && buscado_esta) << endl;
+	     << boolalpha <<(bool) (departamentos && buscado_esta) << endl;
 	cout << "departamentos && buscado_no_esta: " 
-	     << boolalpha << (departamentos && buscado_no_esta) << endl;
+	     << boolalpha <<(bool) (departamentos && buscado_no_esta) << endl;
 	cout << endl; 
 
 	cout << "buscado_esta && departamentos: "  
-	     << boolalpha << (buscado_esta && departamentos) << endl;
+	     << boolalpha <<(bool) (buscado_esta && departamentos) << endl;
 	cout << "buscado_no_esta && departamentos: " 
-	     << boolalpha << (buscado_no_esta && departamentos) << endl;
+	     << boolalpha <<(bool) (buscado_no_esta && departamentos) << endl;
 	cout << endl; 
 
 
@@ -521,9 +517,6 @@ int main()
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
 	cout << otro_vector.Serializar() << endl;
 	cout << endl; 
-
-
-	otro_vector.Reajustar();
 
 	cout << endl; 
 	cout << "otro_vector: " << endl;	

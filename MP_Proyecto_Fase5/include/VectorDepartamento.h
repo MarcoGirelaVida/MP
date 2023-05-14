@@ -85,10 +85,6 @@ public:
     int Capacidad() const;
     int EstaVacia() const;
 
-    /*************************************************************************/
-    // Métodos get
-    Departamento getDepartamento(int indice) const;
-
     /***************************************************************************/
     // Métodos set
     void setDepartamento(int indice, Departamento &obj);
@@ -182,25 +178,31 @@ public:
                             const VectorDepartamento &v_obj2);
 
     // Versión 2: [VectorDepartamento] && [Departamento]
-    //Devuelve true si VectorDepartamento contiene al dato
-    friend bool operator&& (const VectorDepartamento &v_obj,\
+    // Devuelve un int con el indice del VectorDepartamento que
+    // contiene al dato Departamento.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const VectorDepartamento &v_obj,\
                             const Departamento &obj);
 
     // Versión 3: [Departamento] && [VectorDepartamento]
-    //Devuelve true si VectorDepartamento contiene al dato
-    friend bool operator&& (const Departamento &obj,\
+    // Devuelve un int con el indice del VectorDepartamento que
+    // contiene al dato Departamento.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const Departamento &obj,\
                             const VectorDepartamento &v_obj);
 
     // Versión 4: [VectorDepartamento] && [string]
-    // Devuelve true si VectorDepartamento contiene al dato
-    // Departamento cuyo campo clave coincide con el string
-    friend bool operator&& (const VectorDepartamento &v_obj,\
+    // Devuelve un int con el indice del VectorDepartamento que
+    // contiene al dato Departamento cuyo campo clave coincide con el string.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const VectorDepartamento &v_obj,\
                             const string &cadena);
 
     // Versión 5: [string] && [VectorDepartamento]
-    // Devuelve true si VectorDepartamento contiene al dato
-    // Departamento cuyo campo clave coincide con el string
-    friend bool operator&& (const string &cadena,\
+    // Devuelve un int con el indice del VectorDepartamento que
+    // contiene al dato Departamento cuyo campo clave coincide con el string.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const string &cadena,\
                             const VectorDepartamento &v_obj);
     /***************************************************************************/
     // Operator +=
@@ -235,26 +237,15 @@ public:
     //si Departamento no se encuentra en el objeto implícito no se hará nada 
     VectorDepartamento & operator-= (const string & obj);
 
-    /***************************************************************************/
-    // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
-    // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
-    // Versión 1: Busca el departamento dado un objeto departamento
-    int BuscarDepartamento(const Departamento &obj) const;
+    //Versión 4: [VectorDepartamento] -= [int]
+    //Elimina del objeto implícito el dato Departamento cuyo indice sea int
+    //si Departamento no se encuentra en el objeto implícito no se hará nada 
+    VectorDepartamento & operator-= (const int & indice);
 
-    // Versión 2: Busca el departamento según el campo clave
-    int BuscarDepartamento(const string &cadena) const;
-
-    /***************************************************************************/
-    // Aniade Departamento al final del vector
-    void AniadeDepartamento(const Departamento &obj);
 
     /***************************************************************************/
     // Inserta Departamento en el vector
     void InsertaDepartamento(Departamento &obj, int indice);
-
-    /***************************************************************************/
-    // Elimina Departamento del vector
-    void EliminaDepartamento(int indice);
 
     /***************************************************************************/
     // Elimina todos los Departamentos del vector
@@ -264,10 +255,6 @@ public:
     // Extrae Departamento del vector
     Departamento ExtraeDepartamento(int indice);
 
-    /***************************************************************************/
-    // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
-    void Reajustar();
-    
 private:
     /*************************************************************************/
     //----------------------------MÉTODOS PRIVADOS----------------------------//
@@ -279,16 +266,37 @@ private:
     // PRE: Se ha reservado memoria para los datos
     void CopiarDatos(const VectorDepartamento &otro);
 
+    /***************************************************************************/
+    // Aniade Departamento al final del vector
+    void AniadeDepartamento(const Departamento &obj);
+
+    /***************************************************************************/
+    // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
+    // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
+    // Versión 1: Busca el departamento dado un objeto departamento
+    int BuscarDepartamento(const Departamento &obj) const;
+
+    // Versión 2: Busca el departamento según el campo clave
+    int BuscarDepartamento(const string &cadena) const;
+
     /***********************************************************************/
     // RESERVAMEMORIA
     // Pide memoria para guardar una copia de los datos de "otro"
     // Parámetros: otro (referencia), Departamento que sirve de modelo. 
     void ReservaMemoria(const int num_casillas);
 
+    /***************************************************************************/
+    // Elimina Departamento del vector
+    void EliminaDepartamento(int indice);
+
     /***********************************************************************/
     // LIBERARMEMORIA
     void LiberarMemoria();
 
+    /***************************************************************************/
+    // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
+    void Reajustar();
+    
     /***********************************************************************/
     // REDIMENSIONAR
 	// Redimensiona el vector dinámico y copia los datos en el nuevo almacén.  

@@ -42,7 +42,7 @@ VectorDepartamento :: VectorDepartamento(int la_capacidad)
 VectorDepartamento :: VectorDepartamento(const VectorDepartamento &otro)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
 {
-    CopiarDatos(otro);
+    (*this) = otro;
 }
 
 /************************************************************************/
@@ -53,14 +53,14 @@ VectorDepartamento :: VectorDepartamento(const Departamento &obj)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
 {   
     ReservaMemoria(TAMANIO);
-    (*this) += obj;
+    AniadeDepartamento(obj);
 }
 
 /************************************************************************/
 // Destructor
 VectorDepartamento :: ~VectorDepartamento()
 {
-    LiberarMemoria();
+    EliminaTodos();
 }
 
 /*************************************************************************/
@@ -82,23 +82,15 @@ int VectorDepartamento :: EstaVacia() const
     return (Totalutilizados() == 0);
 }
 
-/*************************************************************************/
-// Métodos get
-Departamento VectorDepartamento :: getDepartamento(int indice) const
-{
-    return (*this)[indice];
-}
-
 /***************************************************************************/
 // Métodos set
 void VectorDepartamento :: setDepartamento(int indice, Departamento &obj)
 {
-    if (BuscarDepartamento(obj))
+    if ((*this) && obj)
     {
         cerr << "Error: El Departamento ya existe" << endl;
         exit(1);
     }
-
 
     (*this)[indice] = obj;
 }
@@ -178,7 +170,7 @@ VectorDepartamento operator+ (const VectorDepartamento &uno, \
     {
         copia += otro[i];
     }
-    
+
     return copia;
 }
 
@@ -189,7 +181,7 @@ VectorDepartamento operator+ (const VectorDepartamento &v_obj, \
                               const Departamento &obj)
 {
     VectorDepartamento copia(v_obj);
-    copia.AniadeDepartamento(obj);
+    copia += obj;
     return copia;
 }
 
@@ -213,12 +205,8 @@ VectorDepartamento VectorDepartamento :: operator-
                                     (const VectorDepartamento &v_obj) const
 {
     VectorDepartamento copia(*this);
+    copia -= v_obj;
 
-    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
-    {
-        copia -= v_obj[i];
-    }
-    
     return copia;
 }
 
@@ -232,7 +220,7 @@ VectorDepartamento VectorDepartamento :: operator-
 {
     VectorDepartamento copia(*this);
 
-    copia.EliminaDepartamento(copia.BuscarDepartamento(obj));
+    copia -= obj;
 
     return copia;
 }
@@ -244,7 +232,8 @@ VectorDepartamento VectorDepartamento :: operator-
 VectorDepartamento VectorDepartamento :: operator- (const string &cadena) const
 {
     VectorDepartamento copia(*this);
-    copia.EliminaDepartamento(copia.BuscarDepartamento(cadena));
+
+    copia -= cadena;
 
     return copia;
 }
@@ -261,7 +250,7 @@ VectorDepartamento VectorDepartamento :: operator*
 
     for (int i = 1; i <= Totalutilizados(); i++)
     {
-        if (v_obj.BuscarDepartamento((*this)[i]))
+        if (v_obj && (*this)[i])
         {
             comunes += (*this)[i];
         }
@@ -280,6 +269,11 @@ bool operator&& (const VectorDepartamento &v_obj1,\
 {
     bool estan_todos = true;
 
+    if (v_obj1.Totalutilizados() < v_obj2.Totalutilizados())
+    {
+        estan_todos = false;
+    }
+
     for (int i = 1; i <= v_obj2.Totalutilizados() && estan_todos; i++)
     {
         if (!(v_obj1 && v_obj2[i]))
@@ -293,22 +287,15 @@ bool operator&& (const VectorDepartamento &v_obj1,\
 
 // Versión 2: [VectorDepartamento] && [Departamento]
 //Devuelve true si VectorDepartamento contiene al dato
-bool operator&& (const VectorDepartamento &v_obj,\
+int operator&& (const VectorDepartamento &v_obj,\
                         const Departamento &obj)
 {
-    bool esta_contenido = false;
-
-    if (v_obj.BuscarDepartamento(obj))
-    {
-        esta_contenido = true;
-    }
-    
-    return esta_contenido;
+    return v_obj.BuscarDepartamento(obj);
 }
 
-// Versión 3: [Departamento] && [VectorDepartamento]
+// Versión 3: [Departamento] && [VectorDepartament	// No entiendo qué se supone que tiene que hacer este constructoro]
 //Devuelve true si VectorDepartamento contiene al dato
-bool operator&& (const Departamento &obj,\
+int operator&& (const Departamento &obj,\
                         const VectorDepartamento &v_obj)
 {
     return v_obj && obj;
@@ -317,23 +304,16 @@ bool operator&& (const Departamento &obj,\
 // Versión 4: [VectorDepartamento] && [string]
 // Devuelve true si VectorDepartamento contiene al dato
 // Departamento cuyo campo clave coincide con el string
-bool operator&& (const VectorDepartamento &v_obj,\
+int operator&& (const VectorDepartamento &v_obj,\
                         const string &cadena)
 {
-    bool esta_contenido = false;
-
-    if (v_obj.BuscarDepartamento(cadena))
-    {
-        esta_contenido = true;
-    }
-    
-    return esta_contenido;
+    return v_obj.BuscarDepartamento(cadena);
 }
 
 // Versión 5: [string] && [VectorDepartamento]
 // Devuelve true si VectorDepartamento contiene al dato
 // Departamento cuyo campo clave coincide con el string
-bool operator&& (const string &cadena,\
+int operator&& (const string &cadena,\
                         const VectorDepartamento &v_obj)
 {
     return v_obj && cadena;
@@ -346,10 +326,7 @@ bool operator&& (const string &cadena,\
 // no se añadirá Departamento a VectorDepartamento si ya está dentro
 VectorDepartamento & VectorDepartamento :: operator+= (const VectorDepartamento & v_obj)
 {
-    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
-    {
-        (*this) += v_obj[i];
-    }
+   *this = *this + v_obj;
     
     return *this;
 }
@@ -359,8 +336,8 @@ VectorDepartamento & VectorDepartamento :: operator+= (const VectorDepartamento 
 // no se añadirá Departamento a VectorDepartamento si ya está dentro
 VectorDepartamento & VectorDepartamento :: operator+= (const Departamento & obj)
 {
-    AniadeDepartamento(obj);
-    return *this;
+    (*this).AniadeDepartamento(obj);
+    return (*this);
 }
 
 /***************************************************************************/
@@ -372,11 +349,12 @@ VectorDepartamento & VectorDepartamento :: operator+= (const Departamento & obj)
 //si Departamento no se encuentra en el objeto implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const VectorDepartamento & v_obj)
 {
+
     for (int i = 1; i <= v_obj.Totalutilizados(); i++)
     {
-        EliminaDepartamento(BuscarDepartamento(v_obj[i]));
+        (*this) -= v_obj[i];
     }
-    
+
     return *this;
 }
 
@@ -385,7 +363,7 @@ VectorDepartamento & VectorDepartamento :: operator-= (const VectorDepartamento 
 //si Departamento no se encuentra en el objeto implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const Departamento & obj)
 {
-    EliminaDepartamento(BuscarDepartamento(obj));
+    (*this) -= ((*this) && obj);
 
     return *this;
 }
@@ -396,9 +374,94 @@ VectorDepartamento & VectorDepartamento :: operator-= (const Departamento & obj)
 //si Departamento no se encuentra en el objeto implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const string & obj)
 {
-    EliminaDepartamento(BuscarDepartamento(obj));
+    (*this) -= ((*this) && obj);
 
     return *this;
+}
+
+//Versión 4: [VectorDepartamento] -= [int]
+//Elimina del objeto implícito el dato Departamento cuyo indice sea int
+//si Departamento no se encuentra en el objeto implícito no se hará nada 
+VectorDepartamento & VectorDepartamento :: operator-= (const int & indice)
+{
+    if (indice_valido_usados(indice))
+    {
+        EliminaDepartamento(indice);
+    }
+
+    return *this;
+}
+
+
+/***************************************************************************/
+// Inserta Departamento en el vector
+// PRE: 1 <= indice <= Totalutilizados()
+// PRE: El Departamento no existe en el vector
+void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
+{
+    if ((*this) && obj)
+    {
+        cerr << "Error: Se ha intentado insertar un Departamento que ya existe"\
+             << endl;
+        exit(1);
+    }
+    
+    total_utilizados++;
+
+    for (int i = Totalutilizados(); i >= indice; i--)
+    {
+        (*this)[i] = (*this)[i-1];
+    }
+
+    (*this)[indice] = obj;
+
+    Redimensionar();
+
+}
+
+
+/***************************************************************************/
+// Elimina todos los Departamentos del vector
+void VectorDepartamento :: EliminaTodos()
+{
+    LiberarMemoria();
+}
+
+/***************************************************************************/
+// Extrae Departamento del vector
+// PRE: 1 <= indice <= Totalutilizados()
+Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
+{
+    Departamento obj((*this)[indice]);
+
+    (*this) -= (*this)[indice];
+
+    return obj;
+}
+
+/*************************************************************************/
+//----------------------------MÉTODOS PRIVADOS----------------------------//
+/*************************************************************************/
+// COPIARDATOS
+// Copiar datos desde otro Departamento de la clase
+// Parámetros: otro (referencia), Departamento que sirve de modelo. 
+void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
+{
+    if (this != &otro)
+    {
+        EliminaTodos();
+        ReservaMemoria(otro.Capacidad());
+
+        for (int i = 1; i <= otro.Totalutilizados(); i++)
+        {
+            (*this)[i] = otro[i];
+        }
+
+        total_utilizados = otro.Totalutilizados();
+    }
+
+    // Redimensiono para no estár "ajustado" entre capacidad y total_utilizados
+    //Redimensionar();
 }
 
 /***************************************************************************/
@@ -439,44 +502,17 @@ int VectorDepartamento :: BuscarDepartamento(const string &cadena) const
 // Aniade Departamento al final del vector 
 void VectorDepartamento :: AniadeDepartamento(const Departamento &obj)
 {
-    if (BuscarDepartamento(obj))
+    if ((*this) && obj)
     {
         cerr << "Error: Se ha intentado añadir un Departamento que ya existe"\
              << endl;
         exit(1);
     }
-
     total_utilizados++;
 
     (*this)[Totalutilizados()] = obj;
 
     Redimensionar();
-}
-
-/***************************************************************************/
-// Inserta Departamento en el vector
-// PRE: 1 <= indice <= Totalutilizados()
-// PRE: El Departamento no existe en el vector
-void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
-{
-    if (BuscarDepartamento(obj))
-    {
-        cerr << "Error: Se ha intentado insertar un Departamento que ya existe"\
-             << endl;
-        exit(1);
-    }
-    
-    total_utilizados++;
-
-    for (int i = Totalutilizados(); i >= indice; i--)
-    {
-        (*this)[i] = (*this)[i-1];
-    }
-
-    (*this)[indice] = obj;
-
-    Redimensionar();
-
 }
 
 /***************************************************************************/
@@ -497,24 +533,35 @@ void VectorDepartamento :: EliminaDepartamento(int indice)
     }
 }
 
-/***************************************************************************/
-// Elimina todos los Departamentos del vector
-void VectorDepartamento :: EliminaTodos()
+/***********************************************************************/
+// RESERVAMEMORIA
+// Pide memoria para guardar una copia de los datos de "otro"
+// Parámetros: otro (referencia), Departamento que sirve de modelo. 
+// PRE: num_casillas > 0
+void VectorDepartamento :: ReservaMemoria(const int num_casillas)
 {
-    LiberarMemoria();
+    if (num_casillas < 0)
+    {
+        cerr << "Error: El número de casillas debe ser mayor que 0" << endl;
+        exit(1);
+    }
+    
+	vector_privado = new Departamento[num_casillas]; 
+	capacidad = num_casillas; 
 }
 
-/***************************************************************************/
-// Extrae Departamento del vector
-// PRE: 1 <= indice <= Totalutilizados()
-Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
+/***********************************************************************/
+// LIBERARMEMORIA
+void VectorDepartamento :: LiberarMemoria()
 {
-    Departamento obj;
+    if (!EstaVacia())
+	{ 
+		delete [] vector_privado;
 
-    obj = (*this)[indice];
-    EliminaDepartamento(indice);
-
-    return obj;
+		vector_privado = nullptr;
+		capacidad = 0; 
+		total_utilizados = 0;
+	}
 }
 
 /***************************************************************************/
@@ -534,61 +581,6 @@ void VectorDepartamento :: Reajustar()
         // Lo igualo al temporal
         vector_privado = tmp;
     }
-}
-/*************************************************************************/
-//----------------------------MÉTODOS PRIVADOS----------------------------//
-/*************************************************************************/
-// COPIARDATOS
-// Copiar datos desde otro Departamento de la clase
-// Parámetros: otro (referencia), Departamento que sirve de modelo. 
-void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
-{
-    if (this != &otro)
-    {
-        LiberarMemoria();
-        ReservaMemoria(otro.Capacidad());
-
-        for (int i = 1; i <= otro.Totalutilizados(); i++)
-        {
-            (*this)[i] = otro[i];
-        }
-
-        total_utilizados = otro.Totalutilizados();
-    }
-
-    // Redimensiono para no estár "ajustado" entre capacidad y total_utilizados
-    Redimensionar();
-}
-
-/***********************************************************************/
-// RESERVAMEMORIA
-// Pide memoria para guardar una copia de los datos de "otro"
-// Parámetros: otro (referencia), Departamento que sirve de modelo. 
-// PRE: num_casillas > 0
-void VectorDepartamento :: ReservaMemoria(const int num_casillas)
-{
-    if (num_casillas <= 0)
-    {
-        cerr << "Error: El número de casillas debe ser mayor que 0" << endl;
-        exit(1);
-    }
-    
-	vector_privado = new Departamento[num_casillas]; 
-	capacidad = num_casillas; 
-}
-
-/***********************************************************************/
-// LIBERARMEMORIA
-void VectorDepartamento :: LiberarMemoria()
-{
-    if (vector_privado)
-	{ 
-		delete [] vector_privado;
-
-		vector_privado = nullptr;
-		capacidad = 0; 
-		total_utilizados = 0;
-	}
 }
 
 /***********************************************************************/
@@ -629,7 +621,12 @@ void VectorDepartamento :: Redimensionar (void)
     {
         haceralgo = false;
     }
-    
+
+    // Si la capacidad es 0, la pongo a TAMANIO
+    if (!capacidad)
+    {
+        capacidad = TAMANIO;
+    }
 
     if (haceralgo)
     {

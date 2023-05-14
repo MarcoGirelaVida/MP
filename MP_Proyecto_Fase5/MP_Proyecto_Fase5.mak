@@ -155,7 +155,7 @@ $(BIN)/MP_Proyecto_Fase5 : $(OBJ)/main_MP_Proyecto_Fase5.o \
 	@echo 
 	@echo Creando ejecutable: MP_Proyecto_Fase5
 	@echo 
-	g++ -o $(BIN)/MP_Proyecto_Fase4 $(OBJ)/main_MP_Proyecto_Fase5.o \
+	g++ -o $(BIN)/MP_Proyecto_Fase5 $(OBJ)/main_MP_Proyecto_Fase5.o \
 	       -lAdscripcion \
 	       -lDepartamento \
 	       -lProfesor \
