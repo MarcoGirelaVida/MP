@@ -32,8 +32,12 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
 #................................................
 all:  preambulo \
-      $(BIN)/V_ \
-	  $(LIB)/lib.a \
+      $(BIN)/Cuentalineas \
+	  $(BIN)/CopiaLineasSinAlmohadilla\
+	  $(BIN)/CuentaCaracteresConcretos\
+	  $(BIN)/CuentaPalabrasLongitudConcreta\
+	  $(BIN)/Cuenta_palabras_por_linea\
+	  $(BIN)/VerificaDatosMatriz2D\
 	  final
 
 #................................................
@@ -59,37 +63,41 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/I_ : $(OBJ)/V_.o \
-	        $(OBJ)/.o  \
-	        $(LIB_CLASES_UTILS)/lib.a                     
+$(BIN)/Cuentalineas : $(SRC)/Cuentalineas.cpp                    
 	@echo 
-	@echo Creando ejecutable: V_
+	@echo Creando ejecutable: Cuentalineas
 	@echo 
-	g++ -o $(BIN)/V_ $(OBJ)/V_.o \
-	       $(OBJ)/.o   \
-	       -l -L$(LIB_CLASES_UTILS)
+	g++ -o $(BIN)/Cuentalineas $(SRC)/Cuentalineas.cpp -std=c++14
 
-#................................................
-# OBJETOS 
-
-$(OBJ)/V_.o : $(SRC)/V_.cpp \
-	           $(INCLUDE)/.h
+$(BIN)/CuentaPalabrasLongitudConcreta : $(SRC)/CuentaPalabrasLongitudConcreta.cpp                    
 	@echo 
-	@echo Creando objeto: V_.o
+	@echo Creando ejecutable: CuentaPalabrasLongitudConcreta
 	@echo 
-	g++ -c -o $(OBJ)/V_.o $(SRC)/V_.cpp \
-        -I$(INCLUDE) -std=c++14
+	g++ -o $(BIN)/CuentaPalabrasLongitudConcreta $(SRC)/CuentaPalabrasLongitudConcreta.cpp -std=c++14
 
-#................................................
-# BIBLIOTECAS 
-
-$(LIB)/lib.a : \
-	           $(OBJ)/.o
+$(BIN)/CopiaLineasSinAlmohadilla : $(SRC)/CopiaLineasSinAlmohadilla.cpp                    
 	@echo 
-	@echo Creando biblioteca: lib.a
-	@echo
-	ar rvs $(LIB)/lib.a \
-	       $(OBJ)/.o
+	@echo Creando ejecutable: CopiaLineasSinAlmohadilla
+	@echo 
+	g++ -o $(BIN)/CopiaLineasSinAlmohadilla $(SRC)/CopiaLineasSinAlmohadilla.cpp -std=c++14
+
+$(BIN)/Cuenta_palabras_por_linea : $(SRC)/Cuenta_palabras_por_linea.cpp                    
+	@echo 
+	@echo Creando ejecutable: Cuenta_palabras_por_linea
+	@echo 
+	g++ -o $(BIN)/Cuenta_palabras_por_linea $(SRC)/Cuenta_palabras_por_linea.cpp -std=c++14
+
+$(BIN)/VerificaDatosMatriz2D : $(SRC)/VerificaDatosMatriz2D.cpp                    
+	@echo 
+	@echo Creando ejecutable: VerificaDatosMatriz2D
+	@echo 
+	g++ -o $(BIN)/VerificaDatosMatriz2D $(SRC)/VerificaDatosMatriz2D.cpp -std=c++14
+
+$(BIN)/CuentaCaracteresConcretos : $(SRC)/CuentaCaracteresConcretos.cpp                    
+	@echo 
+	@echo Creando ejecutable: CuentaCaracteresConcretos
+	@echo 
+	g++ -o $(BIN)/CuentaCaracteresConcretos $(SRC)/CuentaCaracteresConcretos.cpp -std=c++14
 
 #................................................
 # LIMPEZA
