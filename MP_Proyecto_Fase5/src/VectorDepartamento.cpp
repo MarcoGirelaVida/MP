@@ -38,6 +38,7 @@ VectorDepartamento :: VectorDepartamento(int la_capacidad)
 
 /************************************************************************/
 // Constructor de copia
+// Crea un objeto copia del objeto proporcionado como argumento ("otro")
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
 VectorDepartamento :: VectorDepartamento(const VectorDepartamento &otro)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
@@ -67,16 +68,19 @@ VectorDepartamento :: ~VectorDepartamento()
 //----------------------------MÉTODOS------------------------------------//
 /*************************************************************************/
 // Métodos de acceso a los campos de la clase
+// Totalutilizados: Devuelve el número de elementos utilizados
 int VectorDepartamento :: Totalutilizados() const
 {
     return total_utilizados;
 }
 
+// Capacidad: Devuelve la capacidad actual del vector
 int VectorDepartamento :: Capacidad() const
 {
     return capacidad;
 }
 
+// EstaVacia: Devueve true si totalutilizados es 0 y false en caso contrario
 int VectorDepartamento :: EstaVacia() const
 {
     return (Totalutilizados() == 0);
@@ -84,7 +88,12 @@ int VectorDepartamento :: EstaVacia() const
 
 /***************************************************************************/
 // Métodos set
-void VectorDepartamento :: setDepartamento(int indice, Departamento &obj)
+// Sustituye el elemento "indice" del vector por el objeto proporcionado
+// Difiere de la sobrecarga = de la clase Departamento en que este método
+// comprueba que el objeto proporcionado no se encuentre en la cadena
+// Es el método que recomiendo usar a la hora de alterar los elementos del vector
+// PRE: 1 <= indice <= totalutilizados
+void VectorDepartamento :: setDepartamento(int indice, const Departamento &obj)
 {
     if ((*this) && obj)
     {
@@ -97,7 +106,8 @@ void VectorDepartamento :: setDepartamento(int indice, Departamento &obj)
 
 /***************************************************************************/
 // Método ToString
-string VectorDepartamento :: Serializar() const
+// Devuelve un string con la serialización de los objetos del vector implícito
+string VectorDepartamento :: ToString() const
 {
     string cad;
 
@@ -113,6 +123,7 @@ string VectorDepartamento :: Serializar() const
 
 /***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
+// Realiza una copia profunda de los datos de otro en el objeto implícito.
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
 VectorDepartamento & VectorDepartamento :: operator=(const VectorDepartamento &otro)
 { 
@@ -122,7 +133,7 @@ VectorDepartamento & VectorDepartamento :: operator=(const VectorDepartamento &o
 
 /***********************************************************************/
 // Sobrecarga del [].
-// Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
+// Parámetros: indice del elemento a consultar (total_utilizados => indice => 1)
 Departamento & VectorDepartamento :: operator[](int indice) const
 {
     comprobacion_indice_totalutilizados(indice);
@@ -131,7 +142,7 @@ Departamento & VectorDepartamento :: operator[](int indice) const
 
 /***********************************************************************/
 // Sobrecarga del ().
-// Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
+// Parámetros: indice del elemento a modificar (total_utilizados => indice > 0)
 Departamento & VectorDepartamento :: operator[](int indice)
 {
     comprobacion_indice_capacidad(indice);
@@ -140,7 +151,7 @@ Departamento & VectorDepartamento :: operator[](int indice)
 
 /***********************************************************************/
 // Sobrecarga del ().
-// Parámetros: indice del elemento a consultar (total_utilizados => indice > 0 ). 
+// Parámetros: indice del elemento a consultar (total_utilizados => indice > 0)
 Departamento & VectorDepartamento :: operator()(int indice) const
 {
     return (*this)[indice];
@@ -148,7 +159,7 @@ Departamento & VectorDepartamento :: operator()(int indice) const
 
 /***********************************************************************/
 // Sobrecarga del ().
-// Parámetros: indice del elemento a modificar (total_utilizados => indice > 0 ). 
+// Parámetros: indice del elemento a modificar (total_utilizados => indice > 0)
 Departamento & VectorDepartamento :: operator()(int indice)
 {
     return (*this)[indice];
@@ -286,15 +297,18 @@ bool operator&& (const VectorDepartamento &v_obj1,\
 }
 
 // Versión 2: [VectorDepartamento] && [Departamento]
-//Devuelve true si VectorDepartamento contiene al dato
+// Devuelve un int con el indice del VectorDepartamento que
+// contiene al dato Departamento.
+// Si no está contenido, devuelve 0.
 int operator&& (const VectorDepartamento &v_obj,\
                         const Departamento &obj)
 {
     return v_obj.BuscarDepartamento(obj);
 }
-
-// Versión 3: [Departamento] && [VectorDepartament	// No entiendo qué se supone que tiene que hacer este constructoro]
-//Devuelve true si VectorDepartamento contiene al dato
+// Versión 3: [Departamento] && [VectorDepartamento]
+// Devuelve un int con el indice del VectorDepartamento que
+// contiene al dato Departamento.
+// Si no está contenido, devuelve 0.
 int operator&& (const Departamento &obj,\
                         const VectorDepartamento &v_obj)
 {
@@ -302,8 +316,9 @@ int operator&& (const Departamento &obj,\
 }
 
 // Versión 4: [VectorDepartamento] && [string]
-// Devuelve true si VectorDepartamento contiene al dato
-// Departamento cuyo campo clave coincide con el string
+// Devuelve un int con el indice del VectorDepartamento que
+// contiene al dato Departamento cuyo campo clave coincide con el string.
+// Si no está contenido, devuelve 0.
 int operator&& (const VectorDepartamento &v_obj,\
                         const string &cadena)
 {
@@ -311,8 +326,9 @@ int operator&& (const VectorDepartamento &v_obj,\
 }
 
 // Versión 5: [string] && [VectorDepartamento]
-// Devuelve true si VectorDepartamento contiene al dato
-// Departamento cuyo campo clave coincide con el string
+// Devuelve un int con el indice del VectorDepartamento que
+// contiene al dato Departamento cuyo campo clave coincide con el string.
+// Si no está contenido, devuelve 0.
 int operator&& (const string &cadena,\
                         const VectorDepartamento &v_obj)
 {
@@ -394,11 +410,15 @@ VectorDepartamento & VectorDepartamento :: operator-= (const int & indice)
 
 
 /***************************************************************************/
+// INSERTADEPARTAMENTO
 // Inserta Departamento en el vector
+// Parámetros: Departamento a insertar y posición en la que insertarlo
 // PRE: 1 <= indice <= Totalutilizados()
 // PRE: El Departamento no existe en el vector
 void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
 {
+    // Realmente el método set ya hace esta comprobación, pero hasta llegar a
+    // el se altera por completo el vector, asi que hago la comprobación por dos
     if ((*this) && obj)
     {
         cerr << "Error: Se ha intentado insertar un Departamento que ya existe"\
@@ -408,12 +428,13 @@ void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
     
     total_utilizados++;
 
+    // Le hago hueco al elemento para introducirlo
     for (int i = Totalutilizados(); i >= indice; i--)
     {
         (*this)[i] = (*this)[i-1];
     }
 
-    (*this)[indice] = obj;
+    setDepartamento(indice, obj);
 
     Redimensionar();
 
@@ -428,7 +449,9 @@ void VectorDepartamento :: EliminaTodos()
 }
 
 /***************************************************************************/
+// EXTRAEDEPARTAMENTO
 // Extrae Departamento del vector
+// Elimina el Departamento indice del vector y lo devuelve
 // PRE: 1 <= indice <= Totalutilizados()
 Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
 {
@@ -445,6 +468,8 @@ Departamento VectorDepartamento :: ExtraeDepartamento(int indice)
 // COPIARDATOS
 // Copiar datos desde otro Departamento de la clase
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
+//
+// PRE: Se ha reservado memoria para los datos
 void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 {
     if (this != &otro)
@@ -454,7 +479,8 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 
         for (int i = 1; i <= otro.Totalutilizados(); i++)
         {
-            (*this)[i] = otro[i];
+            setDepartamento(i, otro[i]);
+            //(*this)[i] = otro[i]; <-- Más elegante, pero no hace comprobación
         }
 
         total_utilizados = otro.Totalutilizados();
@@ -465,6 +491,7 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 }
 
 /***************************************************************************/
+// BUSCARDEPARTAMENTO
 // Método BuscarDepartamento: Recibe un Departamento y lo busca en el vector
 // Si está, devuelve el índice donde está almacenado, sino, devuelve 0
 // Versión 1: Busca el Departamento dado un objeto Departamento
@@ -499,24 +526,23 @@ int VectorDepartamento :: BuscarDepartamento(const string &cadena) const
 }
 
 /***************************************************************************/
+// ANIADEDEPARTAMENTO
 // Aniade Departamento al final del vector 
+// Dicho Departamento no puede estar repetido
+// Parámetros: obj (referencia), Departamento que se va a añadir.
 void VectorDepartamento :: AniadeDepartamento(const Departamento &obj)
 {
-    if ((*this) && obj)
-    {
-        cerr << "Error: Se ha intentado añadir un Departamento que ya existe"\
-             << endl;
-        exit(1);
-    }
     total_utilizados++;
-
-    (*this)[Totalutilizados()] = obj;
+    // SetDepartamento comprueba si está repetido
+    setDepartamento(Totalutilizados(), obj);
 
     Redimensionar();
 }
 
 /***************************************************************************/
+// ELIMINADEPARTAMENTO
 // Elimina Departamento del vector
+// Parámetros: indice, int que indica el índice del Departamento
 // PRE: 1 <= indice <= Totalutilizados()
 void VectorDepartamento :: EliminaDepartamento(int indice)
 {
@@ -536,7 +562,7 @@ void VectorDepartamento :: EliminaDepartamento(int indice)
 /***********************************************************************/
 // RESERVAMEMORIA
 // Pide memoria para guardar una copia de los datos de "otro"
-// Parámetros: otro (referencia), Departamento que sirve de modelo. 
+// Parámetros: num_casillas: Número de casillas que se desean reservar. 
 // PRE: num_casillas > 0
 void VectorDepartamento :: ReservaMemoria(const int num_casillas)
 {
@@ -552,6 +578,7 @@ void VectorDepartamento :: ReservaMemoria(const int num_casillas)
 
 /***********************************************************************/
 // LIBERARMEMORIA
+// Libera la memoria dinámica reservada para el vector
 void VectorDepartamento :: LiberarMemoria()
 {
     if (!EstaVacia())
@@ -565,6 +592,7 @@ void VectorDepartamento :: LiberarMemoria()
 }
 
 /***************************************************************************/
+// REAJUSTAR
 // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar,
 // (Más que nada para no tener total_utilizados siempre "pegado" a capacidad)
 void VectorDepartamento :: Reajustar()
@@ -653,6 +681,7 @@ void VectorDepartamento :: Redimensionar (void)
 /***********************************************************************/
 // VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
 // Puede funcionar como lvalue y como rvalue
+// Es el único método que usa y debe usar el índice "real" (desde 0)
 // PRE: 0 <= indice < total_utilizados
 Departamento & VectorDepartamento :: Valor(int indice) const
 {
@@ -661,7 +690,8 @@ Departamento & VectorDepartamento :: Valor(int indice) const
 
 /***********************************************************************/
 // comprobacion_indice: Comprueba si el índice es válido
-// PRE: 0 <= indice < total_utilizados
+// En caso que lo sea, devuelve un mensaje de error y termina el programa
+// PRE: 1 <= indice <= total_utilizados
 void VectorDepartamento :: comprobacion_indice_totalutilizados(const int indice) const
 {
     if (!indice_valido_usados(indice))
@@ -675,7 +705,8 @@ void VectorDepartamento :: comprobacion_indice_totalutilizados(const int indice)
 
 /***********************************************************************/
 // comprobacion_indice: Comprueba si el índice es válido
-// PRE: 0 <= indice < capacidad
+// En caso que lo sea, devuelve un mensaje de error y termina el programa
+// PRE: 1 <= indice <= capacidad
 void VectorDepartamento :: comprobacion_indice_capacidad(const int indice) const
 {
     if (!indice_valido_capacidad(indice))
@@ -687,11 +718,19 @@ void VectorDepartamento :: comprobacion_indice_capacidad(const int indice) const
     }
 }
 
+/***********************************************************************/
+// Indice_valido_usados: Comprueba si el índice es válido
+// Devuelve true si el índice está entre 1 y total_utilizados
+// Devuelve false en caso contrario
 bool VectorDepartamento ::  indice_valido_usados(const int indice) const
 {
     return (indice >= 1 && indice <= Totalutilizados());
 }
 
+/***********************************************************************/
+// Indice_valido_capacidad: Comprueba si el índice es válido
+// Devuelve true si el índice está entre 1 y capacidad
+// Devuelve false en caso contrario
 bool VectorDepartamento ::  indice_valido_capacidad(const int indice) const
 {
     return (indice >= 1 && indice <= Capacidad());
