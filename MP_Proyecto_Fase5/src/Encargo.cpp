@@ -124,7 +124,7 @@ using namespace std;
 /***************************************************************************/
 // Método ToString
 
-    string Encargo :: ToString(string cadena_inicial)
+    string Encargo :: ToString(string cadena_inicial) const
     {
         string cadena = cadena_inicial;
 
@@ -153,6 +153,30 @@ using namespace std;
             CopiarDatos(otro);
         }
         return *this;
+    }
+    
+/***********************************************************************/
+// Sobrecarga del operador == para comprobar si un departamento es igual 
+// a otro (tiene la misma clave primaria)
+
+    bool Encargo :: operator == (const Encargo & otro) const
+    {
+        bool son_iguales = false;
+
+        if (this != &otro)
+        {
+            if (getCategoria() == otro.getCategoria())
+            {
+                son_iguales = true;
+            }
+        }
+        else
+        {
+            son_iguales = true;
+        }
+        
+
+        return son_iguales;
     }
 
 /*************************************************************************/

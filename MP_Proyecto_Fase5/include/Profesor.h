@@ -102,6 +102,12 @@ public:
     string ToString(bool mes_string = false, string cadena_inicial = "") const;
 
     /***********************************************************************/
+    // Sobrecarga del operador == para comprobar si un Profesor es igual 
+    // a otro (tiene la misma clave primaria)
+
+    bool operator == (const Profesor & otro) const;
+
+    /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.
 	// Parámetros: otro (referencia), objeto que sirve de modelo. 
 

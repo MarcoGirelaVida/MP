@@ -21,10 +21,10 @@
 
 
 #define DEBUG_DEPARTAMENTOS_DETALLE_FASE5
-/*#define DEBUG_PROFESORES_DETALLE
+#define DEBUG_PROFESORES_DETALLE
 #define DEBUG_ENCARGOS_DETALLE
 #define DEBUG_ADSCRIPCIONES_DETALLE
-*/
+
 
 /***************************************************************************/
 /***************************************************************************/
@@ -108,7 +108,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
 
@@ -126,7 +126,7 @@ int main()
 	cout << "departamentos antes de adiciones:" << endl; 
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 	
 
@@ -152,7 +152,7 @@ int main()
 	cout << "departamentos despues de adiciones:" << endl; 
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 	
 
@@ -164,7 +164,7 @@ int main()
 	cout << "departamentos despues intentar adicion de uno existente:" << endl; 
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
 
@@ -175,7 +175,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 	nuevo_depto.SetId_Dpto ("OTRO1");
@@ -211,7 +211,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 
@@ -222,7 +222,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << suma.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  suma.Totalutilizados() << endl;
-	cout << suma.Serializar() << endl;
+	cout << suma.ToString() << endl;
 	cout << endl; 
 
 
@@ -238,7 +238,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << suma_reducido.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  suma_reducido.Totalutilizados() << endl;
-	cout << suma_reducido.Serializar() << endl;
+	cout << suma_reducido.ToString() << endl;
 	cout << endl; 
 
 
@@ -249,7 +249,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << suma_reducido.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  suma_reducido.Totalutilizados() << endl;
-	cout << suma_reducido.Serializar() << endl;
+	cout << suma_reducido.ToString() << endl;
 	cout << endl; 
 
 
@@ -265,7 +265,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << suma_reducido.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  suma_reducido.Totalutilizados() << endl;
-	cout << suma_reducido.Serializar() << endl;
+	cout << suma_reducido.ToString() << endl;
 	cout << endl; 
 
 
@@ -273,7 +273,7 @@ int main()
 
 	cout << endl; 
 	cout << "Borrando de un vector:" << endl;
-	cout << otro_vector.Serializar() << endl; 
+	cout << otro_vector.ToString() << endl; 
 	cout << endl; 
 
 	VectorDepartamento resta_VD = suma_reducido - otro_vector; 
@@ -282,13 +282,13 @@ int main()
 	cout << "Resultado: " << endl;	
 	cout << "Capacidad = " << setw(3) << resta_VD.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  resta_VD.Totalutilizados() << endl;
-	cout << resta_VD.Serializar() << endl;
+	cout << resta_VD.ToString() << endl;
 	cout << endl; 
 
 
 	cout << endl; 
 	cout << "Borrando de un vector:" << endl;
-	cout << departamentos.Serializar() << endl; 
+	cout << departamentos.ToString() << endl; 
 	cout << endl; 
 
 	resta_VD = resta_VD - departamentos; 
@@ -297,7 +297,7 @@ int main()
 	cout << "Resultado: " << endl;	
 	cout << "Capacidad = " << setw(3) << resta_VD.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  resta_VD.Totalutilizados() << endl;
-	cout << resta_VD.Serializar() << endl;
+	cout << resta_VD.ToString() << endl;
 	cout << endl; 
 
 
@@ -308,21 +308,21 @@ int main()
 	cout << "departamentos: " << endl;	
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
 	cout << endl; 
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 	cout << endl; 
 	cout << "suma: " << endl;	
 	cout << "Capacidad = " << setw(3) << suma.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  suma.Totalutilizados() << endl;
-	cout << suma.Serializar() << endl;
+	cout << suma.ToString() << endl;
 	cout << endl; 
 
 	VectorDepartamento inter1 = departamentos * otro_vector;
@@ -332,7 +332,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << inter1.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  inter1.Totalutilizados() << endl;
-	cout << inter1.Serializar() << endl;
+	cout << inter1.ToString() << endl;
 	cout << endl; 
 
 
@@ -343,7 +343,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << inter2.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  inter2.Totalutilizados() << endl;
-	cout << inter2.Serializar() << endl;
+	cout << inter2.ToString() << endl;
 	cout << endl; 
 
 	VectorDepartamento inter3 = otro_vector * suma;
@@ -353,11 +353,11 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << inter3.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  inter3.Totalutilizados() << endl;
-	cout << inter3.Serializar() << endl;
+	cout << inter3.ToString() << endl;
 	cout << endl; 
 
 	VectorDepartamento prueba2(Departamento("(CCIA)", ""));
-	cout << "Prueba2: " << prueba2.Serializar();
+	cout << "Prueba2: " << prueba2.ToString();
 	VectorDepartamento inter4 = (departamentos * prueba2);
 
 	cout << "departamentos * VectorDepartamento(Departamento(\"CCIA\",\"\")";	
@@ -366,7 +366,7 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << inter4.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  inter4.Totalutilizados() << endl;
-	cout << inter4.Serializar() << endl;
+	cout << inter4.ToString() << endl;
 	cout << endl; 
 
 
@@ -378,21 +378,21 @@ int main()
 	cout << "departamentos: " << endl;	
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
 	cout << endl; 
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 	cout << endl; 
 	cout << "suma: " << endl;	
 	cout << "Capacidad = " << setw(3) << suma.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  suma.Totalutilizados() << endl;
-	cout << suma.Serializar() << endl;
+	cout << suma.ToString() << endl;
 	cout << endl; 
 
 	cout << "departamentos && suma: "  
@@ -436,7 +436,7 @@ int main()
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 
@@ -444,7 +444,7 @@ int main()
 	cout << "departamentos: " << endl;	
 	cout << "Capacidad = " << setw(3) << departamentos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  departamentos.Totalutilizados() << endl;
-	cout << departamentos.Serializar() << endl;
+	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
 
@@ -456,7 +456,7 @@ int main()
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 
@@ -472,7 +472,7 @@ int main()
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 
@@ -487,7 +487,7 @@ int main()
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 	
@@ -503,7 +503,7 @@ int main()
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 
@@ -515,14 +515,14 @@ int main()
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 	cout << endl; 
 	cout << "otro_vector: " << endl;	
 	cout << "Capacidad = " << setw(3) << otro_vector.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  otro_vector.Totalutilizados() << endl;
-	cout << otro_vector.Serializar() << endl;
+	cout << otro_vector.ToString() << endl;
 	cout << endl; 
 
 	cout << endl; 
@@ -539,7 +539,7 @@ int main()
 	// Crear vector dinámico de objetos "Profesor" (inicialmente vacío). 
 	VectorProfesor profesores; 
 
-/*
+
 	cout << Cabecera ("PROFESORES:");
 
 	getline(cin, linea); // Lectura adelantada
@@ -567,9 +567,9 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << profesores.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  profesores.Totalutilizados() << endl;
-	cout << profesores.Serializar() << endl;
+	cout << profesores.ToString() << endl;
 	cout << endl; 
-*/
+
 
 
 	#ifdef DEBUG_PROFESORES_DETALLE_FASE5
@@ -579,7 +579,7 @@ int main()
 
 
 	// CATEGORIAS
-/* 
+
 	// Crear vector dinámico de objetos "Encargo" (inicialmente vacío). 
 	VectorEncargo encargos; 
 
@@ -611,9 +611,8 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << encargos.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  encargos.Totalutilizados() << endl;
-	cout << encargos.Serializar() << endl;
+	cout << encargos.ToString() << endl;
 	cout << endl; 
-*/
 
 	#ifdef DEBUG_ENCARGOS_DETALLE_FASE5
 
@@ -622,7 +621,6 @@ int main()
 
 
 
-/*
 
 	// ADSCRIPCIONES
 	 
@@ -656,10 +654,9 @@ int main()
 	cout << endl; 
 	cout << "Capacidad = " << setw(3) << adscripciones.Capacidad() << ". ";
 	cout << "Totalutilizados = " << setw(3) <<  adscripciones.Totalutilizados() << endl;
-	cout << adscripciones.Serializar() << endl;
+	cout << adscripciones.ToString() << endl;
 	cout << endl; 
 
-*/
 	#ifdef DEBUG_ADSCRIPCIONES_DETALLE_FASE5
 
 	#endif

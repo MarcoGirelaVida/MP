@@ -166,7 +166,7 @@ using namespace std;
 // Sobrecarga del operador == para comprobar si un departamento es igual 
 // a otro (tiene la misma clave primaria)
 
-    bool Departamento :: operator == (const Departamento & otro)
+    bool Departamento :: operator == (const Departamento & otro) const
     {
         bool son_iguales = false;
 

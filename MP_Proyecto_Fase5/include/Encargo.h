@@ -83,7 +83,7 @@ class Encargo
     /***************************************************************************/
     // Método ToString
 
-    string ToString(string cadena_inicial = "");
+    string ToString(string cadena_inicial = "") const;
 
     /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.
@@ -91,6 +91,12 @@ class Encargo
 
 	Encargo & operator = (const Encargo & otro);
 
+    /***********************************************************************/
+    // Sobrecarga del operador == para comprobar si un departamento es igual 
+    // a otro (tiene la misma clave primaria)
+
+    bool operator == (const Encargo & otro) const;
+    
 	/*************************************************************************/
 	//------------------------MÉTODOS PRIVADOS-------------------------------//
 	/*************************************************************************/

@@ -96,7 +96,7 @@ public :
 	// Sobrecarga del operador == para comprobar si un departamento es igual 
 	// a otro (tiene la misma clave primaria)
 
-	bool operator == (const Departamento & otro);
+	bool operator == (const Departamento & otro) const;
 
 	/***********************************************************************/
 	// Serializa un dato "Departamento"

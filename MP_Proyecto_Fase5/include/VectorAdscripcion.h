@@ -64,8 +64,15 @@ public:
 
     /************************************************************************/
     // Constructor de copia
+    // Crea un objeto copia del objeto proporcionado como argumento ("otro")
     // Parámetros: otro (referencia), Adscripcion que sirve de modelo. 
     VectorAdscripcion(const VectorAdscripcion &otro);
+
+    /************************************************************************/
+    // Constructor
+    // Recibe como parámetro un Adscripcion que servirá para inicializar
+    // el vector con un único elemento.
+    VectorAdscripcion(const Adscripcion &obj);
 
     /************************************************************************/
     // Destructor
@@ -75,25 +82,32 @@ public:
     //----------------------------MÉTODOS------------------------------------//
     /*************************************************************************/
     // Métodos de acceso a los campos de la clase
+    // Totalutilizados: Devuelve el número de elementos utilizados
     int Totalutilizados() const;
+    // Capacidad: Devuelve la capacidad actual del vector
     int Capacidad() const;
+    // EstaVacia: Devueve true si totalutilizados es 0 y false en caso contrario
     int EstaVacia() const;
 
-    /*************************************************************************/
-    // Métodos get
-    Adscripcion getAdscripcion(int indice) const;
+   /***************************************************************************/
+    // Métodos set
+    // Sustituye el elemento "indice" del vector por el objeto proporcionado
+    // Difiere de la sobrecarga = de la clase Adscripcion en que este método
+    // comprueba que el objeto proporcionado no se encuentre en la cadena
+    // Es el método que recomiendo usar a la hora de alterar los elementos del vector
+    // PRE: 1 <= indice <= totalutilizados
+    void setAdscripcion(int indice, const Adscripcion &obj);
 
     /***************************************************************************/
-    // Métodos set
-    void setAdscripcion(int indice, Adscripcion &obj);
-
     /***************************************************************************/
     // Método ToString
-    string Serializar() const;
+    // Devuelve un string con la serialización de los objetos del vector implícito
+    string ToString() const;
 
     /***********************************************************************/
-	// Sobrecarga del operador de asignación para copia profunda.
-	// Parámetros: otro (referencia), Adscripcion que sirve de modelo. 
+    // Sobrecarga del operador de asignación para copia profunda.
+    // Realiza una copia profunda de los datos de otro en el objeto implícito.
+    // Parámetros: otro (referencia), Adscripcion que sirve de modelo. 
     VectorAdscripcion &operator=(const VectorAdscripcion &otro);
 
     /***********************************************************************/
@@ -117,29 +131,149 @@ public:
     Adscripcion & operator()(int indice) ;
 
     /***************************************************************************/
-    // Aniade Adscripcion al final del vector
-    void AniadeAdscripcion(Adscripcion &obj);
+    // Sobrecarga de operador +
+    // Versión 1: VectorAdscripcion + VectorAdscripcion
+    // Concatena dos datos VectorAdscripcion en uno nuevo. Los valo-
+    // res del segundo se añaden (en el mismo orden) en una copia del primero.
+    // Parámetros: otro (referencia), VectorAdscripcion que se añade.
+    // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
+    friend VectorAdscripcion operator+ (const VectorAdscripcion &uno, \
+                                        const VectorAdscripcion &otro);
+
+    //Versión 2: [VectorAdscripcion] + [Adscripcion]
+    //Añade un dato Adscripcion al final de una copia del VectorAdscripcion.
+    // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
+    friend VectorAdscripcion operator+ (const VectorAdscripcion &v_obj, \
+                                        const Adscripcion &obj);
+    
+    //Versión 3: [Adscripcion] + [VectorAdscripcion]
+    // Inserta el dato Adscripcion al principio de una copia del
+    // VectorAdscripcion.
+    // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
+    friend VectorAdscripcion operator+ (const Adscripcion &obj, \
+                                           const VectorAdscripcion &v_obj);
 
     /***************************************************************************/
+    //Versioperatorón 1: [VectorAdscripcion] - [VectorAdscripcion]
+    //Elimina de una copia del objeto implícito los datos Adscripcion cuyo
+    //campo clave esté presente en los datos Adscripcion
+    //del objeto explícito.
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion operator- (const VectorAdscripcion &v_obj) const;
+
+    //Versión 2: [VectorAdscripcion] - [Adscripcion]
+    //Elimina de una copia del VectorAdscripcion el dato
+    //Adscripcion cuyo campo clave sea igual al del
+    //valor incluido en el objeto Adscripcion.
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion operator- (const Adscripcion &obj) const;
+
+    //Versión 3: [VectorAdscripcion] - [string]
+    //Elimina de una copia del VectorAdscripcion el dato
+    //Adscripcion cuyo campo clave sea igual al string dado.
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion operator- (const string &obj) const;
+
+    /***************************************************************************/
+    // Operator *
+    //Versión 1: [VectorAdscripcion] * [VectorAdscripcion]
+    //Devuelve un nuevo VectorAdscripcion que contiene to-
+    //dos los datos Adscripcion comunes entre los dos VectorAdscripcion
+    VectorAdscripcion operator* (const VectorAdscripcion &V_obj) const;
+
+    /***************************************************************************/
+    // Operator &&
+    //Versión 1: [VectorAdscripcion] && [VectorAdscripcion]
+    //Devuelve true si el primer VectorAdscripcion contiene todos los
+    //datos que están en el segundo VectorAdscripcion.
+    friend bool operator&& (const VectorAdscripcion &v_obj1,\
+                            const VectorAdscripcion &v_obj2);
+
+    // Versión 2: [VectorAdscripcion] && [Adscripcion]
+    // Devuelve un int con el indice del VectorAdscripcion que
+    // contiene al dato Adscripcion.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const VectorAdscripcion &v_obj,\
+                            const Adscripcion &obj);
+
+    // Versión 3: [Adscripcion] && [VectorAdscripcion]
+    // Devuelve un int con el indice del VectorAdscripcion que
+    // contiene al dato Adscripcion.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const Adscripcion &obj,\
+                            const VectorAdscripcion &v_obj);
+
+    // Versión 4: [VectorAdscripcion] && [string]
+    // Devuelve un int con el indice del VectorAdscripcion que
+    // contiene al dato Adscripcion cuyo campo clave coincide con el string.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const VectorAdscripcion &v_obj,\
+                            const string &cadena);
+
+    // Versión 5: [string] && [VectorAdscripcion]
+    // Devuelve un int con el indice del VectorAdscripcion que
+    // contiene al dato Adscripcion cuyo campo clave coincide con el string.
+    // Si no está contenido, devuelve 0.
+    friend int operator&& (const string &cadena,\
+                            const VectorAdscripcion &v_obj);
+    /***************************************************************************/
+    // Operator +=
+    // Versión 1: [VectorAdscripcion] += [VectorAdscripcion]
+    // Todos los valores del objeto explícito se añaden (en el mismo orden en
+    // el que están en el objeto explícito) al objeto implícito 
+    // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
+    VectorAdscripcion & operator+= (const VectorAdscripcion & v_obj);
+
+    // Versión 2: [VectorAdscripcion] += [Adscripcion]
+    //Añade un dato Adscripcion al final del objeto implícito.
+    // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
+    VectorAdscripcion & operator+= (const Adscripcion & obj);
+
+    /***************************************************************************/
+    // Operador -=:
+    // Versión 1: [VectorAdscripcion] -= [VectorAdscripcion]
+    //Elimina del objeto implícito los datos Adscripcion que
+    // esté presente en los datos Adscripcion del objeto
+    //explícito.
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion & operator-= (const VectorAdscripcion & v_obj);
+
+    //Versión 2: [VectorAdscripcion] -= [Adscripcion]
+    //Elimina del objeto implícito el dato Adscripcion
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion & operator-= (const Adscripcion & obj);
+
+    //Versión 3: [VectorAdscripcion] -= [string]
+    //Elimina del objeto implícito el dato Adscripcion cuyo campo clave
+    //sea igual al string dado
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion & operator-= (const string & obj);
+
+    //Versión 4: [VectorAdscripcion] -= [int]
+    //Elimina del objeto implícito el dato Adscripcion cuyo indice sea int
+    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    VectorAdscripcion & operator-= (const int & indice);
+
+
+   /***************************************************************************/
+    // INSERTAAdscripcion
     // Inserta Adscripcion en el vector
+    // Parámetros: Adscripcion a insertar y posición en la que insertarlo
+    // PRE: 1 <= indice <= Totalutilizados()
+    // PRE: El Adscripcion no existe en el vector
     void InsertaAdscripcion(Adscripcion &obj, int indice);
-
-    /***************************************************************************/
-    // Elimina Adscripcion del vector
-    void EliminaAdscripcion(int indice);
 
     /***************************************************************************/
     // Elimina todos los Adscripcions del vector
     void EliminaTodos();
 
     /***************************************************************************/
+    // EXTRAEAdscripcion
     // Extrae Adscripcion del vector
+    // Elimina el Adscripcion indice del vector y lo devuelve
+    // PRE: 1 <= indice <= Totalutilizados()
     Adscripcion ExtraeAdscripcion(int indice);
 
-    /***************************************************************************/
-    // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
-    void Reajustar();
-    
 private:
     /*************************************************************************/
     //----------------------------MÉTODOS PRIVADOS----------------------------//
@@ -151,6 +285,29 @@ private:
     // PRE: Se ha reservado memoria para los datos
     void CopiarDatos(const VectorAdscripcion &otro);
 
+    /***************************************************************************/
+    // ANIADEAdscripcion
+    // Aniade Adscripcion al final del vector 
+    // Dicho Adscripcion no puede estar repetido
+    // Parámetros: obj (referencia), Adscripcion que se va a añadir.
+    void AniadeAdscripcion(const Adscripcion &obj);
+
+    /***************************************************************************/
+    // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
+    // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
+    // Versión 1: Busca el Adscripcion dado un objeto Adscripcion
+    int BuscarAdscripcion(const Adscripcion &obj) const;
+
+    // Versión 2: Busca el Adscripcion según el campo clave
+    int BuscarAdscripcion(const string &cadena) const;
+
+    /***************************************************************************/
+    // ELIMINAAdscripcion
+    // Elimina Adscripcion del vector
+    // Parámetros: indice, int que indica el índice del Adscripcion
+    // PRE: 1 <= indice <= Totalutilizados()
+    void EliminaAdscripcion(int indice);
+
     /***********************************************************************/
     // RESERVAMEMORIA
     // Pide memoria para guardar una copia de los datos de "otro"
@@ -159,8 +316,13 @@ private:
 
     /***********************************************************************/
     // LIBERARMEMORIA
+    // Libera la memoria dinámica reservada para el vector
     void LiberarMemoria();
 
+    /***************************************************************************/
+    // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar)
+    void Reajustar();
+    
     /***********************************************************************/
     // REDIMENSIONAR
 	// Redimensiona el vector dinámico y copia los datos en el nuevo almacén.  
@@ -181,8 +343,33 @@ private:
     /***********************************************************************/
     // VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
     // Puede funcionar como lvalue y como rvalue
+    // Es el único método que usa y debe usar el índice "real" (desde 0)
     // PRE: 0 <= indice < total_utilizados
-    Adscripcion & Valor(int indice) const;
+    Adscripcion & Valor(const int indice) const;
+
+    /***********************************************************************/
+    // comprobacion_indice: Comprueba si el índice es válido
+    // En caso que lo sea, devuelve un mensaje de error y termina el programa
+    // PRE: 1 <= indice <= total_utilizados
+    void comprobacion_indice_totalutilizados(const int indice) const;
+
+    /***********************************************************************/
+    // comprobacion_indice: Comprueba si el índice es válido
+    // En caso que lo sea, devuelve un mensaje de error y termina el programa
+    // PRE: 1 <= indice <= capacidad
+    void comprobacion_indice_capacidad(const int indice) const;
+
+    /***********************************************************************/
+    // Indice_valido_usados: Comprueba si el índice es válido
+    // Devuelve true si el índice está entre 1 y total_utilizados
+    // Devuelve false en caso contrario
+    bool indice_valido_usados(const int indice) const;
+
+    /***********************************************************************/
+    // Indice_valido_capacidad: Comprueba si el índice es válido
+    // Devuelve true si el índice está entre 1 y capacidad
+    // Devuelve false en caso contrario
+    bool indice_valido_capacidad(const int indice) const;
 };
 
 #endif

@@ -258,7 +258,30 @@ using namespace std;
         return cadena;
     }
 
-//***************************************************************************/
+/***********************************************************************/
+// Sobrecarga del operador == para comprobar si un Profesor es igual 
+// a otro (tiene la misma clave primaria)
+
+    bool Profesor :: operator == (const Profesor & otro) const
+    {
+        bool son_iguales = false;
+
+        if (this != &otro)
+        {
+            if (getDni() == otro.getDni())
+            {
+                son_iguales = true;
+            }
+        }
+        else
+        {
+            son_iguales = true;
+        }
+        
+
+        return son_iguales;
+    }
+
 /****************************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
 // Parámetros: otro (referencia), objeto que sirve de modelo. 

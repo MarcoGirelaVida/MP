@@ -146,6 +146,30 @@ using namespace std;
     }
 
 /***********************************************************************/
+// Sobrecarga del operador == para comprobar si un Adscripcion es igual 
+// a otro (tiene la misma clave primaria)
+
+    bool Adscripcion :: operator == (const Adscripcion & otro) const
+    {
+        bool son_iguales = false;
+
+        if (this != &otro)
+        {
+            if (getDniProfesor() == otro.getDniProfesor())
+            {
+                son_iguales = true;
+            }
+        }
+        else
+        {
+            son_iguales = true;
+        }
+        
+
+        return son_iguales;
+    }
+
+/***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
 // Parámetros: otro (referencia), objeto que sirve de modelo. 
 

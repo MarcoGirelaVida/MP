@@ -88,6 +88,12 @@ public:
         string ToString(string cadena_inical = "");
 
         /***********************************************************************/
+        // Sobrecarga del operador == para comprobar si un Adscripcion es igual 
+        // a otro (tiene la misma clave primaria)
+
+        bool operator == (const Adscripcion & otro) const;
+
+        /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.
 	// Parámetros: otro (referencia), objeto que sirve de modelo. 
 
