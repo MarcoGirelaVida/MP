@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include "Encargo.h"
 
 using namespace std;
@@ -194,7 +195,7 @@ public:
     // contiene al dato Encargo.
     // Si no está contenido, devuelve 0.
     friend int operator&& (const VectorEncargo &v_obj,\
-                            const int &numero);
+                            const Encargo &obj);
 
     // Versión 3: [Encargo] && [VectorEncargo]
     // Devuelve un int con el indice del VectorEncargo que
@@ -203,9 +204,9 @@ public:
     friend int operator&& (const Encargo &obj,\
                             const VectorEncargo &v_obj);
 
-    // Versión 4: [VectorEncargo] && [string]
+    // Versión 4: [VectorEncargo] && [int]
     // Devuelve un int con el indice del VectorEncargo que
-    // contiene al dato Encargo cuyo campo clave coincide con el string.
+    // contiene al dato Encargo cuyo campo clave coincide con el int.
     // Si no está contenido, devuelve 0.
     friend int operator&& (const VectorEncargo &v_obj,\
                             const int &numero);
@@ -214,7 +215,7 @@ public:
     // Devuelve un int con el indice del VectorEncargo que
     // contiene al dato Encargo cuyo campo clave coincide con el string.
     // Si no está contenido, devuelve 0.
-    friend int operator&& (const string &cadena,\
+    friend int operator&& (const int &numero,\
                             const VectorEncargo &v_obj);
     /***************************************************************************/
     // Operator +=

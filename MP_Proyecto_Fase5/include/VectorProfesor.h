@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include "Profesor.h"
 
 using namespace std;

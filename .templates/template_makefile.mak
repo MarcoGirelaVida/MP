@@ -6,7 +6,7 @@
 # GRUPO: 1ºB
 # FECHA: xx/05/2023
 #
-# RELACION DE PROBLEMAS 4
+# RELACION DE PROBLEMAS 6
 #
 # makefile0_.mak
 #
@@ -32,7 +32,7 @@ INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
 #................................................
 all:  preambulo \
-      $(BIN)/V_ \
+      $(BIN)/VI_ \
 	  $(LIB)/lib.a \
 	  final
 
@@ -59,25 +59,25 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/I_ : $(OBJ)/V_.o \
+$(BIN)/I_ : $(OBJ)/VI_.o \
 	        $(OBJ)/.o  \
 	        $(LIB_CLASES_UTILS)/lib.a                     
 	@echo 
-	@echo Creando ejecutable: V_
+	@echo Creando ejecutable: VI_
 	@echo 
-	g++ -o $(BIN)/V_ $(OBJ)/V_.o \
+	g++ -o $(BIN)/VI_ $(OBJ)/VI_.o \
 	       $(OBJ)/.o   \
 	       -l -L$(LIB_CLASES_UTILS)
 
 #................................................
 # OBJETOS 
 
-$(OBJ)/V_.o : $(SRC)/V_.cpp \
+$(OBJ)/VI_.o : $(SRC)/VI_.cpp \
 	           $(INCLUDE)/.h
 	@echo 
-	@echo Creando objeto: V_.o
+	@echo Creando objeto: VI_.o
 	@echo 
-	g++ -c -o $(OBJ)/V_.o $(SRC)/V_.cpp \
+	g++ -c -o $(OBJ)/VI_.o $(SRC)/VI_.cpp \
         -I$(INCLUDE) -std=c++14
 
 #................................................

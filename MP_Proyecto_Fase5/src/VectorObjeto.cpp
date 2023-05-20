@@ -61,7 +61,7 @@ VectorObjeto :: VectorObjeto(const Objeto &obj)
 // Destructor
 VectorObjeto :: ~VectorObjeto()
 {
-    EliminaTodos();
+    LiberarMemoria();
 }
 
 /*************************************************************************/
@@ -446,6 +446,9 @@ void VectorObjeto :: InsertaObjeto(Objeto &obj, int indice)
 void VectorObjeto :: EliminaTodos()
 {
     LiberarMemoria();
+
+    // Redimensionar hace que se ajuste capacidad al tamaño mínimo
+    Redimensionar();
 }
 
 /***************************************************************************/
@@ -474,7 +477,7 @@ void VectorObjeto :: CopiarDatos(const VectorObjeto &otro)
 {
     if (this != &otro)
     {
-        EliminaTodos();
+        LiberarMemoria();
         ReservaMemoria(otro.Capacidad());
 
         for (int i = 1; i <= otro.Totalutilizados(); i++)
@@ -548,11 +551,10 @@ void VectorObjeto :: EliminaObjeto(int indice)
 {
     if(indice_valido_usados(indice))
     {
-        while (indice < Totalutilizados())
-        {
-            (*this)[indice] = (*this)[indice+1];
-            indice++;
-        }
+        // "Desplazar" los valores desde la casilla siguiente a "indice" 
+        // hasta el final una posición a la izquierda
+		memmove (&(*this)[indice-1], &(*this)[indice], 
+                 (Totalutilizados()-indice)*sizeof(Objeto));
 
         total_utilizados--;
         Redimensionar();

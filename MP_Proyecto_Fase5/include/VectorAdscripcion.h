@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include "Adscripcion.h"
 
 using namespace std;
