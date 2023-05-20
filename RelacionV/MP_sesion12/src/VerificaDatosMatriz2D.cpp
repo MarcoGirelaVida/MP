@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <sstream> 
+#include <string>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ int main()
     if (flujo != "MATRIZ2D")
     {
         cerr << "Error: formato erroneo" << endl;
+        cerr << "La primera linea debe ser única y contener solo MATRIZ2D\n";
         exit(1);
     }
 

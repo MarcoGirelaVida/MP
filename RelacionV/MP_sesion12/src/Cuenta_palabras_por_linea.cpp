@@ -21,18 +21,19 @@ using namespace std;
 
 int main()
 {
-    string flujo;
+    string linea;
+    string palabra;
     int contador_lineas = 0;
 
-    while (getline(cin,flujo))
+    while (getline(cin,linea))
     {
         contador_lineas++;
         int contador_palabras = 0;
 
         istringstream iss;
-        iss.str(flujo);
+        iss.str(linea);
 
-        while (iss >> flujo)
+        while (iss >> palabra)
         {
             contador_palabras++;
         }

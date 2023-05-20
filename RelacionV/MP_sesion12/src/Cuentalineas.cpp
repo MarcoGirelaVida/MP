@@ -30,13 +30,9 @@ int main()
         contador_lineas_total++;
 
         if (cadena.size())
-        {
             contador_lineas_novacias ++;
-        }
         else
-        {
             contador_lineas_vacias++;
-        }
         
         //cout << cadena << endl;
     }
@@ -46,6 +42,7 @@ int main()
     cout << "Lineas vacias: " << contador_lineas_vacias << endl;
     cout << "Lineas no vacias: " << contador_lineas_novacias << endl;
     
+    return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////

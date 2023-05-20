@@ -25,7 +25,7 @@ int main()
 
     while (getline(cin, cadena))
     {
-        if (cadena[0] != '#')
+        if (cadena.at(0) != '#')
         {
             cout << cadena << endl;
         }
