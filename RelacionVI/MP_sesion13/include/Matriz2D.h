@@ -15,6 +15,7 @@
 
 #include "TipoBase_Matriz2D.h"
 #include "Secuencia.h"
+#include "Secuencia_string.h"
 #include <string>
 using namespace std; 
 
@@ -164,12 +165,25 @@ Matriz2D & operator -= (const Matriz2D & otra);
 // No se madifican los valores de la matriz implícita
 friend Matriz2D operator * (const Matriz2D & original, const TipoBase valor);
 
-friend Matriz2D operator * (const TipoBase valor, const Matriz2D & original);
-
 // Matriz2D * Matriz2D: Devuelve una matriz con los valores de la
 // matriz implícita multiplicados por los valores de la matriz "otra"
 // No se madifican los valores de ninguno de los operandos
 // friend Matriz2D & operator * (const Matriz2D & m1, const Matriz2D & m2);
+friend Matriz2D operator * (const TipoBase valor, const Matriz2D & original);
+
+/***************************************************************************/
+// Sobrecarga del operador >> para leer una matriz desde un flujo de entrada
+// Parámetros: objeto de tipo istream desde el que leer los datos de la matriz
+// Parámetros: objeto de tipo Matriz2D en el que se almacenarán los datos leídos
+// Devuelve: referencia al flujo de entrada
+friend istream & operator >> (istream & in, Matriz2D & m);
+
+/***************************************************************************/
+// Sobrecarga del operador << para escribir una matriz en un flujo de salida
+// Parámetros: objeto de tipo istream desde el que leer los datos de la matriz
+// Parámetros: objeto de tipo Matriz2D del que se leerán los datos a escribir
+// Devuelve: referencia al flujo de entrada
+friend ostream & operator << (ostream & out, const Matriz2D & m);
 
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una 
@@ -204,6 +218,12 @@ friend Matriz2D operator * (const TipoBase valor, const Matriz2D & original);
 // Ecualizar. Cambia todos los todos valores de la matriz por valor.
     void Ecualiza (TipoBase valor=VALOR_DEF);
 
+/***************************************************************************/
+// ORDENAR MATRIZ MENOR-MAYOR SEGUN COLUMNA 
+// Reodena la matriz en base a la reordenación de mayor a menor de la columna
+// indicada.
+// Parametros: indice de la columna a ordenar (1 <= indice <= fils)
+void OrdenaMatrizMenorMayor (int indice);
 
 /***************************************************************************/
 // Comparación.

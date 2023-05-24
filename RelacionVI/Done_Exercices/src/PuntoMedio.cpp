@@ -67,6 +67,7 @@ int main (void)
 
 
 
+
 	// Calcular y mostrar punto medio
 
 	Punto2D punto_medio (0,0);	

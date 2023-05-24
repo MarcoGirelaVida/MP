@@ -26,6 +26,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <iomanip>
 using namespace std; 
 
 
@@ -285,15 +286,129 @@ Matriz2D operator* (const Matriz2D & original, const TipoBase valor)
 	return resultado;
 }
 
-Matriz2D operator* (const TipoBase valor, const Matriz2D & original)
-{
-	return (original * valor);
-}
 
 // Matriz2D * Matriz2D: Devuelve una matriz con los valores de la
 // matriz implícita multiplicados por los valores de la matriz "otra"
 // No se madifican los valores de ninguno de los operandos
 // Matriz2D & operator * (const Matriz2D & m1, const Matriz2D & m2);
+Matriz2D operator* (const TipoBase valor, const Matriz2D & original)
+{
+	return (original * valor);
+}
+
+/***************************************************************************/
+// Sobrecarga del operador >> para leer una matriz desde un flujo de entrada
+// Parámetros: objeto de tipo istream desde el que leer los datos de la matriz
+// Parámetros: objeto de tipo Matriz2D en el que se almacenarán los datos leídos
+// Devuelve: referencia al flujo de entrada
+istream & operator >> (istream & in, Matriz2D & m)
+{
+	string flujo;
+
+    // Leo el número de columnas
+    // Si da solo un argumento da excepción
+	int filas = 0;
+	if(in >> flujo)
+
+        // La función stoi dará excepción si no es un int
+        filas = stoi(flujo);
+
+    else{
+        cerr << "Error: ningún argumento en la segunda linea, deben ser 2\n";
+        exit(1);
+    }
+
+    // Leo el número de columnas
+    // Si da solo un argumento da excepción
+	int columnas = 0;
+    if(in >> flujo)
+        columnas = stoi(flujo);
+
+    else{
+        cerr << "Error: solo 1 argumento en la segunda linea, deben ser 2\n";
+        exit(1);
+    }
+
+    // Si da más de dos argumentos en la segunda linea, da excepción
+    if (in >> flujo)
+    {
+        cerr << "Error: Más de dos argumentos en la segunda linea, deben ser 2"
+             << endl;
+        exit(1);
+    }
+    
+    // Creo la matriz con los parámetros indicados
+    m = Matriz2D(filas, columnas);
+
+    // Leo los siguientes elementos y los almaceno como elementos de la matriz.
+    for (int i = 1; i <= m.NumFilas(); i++)
+    {
+        for (int j = 1; j <= m.NumColumnas(); j++)
+        {
+		// Compruebo el tipo de dato y lo almaceno
+		// Es una forma cutre de comprobar el tipo de dato
+		// pero no se me ocurría otra
+			if (in >> flujo)
+			{
+				if (TIPOBASE == "int")
+				{
+					m(i, j) = stoi(flujo);	
+				}
+
+				if (TIPOBASE == "char")
+				{
+					if (flujo.size() > 1)
+					{
+						cerr << "Error: Solo se admiten caracteres, no palabras"
+								<< endl;
+						exit(1);
+					}
+
+					m(i, j) = flujo[0];
+				}
+			}
+			else
+			{
+				cerr << "Error: No se han proporcionado suficientes elementos"
+						<< endl;
+				exit(1);
+			}
+        }
+    }
+
+    if(in >> flujo)
+    {
+        cerr << "Error: Demasiados elementos proporcionados" << endl;
+        exit(1);
+    }
+
+	return in;
+}
+
+/***************************************************************************/
+// Sobrecarga del operador << para escribir una matriz en un flujo de salida
+// Parámetros: objeto de tipo istream desde el que leer los datos de la matriz
+// Parámetros: objeto de tipo Matriz2D del que se leerán los datos a escribir
+// Devuelve: referencia al flujo de entrada
+ostream& operator<<(ostream &out, const Matriz2D &m)
+{
+
+	out << endl << ".................................." << endl;
+    out << "Filas = " << setw(6) << setfill(' ') << m.NumFilas();
+    out << " , Columnas = " << setw(6) << setfill(' ') << m.NumColumnas() << endl;
+
+    for (int i = 1; i <= m.NumFilas(); i++)
+	{
+        for (int j = 1; j <= m.NumColumnas(); j++)
+		{
+            out << setw(6) << setfill(' ') << m(i,j);
+        }
+
+        out << endl;
+    }
+
+    return out;
+}
 
 /***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una 
@@ -642,6 +757,48 @@ void Matriz2D :: EliminaColumna (int num_col)
 	memcpy(datos[0], v_tmp, nuevo_nfils*nuevo_ncols*sizeof(TipoBase));
 
 	delete [] v_tmp;
+}
+
+/***************************************************************************/
+// ORDENAR MATRIZ MENOR-MAYOR SEGUN COLUMNA 
+// Reodena la matriz en base a la reordenación de mayor a menor de la columna
+// indicada.
+// Parametros: indice de la columna a ordenar (1 <= indice <= cols)
+void Matriz2D :: OrdenaMatrizMenorMayor (int indice)
+{
+	// Compruebo que el índice es correcto
+	if (indice < 1 || indice > NumColumnas())
+	{
+		cerr << "Error: El índice de la columna a ordenar no es correcto" << endl;
+		exit(1);
+	} 
+
+	// Ordeno la columna
+	// Creo un puntero temporal
+	for (int i = 1; i <= NumFilas(); i++)
+	{
+		TipoBase * menor = &((*this)(i,indice));
+		int Filadelmenor = i;
+
+		for (int j = i+1; j <= NumFilas(); j++)
+		{
+			if ((*this)(j,indice) < *menor)
+			{
+				menor = &((*this)(j,indice));
+				Filadelmenor = j;
+			}
+		}
+
+		// Intercambio la fila i con la fila del menor
+		if (Filadelmenor != i)
+		{
+			// Creo un puntero temporal
+			TipoBase * tmp = datos[i];
+			// Intercambio las filas
+			datos[i] = datos[Filadelmenor];
+			datos[Filadelmenor] = tmp;
+		}
+	}
 }
 
 /***************************************************************************/

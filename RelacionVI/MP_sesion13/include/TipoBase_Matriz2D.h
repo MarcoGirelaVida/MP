@@ -21,7 +21,7 @@ typedef int TipoBase;	// Tipo de los datos de la matriz
 /***************************************************************************/
 // Constantes globales
 const TipoBase VALOR_DEF = 0; // Valor por defecto de los datos de la matriz
-
+const string TIPOBASE = "int"; // Tipo de los datos de la matriz
 
 #endif
 
