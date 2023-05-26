@@ -366,7 +366,6 @@ istream & operator>> (istream & in, Matriz2D & m)
     }
     
     // Creo la matriz con los parámetros indicados
-	cout << "Filas: " << filas << " Columnas: " << columnas << endl;
     m = Matriz2D(filas, columnas);
 
     // Leo los siguientes elementos y los almaceno como elementos de la matriz.
@@ -427,19 +426,17 @@ istream & operator>> (istream & in, Matriz2D & m)
 ostream& operator<<(ostream &out, const Matriz2D &m)
 {
 
-	out << endl << ".................................." << endl;
-    out << "Filas = " << setw(6) << setfill(' ') << m.NumFilas();
-    out << " , Columnas = " << setw(6) << setfill(' ') << m.NumColumnas() << endl;
+	out << m.NumFilas() << " " << m.NumColumnas() << endl;
 
-    for (int i = 1; i <= m.NumFilas(); i++)
+	for (int f = 1; f <= m.NumFilas(); f++)
 	{
-        for (int j = 1; j <= m.NumColumnas(); j++)
+		for (int c = 1; c <= m.NumColumnas(); c++)
 		{
-            out << setw(6) << setfill(' ') << m(i,j);
-        }
+			out << m(f, c) << " ";
+		}
 
-        out << endl;
-    }
+		out << endl;
+	}
 
     return out;
 }
@@ -468,23 +465,24 @@ void Matriz2D :: EscribirMatriz2D (const char * nombre) const
 			exit(1);
 		}
 	}
+	else
+	{
+		cout << "Se va a crear el fichero " << nombre << endl;
+	}
+	
 
 
 	ofstream fichero_escritura(nombre);
+	if (!fichero_escritura)
+	{
+		cerr << "Error al abrir el fichero " << nombre << endl;
+		exit(1);
+	}
+	
 
 	fichero_escritura << "MATRIZ" << endl;
 
-	fichero_escritura << NumFilas() << " " << NumColumnas() << endl;
-
-	for (int f = 1; f <= NumFilas(); f++)
-	{
-		for (int c = 1; c <= NumColumnas(); c++)
-		{
-			fichero_escritura << (*this)(f, c) << " ";
-		}
-
-		fichero_escritura << endl;
-	}
+	fichero_escritura << (*this);
 
 	fichero_escritura.close();
 }

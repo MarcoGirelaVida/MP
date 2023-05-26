@@ -127,7 +127,8 @@ void enumera (ostream & salida, istream & entrada)
     int cont=1;
 
     // Lectura
-    while (getline(entrada, cad))
+    getline(entrada, cad);
+    while (entrada.eof())
     {
         salida << setw(4) << ++cont << " " << cad << endl;
     }
