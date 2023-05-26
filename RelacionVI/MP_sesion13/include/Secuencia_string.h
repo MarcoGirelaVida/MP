@@ -7,7 +7,7 @@
 // Clase "Secuencia"
 //
 // Representación: array dinámico para alojar los datos en el Heap.
-// Los datos son de tipo "TipoBaseSecuencia"
+// Los datos son de tipo "TipoBaseSecuencia_string"
 //
 // Declaración de la clase Secuencia (versión 1).
 // Definiciones en Secuencia.cpp
@@ -52,8 +52,8 @@ private:
 
 
 	// "vector_privado" es un puntero a un array dinámico de 
-	// datos "TipoBaseSecuencia"
-    TipoBaseSecuencia * vector_privado;
+	// datos "TipoBaseSecuencia_string"
+    TipoBaseSecuencia_string * vector_privado;
 
     // PRE: 0 <= capacidad
     int capacidad; // Núm.casillas ocupadas
@@ -113,8 +113,8 @@ public:
     // PRE: 0 <= indice < TotalUtilizados()
     // (NUEVA) PRE: 1 <= indice <= TotalUtilizados()
 
-    TipoBaseSecuencia & Valor (const int indice);
-    TipoBaseSecuencia & Valor (const int indice) const;
+    TipoBaseSecuencia_string & Valor (const int indice);
+    TipoBaseSecuencia_string & Valor (const int indice) const;
 
     /***********************************************************************/
     // Copia profunda.
@@ -131,7 +131,7 @@ public:
     // Se redimensionará el vector dinámico de datos si no tuviera suficiente 
     // espacio disponible.
 
-    void Aniade (const TipoBaseSecuencia nuevo);
+    void Aniade (const TipoBaseSecuencia_string nuevo);
 
     /***********************************************************************/
     // Inserta el valor "nuevo" en la posición dada por "indice".
@@ -141,7 +141,7 @@ public:
 	// copiar en "indice" en valor "nuevo".
 	// PRE: 0 <= indice < TotalUtilizados()
 
-	void Inserta (int indice, TipoBaseSecuencia nuevo);
+	void Inserta (int indice, TipoBaseSecuencia_string nuevo);
 	     
     /***********************************************************************/
     // Eliminar el contenido de la "casilla" cuya posición es "indice".
@@ -189,17 +189,17 @@ private:
 
     /***********************************************************************/
     // Método PRIVADO compartido por: 
-    //      TipoBaseSecuencia & Valor (const int indice);
-    //      TipoBaseSecuencia & Valor (const int indice) const;
+    //      TipoBaseSecuencia_string & Valor (const int indice);
+    //      TipoBaseSecuencia_string & Valor (const int indice) const;
     // para evitar la duplicidad de código.
     // 
-    // Devuelve una referencia a un dato TipoBaseSecuencia de la secuencia.
+    // Devuelve una referencia a un dato TipoBaseSecuencia_string de la secuencia.
     // dado su posición. 
     //
     // PRE: 0 <= indice < total_utilizados
     // (NUEVA) PRE: 1 <= indice <= TotalUtilizados()
 
-    TipoBaseSecuencia & el_valor (int indice) const;
+    TipoBaseSecuencia_string & el_valor (int indice) const;
 
     /***********************************************************************/
     /***********************************************************************/

@@ -36,8 +36,7 @@ int main(int argc, char * argv[])
     }
 
     // Flujo de entrada de la ubicación de las palabras
-    ifstream fi2; 
-    fi2.open(argv[1]);
+    ifstream fi2(argv[2]);
     if (!fi2)
     {
         cerr << "Error: no pudo abrirse " << argv[1] << endl;

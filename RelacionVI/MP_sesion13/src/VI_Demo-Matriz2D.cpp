@@ -26,6 +26,7 @@ int main(void)
 {
 
 	const char * nombre1 = "datos_matriz/datos_5x4.txt";
+
 	Matriz2D m1(nombre1);
 
 	cout << "Matriz m1 leida del fichero " << nombre1 << endl; 

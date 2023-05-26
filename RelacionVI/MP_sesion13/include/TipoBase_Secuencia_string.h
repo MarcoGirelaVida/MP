@@ -13,11 +13,12 @@
 #ifndef TIPOBASE_SECUENCIA_STRING
 #define TIPOBASE_SECUENCIA_STRING
 #include <string>
+using namespace std;
 /***************************************************************************/
 // Definiciones de tipos --> Dejar activo un solo bloque
 
 // Tipo de los elementos de la Secuencia
-typedef string TipoBaseSecuencia;		// Tipo de los elementos 
+typedef string TipoBaseSecuencia_string;		// Tipo de los elementos 
 #define STRING						// Para usarlo con #ifdef
 #define ANCHO_SECUENCIA 5
 #define VALOR_DEF_SECUENCIA 0

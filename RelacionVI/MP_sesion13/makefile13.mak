@@ -30,14 +30,15 @@ OBJ_CLASES_UTILS =  $(HOME_CLASES_UTILS)/obj
 LIB_CLASES_UTILS =  $(HOME_CLASES_UTILS)/lib
 INCLUDE_CLASES_UTILS = $(HOME_CLASES_UTILS)/include
 
-#................................................
 all:  preambulo \
-	  $(LIB)/libMatriz2D.a \
-	  $(LIB)/libSecuencia.a \
-      $(BIN)/IV_Demo-Matriz2D \
-	  $(BIN)NumeraLineas_Ampliacion\
-	  $(BIN)MensajesOcultos-2\
-	  final
+      $(LIB)/libMatriz2D.a \
+      $(LIB)/libSecuencia.a \
+      $(BIN)/VI_Demo-Matriz2D \
+      $(BIN)/NumeraLineas_Ampliacion\
+      $(BIN)/MensajesOcultos-2\
+      final
+
+
 
 #................................................
 preambulo:
@@ -62,16 +63,10 @@ final:
 #................................................
 # EJECUTABLES
 
-$(BIN)/IV_Demo-Matriz2D : $(OBJ)/IV_Demo-Matriz2D.o \
-	                       $(OBJ)/Matriz2D.o \
-	                       $(OBJ)/Secuencia.o
-	@echo 
-	@echo Creando ejecutable: IV_Demo-Matriz2D
-	@echo 
-	g++ -o $(BIN)/IV_Demo-Matriz2D $(OBJ)/IV_Demo-Matriz2D.o \
-	        -lSecuencia \
-	        -lMatriz2D \
-	        -L$(LIB_CLASES_UTILS)
+$(BIN)/VI_Demo-Matriz2D : $(OBJ)/VI_Demo-Matriz2D.o $(LIB)/libMatriz2D.a \
+                           $(LIB)/libSecuencia.a
+	g++ -o $(BIN)/VI_Demo-Matriz2D $(OBJ)/VI_Demo-Matriz2D.o \
+	       -L$(LIB) -lMatriz2D -lSecuencia
 
 $(BIN)/NumeraLineas_Ampliacion : $(SRC)/NumeraLineas_Ampliacion.cpp
 	@echo 
@@ -86,8 +81,8 @@ $(BIN)/ParteFicheroPorNumLineas : $(SRC)/ParteFicheroPorNumLineas.cpp
 	g++ -o $(BIN)/ParteFicheroPorNumLineas $(SRC)/ParteFicheroPorNumLineas.cpp --std=c++14
 
 $(BIN)/MensajesOcultos-2 : $(OBJ)/MensajesOcultos-2.o \
-	                       $(OBJ)/Matriz2D.o \
-	                       $(OBJ)/Secuencia.o
+	                       $(LIB)/libMatriz2D.a \
+	                       $(LIB)/libSecuencia.a
 	@echo 
 	@echo Creando ejecutable: MensajesOcultos-2
 	@echo 
@@ -98,12 +93,12 @@ $(BIN)/MensajesOcultos-2 : $(OBJ)/MensajesOcultos-2.o \
 
 #................................................
 # OBJETOS 
-$(OBJ)/IV_Demo-Matriz2D.o : $(SRC)/IV_Demo-Matriz2D.cpp \
+$(OBJ)/VI_Demo-Matriz2D.o : $(SRC)/VI_Demo-Matriz2D.cpp \
              $(INCLUDE)/Matriz2D.h
 	@echo 
-	@echo Creando objeto: IV_Demo-Matriz2D.o
+	@echo Creando objeto: VI_Demo-Matriz2D.o
 	@echo 
-	g++ -c -o $(OBJ)/IV_Demo-Matriz2D.o $(SRC)/IV_Demo-Matriz2D.cpp \
+	g++ -c -o $(OBJ)/VI_Demo-Matriz2D.o $(SRC)/VI_Demo-Matriz2D.cpp \
             -I$(INCLUDE) -std=c++14
 
 $(OBJ)/MensajesOcultos-2.o : $(SRC)/MensajesOcultos-2.cpp \
@@ -131,12 +126,12 @@ $(OBJ)/Secuencia.o : $(SRC)/Secuencia.cpp \
 	g++ -c -o $(OBJ)/Secuencia.o  $(SRC)/Secuencia.cpp \
        -I$(INCLUDE) -std=c++14
 
-$(OBJ)/Secuencia_strings.o : $(SRC)/Secuencia_strings.cpp \
-                     $(INCLUDE)/Secuencia_strings.h $(INCLUDE)/TipoBase_Secuencia_strings.h
+$(OBJ)/Secuencia_string.o : $(SRC)/Secuencia_string.cpp \
+                     $(INCLUDE)/Secuencia_string.h $(INCLUDE)/TipoBase_Secuencia_string.h
 	@echo 
-	@echo Creando objeto: Secuencia_strings.o
+	@echo Creando objeto: Secuencia_string.o
 	@echo  
-	g++ -c -o $(OBJ)/Secuencia_strings.o  $(SRC)/Secuencia_strings.cpp \
+	g++ -c -o $(OBJ)/Secuencia_string.o  $(SRC)/Secuencia_string.cpp \
        -I$(INCLUDE) -std=c++14
 
 #................................................
@@ -149,11 +144,11 @@ $(LIB)/libMatriz2D.a : $(OBJ)/Matriz2D.o
 	ar rvs $(LIB)/libMatriz2D.a \
 	       $(OBJ)/Matriz2D.o
 
-$(LIB)/libSecuencia.a : $(OBJ)/Secuencia.o $(OBJ)/Secuencia_strings.o
+$(LIB)/libSecuencia.a : $(OBJ)/Secuencia.o $(OBJ)/Secuencia_string.o
 	@echo 
 	@echo Creando biblioteca: libSecuencia.a 
 	@echo  
-	ar rvs $(LIB)/libSecuencia.a  $(OBJ)/Secuencia.o $(OBJ)/Secuencia_strings.o
+	ar rvs $(LIB)/libSecuencia.a  $(OBJ)/Secuencia.o $(OBJ)/Secuencia_string.o
 
 
 #................................................
@@ -186,4 +181,4 @@ mr.proper:  clean-objs clean-libs clean-bins
 # OTROS
 
 comprimir :
-	tar -cvf MP_sesion11.tar src include obj lib bin makefile11.mak
+	tar -cvf MP_sesion13.tar src include obj lib bin datos_matriz datos_mensajes_ocultos makefile13.mak

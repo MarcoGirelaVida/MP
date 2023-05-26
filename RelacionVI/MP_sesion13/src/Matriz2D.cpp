@@ -23,8 +23,9 @@
 /***************************************************************************/
 
 #include "Matriz2D.h"
-
+#include "Secuencia.h"
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <iomanip>
 using namespace std; 
@@ -91,6 +92,23 @@ Matriz2D :: Matriz2D(const Matriz2D &otra)
 	CopiarDatos(otra);
 }
 
+/***************************************************************************/
+//Constructor que recibe el nombre de un fichero de texto y crea una matriz
+//y la rellena con los datos contenidos en el fichero de texto nombre.
+Matriz2D :: Matriz2D(const char * nombre)
+				 : datos(nullptr), fils(0), cols(0)
+{
+	// Abro el fichero proporcionado
+	ifstream fi(nombre);
+	if (!fi)
+	{
+		cerr << "Error al abrir el fichero " << nombre << endl;
+		exit(1);
+	}
+	
+	fi >> (*this);
+}
+    
 /***************************************************************************/
 // Destructor de la clase Matriz2D
 
@@ -301,18 +319,28 @@ Matriz2D operator* (const TipoBase valor, const Matriz2D & original)
 // Parámetros: objeto de tipo istream desde el que leer los datos de la matriz
 // Parámetros: objeto de tipo Matriz2D en el que se almacenarán los datos leídos
 // Devuelve: referencia al flujo de entrada
-istream & operator >> (istream & in, Matriz2D & m)
+istream & operator>> (istream & in, Matriz2D & m)
 {
 	string flujo;
 
     // Leo el número de columnas
     // Si da solo un argumento da excepción
+	getline(in, flujo);
+	if (flujo != "MATRIZ")
+	{
+		cerr << "Error: no se ha encontrado la palabra MATRIZ" << endl;
+		exit(1);
+	}
+	
+	// Leo la segunda linea, que solo debe contener las dimensiones de la matriz
+	getline(in, flujo);
+	istringstream iss(flujo);
+	// La función stoi dará excepción si no es un int
 	int filas = 0;
-	if(in >> flujo)
-
+	if(iss >> flujo){
         // La función stoi dará excepción si no es un int
         filas = stoi(flujo);
-
+	}
     else{
         cerr << "Error: ningún argumento en la segunda linea, deben ser 2\n";
         exit(1);
@@ -321,16 +349,16 @@ istream & operator >> (istream & in, Matriz2D & m)
     // Leo el número de columnas
     // Si da solo un argumento da excepción
 	int columnas = 0;
-    if(in >> flujo)
+    if(iss >> flujo){
         columnas = stoi(flujo);
-
+	}
     else{
         cerr << "Error: solo 1 argumento en la segunda linea, deben ser 2\n";
         exit(1);
     }
 
     // Si da más de dos argumentos en la segunda linea, da excepción
-    if (in >> flujo)
+    if (iss >> flujo)
     {
         cerr << "Error: Más de dos argumentos en la segunda linea, deben ser 2"
              << endl;
@@ -338,6 +366,7 @@ istream & operator >> (istream & in, Matriz2D & m)
     }
     
     // Creo la matriz con los parámetros indicados
+	cout << "Filas: " << filas << " Columnas: " << columnas << endl;
     m = Matriz2D(filas, columnas);
 
     // Leo los siguientes elementos y los almaceno como elementos de la matriz.
@@ -350,12 +379,13 @@ istream & operator >> (istream & in, Matriz2D & m)
 		// pero no se me ocurría otra
 			if (in >> flujo)
 			{
-				if (TIPOBASE == "int")
+				#ifdef INT_MATRIZ
 				{
 					m(i, j) = stoi(flujo);	
 				}
+				#endif
 
-				if (TIPOBASE == "char")
+				#ifdef CHAR_MATRIZ
 				{
 					if (flujo.size() > 1)
 					{
@@ -366,6 +396,7 @@ istream & operator >> (istream & in, Matriz2D & m)
 
 					m(i, j) = flujo[0];
 				}
+				#endif
 			}
 			else
 			{
@@ -390,6 +421,9 @@ istream & operator >> (istream & in, Matriz2D & m)
 // Parámetros: objeto de tipo istream desde el que leer los datos de la matriz
 // Parámetros: objeto de tipo Matriz2D del que se leerán los datos a escribir
 // Devuelve: referencia al flujo de entrada
+// En circunstancias normales usaría toString sin más y así no duplicaría
+// código, pero en este enunciado se pide que tenga setw(6) y setfill(' ')
+// que yo sepa no se pueden usar al formar un string
 ostream& operator<<(ostream &out, const Matriz2D &m)
 {
 
@@ -408,6 +442,59 @@ ostream& operator<<(ostream &out, const Matriz2D &m)
     }
 
     return out;
+}
+
+/***************************************************************************/
+//Guarda en el fichero de texto nombre el contenido de la matriz. Si el
+//fichero ya existiera, se reemplaza su contenido por el de la matriz. La
+//matriz no se modifica. Escribe los datos por filas, esto es, cada línea
+//de salida contiene los valores de una fila de la matriz delimitados por
+//separadores
+void Matriz2D :: EscribirMatriz2D (const char * nombre) const
+{
+	ifstream fichero(nombre);
+
+	if (fichero)
+	{
+		cout << "CUIDADO: Se va a sobreescribir el fichero " << nombre << endl;
+		cout << "¿Está seguro? (S/N): ";
+		char respuesta;
+		cin >> respuesta;
+		respuesta = toupper(respuesta);
+		
+		if (respuesta != 'S')
+		{
+			cerr << "Operación cancelada" << endl;
+			exit(1);
+		}
+	}
+
+
+	ofstream fichero_escritura(nombre);
+
+	fichero_escritura << "MATRIZ" << endl;
+
+	fichero_escritura << NumFilas() << " " << NumColumnas() << endl;
+
+	for (int f = 1; f <= NumFilas(); f++)
+	{
+		for (int c = 1; c <= NumColumnas(); c++)
+		{
+			fichero_escritura << (*this)(f, c) << " ";
+		}
+
+		fichero_escritura << endl;
+	}
+
+	fichero_escritura.close();
+}
+
+/***************************************************************************/
+//Sustituye el contenido de la matriz por los valores que están en el fichero
+//de texto nombre.
+void Matriz2D :: LeerMatriz2D (const char * nombre)
+{
+	(*this) = Matriz2D(nombre);
 }
 
 /***************************************************************************/
@@ -432,7 +519,7 @@ string Matriz2D :: ToString (string Cadena, int empiezaen) const
 	{
 		cad += Cadena + " " + to_string(empiezaen+f) + " --> ";
 		
-		for (int c=0; c<cols; c++) 
+		for (int c=0; c<cols; c++)
 			cad += to_string(datos[f][c]) + "  ";
 		cad += "\n";
 	}
@@ -929,7 +1016,6 @@ void Matriz2D :: CopiarDatos (const Matriz2D & otra)
 	{
 		// Limpio la matriz destino (me da igual lo que hubiese)
 		LiberaMemoria();
-
 		// Reservo memoria para la matriz destino
 		ReservaMemoria(otra.NumFilas(), otra.NumColumnas());
 

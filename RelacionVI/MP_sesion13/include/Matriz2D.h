@@ -74,6 +74,11 @@ public:
     Matriz2D(const Matriz2D &otra);
 
 /***************************************************************************/
+//Constructor que recibe el nombre de un fichero de texto y crea una matriz
+//y la rellena con los datos contenidos en el fichero de texto nombre.
+    Matriz2D (const char * nombre);
+
+/***************************************************************************/
 // Destructor de la clase Matriz2D
     ~Matriz2D (void);
 
@@ -186,13 +191,26 @@ friend istream & operator >> (istream & in, Matriz2D & m);
 friend ostream & operator << (ostream & out, const Matriz2D & m);
 
 /***************************************************************************/
+//Guarda en el fichero de texto nombre el contenido de la matriz. Si el
+//fichero ya existiera, se reemplaza su contenido por el de la matriz. La
+//matriz no se modifica. Escribe los datos por filas, esto es, cada línea
+//de salida contiene los valores de una fila de la matriz delimitados por
+//separadores
+void EscribirMatriz2D (const char * nombre) const;
+
+/***************************************************************************/
+//Sustituye el contenido de la matriz por los valores que están en el fichero
+//de texto nombre.
+void LeerMatriz2D (const char * nombre);
+
+/***************************************************************************/
 // Devuelve un string con el resultado de "serializar" una 
 // Parámetros: matriz (referencia), la matriz que va a serializarse. 
 // Parámetros: Cadena: Texto que se pondrá al inicio de cada fila.
 // "Fila" por defecto
 // Parámetros: empiezaen: Número de fila en la que se empezará a serializar.
 // 1 por defecto.
-    string ToString (string Cadena="Fila", int empiezaen=1) const;
+string ToString (string Cadena="Fila", int empiezaen=1) const;
 
 
 /***************************************************************************/
