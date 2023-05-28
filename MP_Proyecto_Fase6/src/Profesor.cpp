@@ -18,12 +18,7 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <cstring>
-#include <iostream>
-
 #include "Profesor.h"
-#include "Fecha.h"
-#include "utils.h"
 
 using namespace std;
 
@@ -86,48 +81,27 @@ using namespace std;
     {
 
         string dni, nombre, apellidos, fechanacimiento, categoria;
-        string tmp = "";
-        int i = 0;
+        istringstream flujo(linea);
 
         // Leo el DNI
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
-
-        // Almaceno el DNI en un string temporal
-        dni = tmp;
-        tmp = ""; i++;
+        getline(flujo, dni, delimitador);
 
         //.....................................................................
         // Leo el nombre
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
-
-        // Almaceno el nombre en un string temporal
-        nombre = tmp;
-        tmp = ""; i++;
+        getline(flujo, nombre, delimitador);
 
         //.....................................................................
         // Leo los apellidos
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
-
-        // Almaceno los apellidos en un string temporal
-        apellidos = tmp;
-        tmp = ""; i++;
+        getline(flujo, apellidos, delimitador);
 
         //.....................................................................
         // Leo la fecha de nacimiento
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
-
-        // Almaceno la fecha en un string temporal
-        fechanacimiento = tmp;
-        tmp = ""; i++;
+        getline(flujo, fechanacimiento, delimitador);
 
         //.....................................................................
         // Leo la categoria
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
+        getline(flujo, categoria, delimitador);
 
-        // Almaceno la categoria en un string temporal
-        categoria = tmp;
-        tmp = ""; i++;
-    
         //.....................................................................
         // Asigno los valores leidos a los atributos de la clase
         setDni(dni);
@@ -227,10 +201,49 @@ using namespace std;
 
 
 /***************************************************************************/
+// OPERATOR >> 
+// Lee un dato Profesor desde un flujo de entrada.
+// Parámetros: flujo, referencia a un flujo de entrada.
+//             otro, referencia a un objeto de la clase Profesor. 
+
+    istream & operator >> (istream & flujo, Profesor & otro)
+    {
+        string linea;
+        bool continua = true;
+
+        while(getline(flujo, linea) && continua)
+        {
+            if (linea[0] != '#')
+            {
+                otro = Profesor(linea);
+                continua = false;
+            }
+            else
+            {
+                continua = true;
+            }
+        }
+        
+
+        return flujo;
+    }
+
+/***************************************************************************/
+// OPERATOR <<
+// Escribe un dato Profesor en un flujo de salida.
+// Parámetros: flujo, referencia a un flujo de salida.
+//             otro, referencia a un objeto de la clase Profesor. 
+
+    ostream & operator << (ostream & flujo, const Profesor & otro)
+    {
+        flujo << otro.ToString();
+        return flujo;
+    }
+
 /***************************************************************************/
 // Método ToString: Devuelve una cadena con los valores de los atributos
 
-    string Profesor :: ToString(bool mes_string, string cadena_inicial) const
+    string Profesor :: ToString(bool mes_string, string cadena_inicial, char delimitador) const
     {
         string cadena = cadena_inicial;
 
@@ -242,12 +255,12 @@ using namespace std;
             FechaNacimiento.getMes() || FechaNacimiento.getDia())
 
             {
-                cadena += (string) DNI + " ";
-                cadena += FormatString(((string)Apellidos + ", " \
-                            + (string) Nombre),32);
+                cadena += (string) DNI + delimitador;
+                cadena += FormatString(((string)Nombre + delimitador \
+                            + (string)Apellidos),32);
                 cadena += FechaNacimiento.ToString(mes_string);
-                cadena += "   " + to_string(Categoria);
-                cadena += "\n";
+                cadena += delimitador + to_string(Categoria);
+                cadena += delimitador + "\n";
             }
 
             else    {cadena += "PROFESOR VACIO";}

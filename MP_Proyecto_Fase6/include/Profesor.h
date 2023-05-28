@@ -13,7 +13,13 @@
 #ifndef PROFESOR_H
 #define PROFESOR_H
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include <string>
+#include <cstring>
+#include "utils.h"
+
 #include "Fecha.h"
 
 using namespace std;
@@ -60,7 +66,7 @@ public:
     //             la_categoria, int con la categoria.
 
     Profesor (string el_DNI, string el_nombre, string el_apellidos,
-                                string la_fecha, int la_categoria); 
+                                string la_fecha="01/01/2000", int la_categoria=0); 
 
     /************************************************************************/
     // Constructor desde un string.
@@ -97,9 +103,25 @@ public:
     void setCategoria(int arg_categoria);
 
     /***************************************************************************/
+    // OPERATOR >> 
+    // Lee un dato Profesor desde un flujo de entrada.
+    // Parámetros: flujo, referencia a un flujo de entrada.
+    //             otro, referencia a un objeto de la clase Profesor. 
+
+    friend istream & operator >> (istream & flujo, Profesor & otro);
+
+    /***************************************************************************/
+    // OPERATOR <<
+    // Escribe un dato Profesor en un flujo de salida.
+    // Parámetros: flujo, referencia a un flujo de salida.
+    //             otro, referencia a un objeto de la clase Profesor. 
+
+    friend ostream & operator << (ostream & flujo, const Profesor & otro);
+
+    /***************************************************************************/
     // Método ToString
 
-    string ToString(bool mes_string = false, string cadena_inicial = "") const;
+    string ToString(bool mes_string = false, string cadena_inicial = "", char delimitador = ' ') const;
 
     /***********************************************************************/
     // Sobrecarga del operador == para comprobar si un Profesor es igual 

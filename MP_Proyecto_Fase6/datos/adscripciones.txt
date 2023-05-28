@@ -1,0 +1,8 @@
+ADSCRIPCIONES
+#Fichero de adscripciones con los datos de las fases iniciales.   
+19283746F*CCIA*
+12345678A*CCIA*
+11223344D*LSI*
+13579246C*LSI*
+24680135B*CCIA*
+99887766E*LSI*

@@ -11,14 +11,14 @@
 //  
 // 
 //
-// Declaraciones en: VectorObjeto.h
+// Declaraciones en: VectorProfesor.h
 //
-// Fichero: VectorObjeto.cpp
+// Fichero: VectorProfesor.cpp
 //
 /***************************************************************************/
 /***************************************************************************/
 
-#include "VectorObjeto.h"
+#include "VectorProfesor.h"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ using namespace std;
 // Si se llama sin argumentos crea una secuencia con capacidad = TAMANIO.
 // Si se llama con un argumento, su valor será la capacidad inicial. 
 // POST: La secuencia creada estará vacía (EstaVacia()== true)
-VectorObjeto :: VectorObjeto(int la_capacidad)
+VectorProfesor :: VectorProfesor(int la_capacidad)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
 {
     ReservaMemoria(la_capacidad);
@@ -38,9 +38,9 @@ VectorObjeto :: VectorObjeto(int la_capacidad)
 
 /************************************************************************/
 // Constructor de copia
-// Crea un objeto copia del objeto proporcionado como argumento ("otro")
-// Parámetros: otro (referencia), Objeto que sirve de modelo. 
-VectorObjeto :: VectorObjeto(const VectorObjeto &otro)
+// Crea un Profesor copia del Profesor proporcionado como argumento ("otro")
+// Parámetros: otro (referencia), Profesor que sirve de modelo. 
+VectorProfesor :: VectorProfesor(const VectorProfesor &otro)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
 {
     (*this) = otro;
@@ -48,18 +48,29 @@ VectorObjeto :: VectorObjeto(const VectorObjeto &otro)
 
 /************************************************************************/
 // Constructor
-// Recibe como parámetro un Objeto que servirá para inicializar
+// Recibe como parámetro un Profesor que servirá para inicializar
 // el vector con un único elemento.
-VectorObjeto :: VectorObjeto(const Objeto &obj)
+VectorProfesor :: VectorProfesor(const Profesor &obj)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
 {   
     ReservaMemoria(TAMANIO);
-    AniadeObjeto(obj);
+    AniadeProfesor(obj);
 }
-
+  
+/************************************************************************/
+//Constructor.Construye un Profesor VectorProfesor a partir de la información guardada en un
+//fichero de texto llamado nombre.
+//Son válidas las mismas consideraciones que en el método de lectura: si el fichero
+//indicado no fuera del tipo esperado, el vector quedará vacío
+VectorProfesor :: VectorProfesor(const string & nombre)
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{
+    RecuperarVectorProfesor(nombre);
+}
+ 
 /************************************************************************/
 // Destructor
-VectorObjeto :: ~VectorObjeto()
+VectorProfesor :: ~VectorProfesor()
 {
     LiberarMemoria();
 }
@@ -69,35 +80,35 @@ VectorObjeto :: ~VectorObjeto()
 /*************************************************************************/
 // Métodos de acceso a los campos de la clase
 // Totalutilizados: Devuelve el número de elementos utilizados
-int VectorObjeto :: Totalutilizados() const
+int VectorProfesor :: Totalutilizados() const
 {
     return total_utilizados;
 }
 
 // Capacidad: Devuelve la capacidad actual del vector
-int VectorObjeto :: Capacidad() const
+int VectorProfesor :: Capacidad() const
 {
     return capacidad;
 }
 
 // EstaVacia: Devueve true si totalutilizados es 0 y false en caso contrario
-int VectorObjeto :: EstaVacia() const
+int VectorProfesor :: EstaVacia() const
 {
     return (Totalutilizados() == 0);
 }
 
 /***************************************************************************/
 // Métodos set
-// Sustituye el elemento "indice" del vector por el objeto proporcionado
-// Difiere de la sobrecarga = de la clase Objeto en que este método
-// comprueba que el objeto proporcionado no se encuentre en la cadena
+// Sustituye el elemento "indice" del vector por el Profesor proporcionado
+// Difiere de la sobrecarga = de la clase Profesor en que este método
+// comprueba que el Profesor proporcionado no se encuentre en la cadena
 // Es el método que recomiendo usar a la hora de alterar los elementos del vector
 // PRE: 1 <= indice <= totalutilizados
-void VectorObjeto :: setObjeto(int indice, const Objeto &obj)
+void VectorProfesor :: setProfesor(int indice, const Profesor &obj)
 {
     if ((*this) && obj)
     {
-        cerr << "Error: El Objeto ya existe" << endl;
+        cerr << "Error: El Profesor ya existe" << endl;
         exit(1);
     }
 
@@ -105,9 +116,61 @@ void VectorObjeto :: setObjeto(int indice, const Objeto &obj)
 }
 
 /***************************************************************************/
+// OPERATOR >>:
+// Lee del flujo de entrada los datos de un VectorProfesor
+// Parámetros: flujo (referencia), flujo de entrada desde el que se leen los datos
+//             v_obj (referencia), VectorProfesor en el que se guardan los datos
+// PRE: El formato de los datos debe ser el siguiente:
+//      - Palabra clave: "ProfesorES"
+//      - Profesores (una por linea)
+//      - Comentarios, deben empezar por el caracter '#'
+//      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+istream & operator>> (istream &flujo, VectorProfesor &v_obj)
+{
+    string linea;
+    Profesor obj;
+    getline(flujo, linea);
+
+    if (linea != "PROFESORES")
+    {
+        cerr << "Error: No se ha encontrado lo palabra clave" << endl;
+        exit(1);
+    }
+
+    // Mientras no se encuentre el fin de los datos o un comentario
+    // se almacenan los datos
+    while(flujo >> obj)
+    {
+        v_obj += obj;
+    }
+
+    return flujo;
+}
+
+/***************************************************************************/
+// OPERATOR <<:
+// Escribe en el flujo de salida los datos de un VectorProfesor
+// Parámetros: flujo (referencia), flujo de salida en el que se escriben los datos
+//             v_obj (referencia constante), VectorProfesor del que se leen los datos
+// PRE: El formato de los datos debe ser el siguiente:
+//      - Palabra clave: "ProfesorES"
+//      - Profesores (una por linea)
+//      - Comentarios, deben empezar por el caracter '#'
+//      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+ostream & operator<< (ostream &flujo, const VectorProfesor &v_obj)
+{
+    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
+    {
+        flujo << to_string(i) << ".- " << v_obj[i] << endl;
+    }
+
+    return flujo;
+}
+
+/***************************************************************************/
 // Método ToString
-// Devuelve un string con la serialización de los objetos del vector implícito
-string VectorObjeto :: ToString() const
+// Devuelve un string con la serialización de los Profesors del vector implícito
+string VectorProfesor :: ToString() const
 {
     string cad;
 
@@ -115,17 +178,65 @@ string VectorObjeto :: ToString() const
     {
         int numero = i;
         string cadena_inicial = to_string(numero) + ".- ";
-        cad += (*this)[i].ToString(cadena_inicial) + "\n";
+        cad += (*this)[i].ToString(true, cadena_inicial) + "\n";
     }
 
     return cad;
 }
 
+/***************************************************************************/
+//Método de escritura. Guarda un dato Profesor en un fichero de texto llamado nombre.
+//Notas:
+//• Si el vector está vacío no se crea el fichero.
+//• El vector no se modifica.
+void VectorProfesor :: GuardarVectorProfesor (const string & nombre) const
+{
+    if (!EstaVacia())
+    {
+        ofstream fo(nombre);
+
+        if (!fo)
+        {
+            cerr << "Error: No se pudo crear o abrir el archivo: " << nombre
+                 << endl;
+            exit(1);
+        }
+        
+        fo << "PROFESORES" << endl;
+        for (int i = 1; i <= Totalutilizados(); i++)
+        {
+            fo << (*this)[i].ToString(true, "", '*') << endl;
+        }
+        
+    }
+}
+
+/***************************************************************************/
+//Método de lectura. Lee un dato Profesor de un fichero de texto llamado nombre.
+//Notas:
+//• El vector siempre se modifica.
+//• Si el fichero indicado no fuera un fichero del tipo esperado, el vector quedará
+//vacío.
+void VectorProfesor :: RecuperarVectorProfesor (const string & nombre)
+{
+    ifstream fi(nombre);
+
+    if (!fi)
+    {
+        cerr << "Error: No se pudo abrir el archivo: " << nombre << endl;
+        exit(1);
+    }
+
+    (*this).EliminaTodos();
+    
+    fi >> (*this);
+}
+ 
 /***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
-// Realiza una copia profunda de los datos de otro en el objeto implícito.
-// Parámetros: otro (referencia), Objeto que sirve de modelo. 
-VectorObjeto & VectorObjeto :: operator=(const VectorObjeto &otro)
+// Realiza una copia profunda de los datos de otro en el Profesor implícito.
+// Parámetros: otro (referencia), Profesor que sirve de modelo. 
+VectorProfesor & VectorProfesor :: operator=(const VectorProfesor &otro)
 { 
     CopiarDatos(otro);
     return *this;
@@ -134,7 +245,7 @@ VectorObjeto & VectorObjeto :: operator=(const VectorObjeto &otro)
 /***********************************************************************/
 // Sobrecarga del [].
 // Parámetros: indice del elemento a consultar (total_utilizados => indice => 1)
-Objeto & VectorObjeto :: operator[](int indice) const
+Profesor & VectorProfesor :: operator[](int indice) const
 {
     comprobacion_indice_totalutilizados(indice);
     return Valor(indice-1);
@@ -143,7 +254,7 @@ Objeto & VectorObjeto :: operator[](int indice) const
 /***********************************************************************/
 // Sobrecarga del ().
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0)
-Objeto & VectorObjeto :: operator[](int indice)
+Profesor & VectorProfesor :: operator[](int indice)
 {
     comprobacion_indice_capacidad(indice);
     return Valor(indice-1);
@@ -152,7 +263,7 @@ Objeto & VectorObjeto :: operator[](int indice)
 /***********************************************************************/
 // Sobrecarga del ().
 // Parámetros: indice del elemento a consultar (total_utilizados => indice > 0)
-Objeto & VectorObjeto :: operator()(int indice) const
+Profesor & VectorProfesor :: operator()(int indice) const
 {
     return (*this)[indice];
 }
@@ -160,22 +271,22 @@ Objeto & VectorObjeto :: operator()(int indice) const
 /***********************************************************************/
 // Sobrecarga del ().
 // Parámetros: indice del elemento a modificar (total_utilizados => indice > 0)
-Objeto & VectorObjeto :: operator()(int indice)
+Profesor & VectorProfesor :: operator()(int indice)
 {
     return (*this)[indice];
 }
 
 /***************************************************************************/
 // Sobrecarga de operador +
-// Versión 1: VectorObjeto + VectorObjeto
-// Concatena los datos VectorObjeto en uno nuevo. Los valo-
+// Versión 1: VectorProfesor + VectorProfesor
+// Concatena los datos VectorProfesor en uno nuevo. Los valo-
 // res del segundo se añaden (en el mismo orden) en una copia del primero.
-// Parámetros: otro (referencia), VectorObjeto que se añade.
-// no se añadirá Objeto a VectorObjeto si ya está dentro
-VectorObjeto operator+ (const VectorObjeto &uno, \
-                              const VectorObjeto &otro)
+// Parámetros: otro (referencia), VectorProfesor que se añade.
+// no se añadirá Profesor a VectorProfesor si ya está dentro
+VectorProfesor operator+ (const VectorProfesor &uno, \
+                              const VectorProfesor &otro)
 {
-    VectorObjeto copia(uno);
+    VectorProfesor copia(uno);
 
     for (int i = 1; i <= otro.Totalutilizados(); i++)
     {
@@ -185,64 +296,64 @@ VectorObjeto operator+ (const VectorObjeto &uno, \
     return copia;
 }
 
-//Versión 2: [VectorObjeto] + [Objeto]
-//Añade un dato Objeto al final de una copia del VectorObjeto.
-// no se añadirá Objeto a VectorObjeto si ya está dentro
-VectorObjeto operator+ (const VectorObjeto &v_obj, \
-                              const Objeto &obj)
+//Versión 2: [VectorProfesor] + [Profesor]
+//Añade un dato Profesor al final de una copia del VectorProfesor.
+// no se añadirá Profesor a VectorProfesor si ya está dentro
+VectorProfesor operator+ (const VectorProfesor &v_obj, \
+                              const Profesor &obj)
 {
-    VectorObjeto copia(v_obj);
+    VectorProfesor copia(v_obj);
     copia += obj;
     return copia;
 }
 
-// Versión 3: [Objeto] + [VectorObjeto]
-// Inserta el dato Objeto al principio de una copia del
-// VectorObjeto.
-// no se añadirá Objeto a VectorObjeto si ya está dentro
-VectorObjeto operator+ (const Objeto &obj, \
-                              const VectorObjeto &v_obj)
+// Versión 3: [Profesor] + [VectorProfesor]
+// Inserta el dato Profesor al principio de una copia del
+// VectorProfesor.
+// no se añadirá Profesor a VectorProfesor si ya está dentro
+VectorProfesor operator+ (const Profesor &obj, \
+                              const VectorProfesor &v_obj)
 {
     return v_obj + obj;
 }
 
 /***************************************************************************/
-//Versioperatorón 1: [VectorObjeto] - [VectorObjeto]
-//Elimina de una copia del objeto implícito los datos Objeto cuyo
-//campo clave esté presente en los datos Objeto
-//del objeto explícito.
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto VectorObjeto :: operator-
-                                    (const VectorObjeto &v_obj) const
+//Versioperatorón 1: [VectorProfesor] - [VectorProfesor]
+//Elimina de una copia del Profesor implícito los datos Profesor cuyo
+//campo clave esté presente en los datos Profesor
+//del Profesor explícito.
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor VectorProfesor :: operator-
+                                    (const VectorProfesor &v_obj) const
 {
-    VectorObjeto copia(*this);
+    VectorProfesor copia(*this);
     copia -= v_obj;
 
     return copia;
 }
 
-//Versión 2: [VectorObjeto] - [Objeto]
-//Elimina de una copia del VectorObjeto el dato
-//Objeto cuyo campo clave sea igual al del
-//valor incluido en el objeto Objeto.
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto VectorObjeto :: operator-
-                                            (const Objeto &obj) const
+//Versión 2: [VectorProfesor] - [Profesor]
+//Elimina de una copia del VectorProfesor el dato
+//Profesor cuyo campo clave sea igual al del
+//valor incluido en el Profesor Profesor.
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor VectorProfesor :: operator-
+                                            (const Profesor &obj) const
 {
-    VectorObjeto copia(*this);
+    VectorProfesor copia(*this);
 
     copia -= obj;
 
     return copia;
 }
 
-//Versión 3: [VectorObjeto] - [string]
-//Elimina de una copia del VectorObjeto el dato
-//Objeto cuyo campo clave sea igual al string dado.
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto VectorObjeto :: operator- (const string &cadena) const
+//Versión 3: [VectorProfesor] - [string]
+//Elimina de una copia del VectorProfesor el dato
+//Profesor cuyo campo clave sea igual al string dado.
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor VectorProfesor :: operator- (const string &cadena) const
 {
-    VectorObjeto copia(*this);
+    VectorProfesor copia(*this);
 
     copia -= cadena;
 
@@ -251,13 +362,13 @@ VectorObjeto VectorObjeto :: operator- (const string &cadena) const
 
 /***************************************************************************/
 // Operator *
-//Versión 1: [VectorObjeto] * [VectorObjeto]
-//Devuelve un nuevo VectorObjeto que contiene to-
-//dos los datos VectorObjeto comunes entre los dos VectorObjeto
-VectorObjeto VectorObjeto :: operator*
-                                    (const VectorObjeto &v_obj) const
+//Versión 1: [VectorProfesor] * [VectorProfesor]
+//Devuelve un nuevo VectorProfesor que contiene to-
+//dos los datos VectorProfesor comunes entre los dos VectorProfesor
+VectorProfesor VectorProfesor :: operator*
+                                    (const VectorProfesor &v_obj) const
 {
-    VectorObjeto comunes;
+    VectorProfesor comunes;
 
     for (int i = 1; i <= Totalutilizados(); i++)
     {
@@ -272,11 +383,11 @@ VectorObjeto VectorObjeto :: operator*
 
 /***************************************************************************/
 // Operator &&
-//Versión 1: [VectorObjeto] && [VectorObjeto]
-//Devuelve true si el primer VectorObjeto contiene todos los
-//datos que están en el segundo VectorObjeto.
-bool operator&& (const VectorObjeto &v_obj1,\
-                        const VectorObjeto &v_obj2)
+//Versión 1: [VectorProfesor] && [VectorProfesor]
+//Devuelve true si el primer VectorProfesor contiene todos los
+//datos que están en el segundo VectorProfesor.
+bool operator&& (const VectorProfesor &v_obj1,\
+                        const VectorProfesor &v_obj2)
 {
     bool estan_todos = true;
 
@@ -296,74 +407,74 @@ bool operator&& (const VectorObjeto &v_obj1,\
     return estan_todos;
 }
 
-// Versión 2: [VectorObjeto] && [Objeto]
-// Devuelve un int con el indice del VectorObjeto que
-// contiene al dato Objeto.
+// Versión 2: [VectorProfesor] && [Profesor]
+// Devuelve un int con el indice del VectorProfesor que
+// contiene al dato Profesor.
 // Si no está contenido, devuelve 0.
-int operator&& (const VectorObjeto &v_obj,\
-                        const Objeto &obj)
+int operator&& (const VectorProfesor &v_obj,\
+                        const Profesor &obj)
 {
-    return v_obj.BuscarObjeto(obj);
+    return v_obj.BuscarProfesor(obj);
 }
-// Versión 3: [Objeto] && [VectorObjeto]
-// Devuelve un int con el indice del VectorObjeto que
-// contiene al dato Objeto.
+// Versión 3: [Profesor] && [VectorProfesor]
+// Devuelve un int con el indice del VectorProfesor que
+// contiene al dato Profesor.
 // Si no está contenido, devuelve 0.
-int operator&& (const Objeto &obj,\
-                        const VectorObjeto &v_obj)
+int operator&& (const Profesor &obj,\
+                        const VectorProfesor &v_obj)
 {
     return v_obj && obj;
 }
 
-// Versión 4: [VectorObjeto] && [string]
-// Devuelve un int con el indice del VectorObjeto que
-// contiene al dato Objeto cuyo campo clave coincide con el string.
+// Versión 4: [VectorProfesor] && [string]
+// Devuelve un int con el indice del VectorProfesor que
+// contiene al dato Profesor cuyo campo clave coincide con el string.
 // Si no está contenido, devuelve 0.
-int operator&& (const VectorObjeto &v_obj,\
+int operator&& (const VectorProfesor &v_obj,\
                         const string &cadena)
 {
-    return v_obj.BuscarObjeto(cadena);
+    return v_obj.BuscarProfesor(cadena);
 }
 
-// Versión 5: [string] && [VectorObjeto]
-// Devuelve un int con el indice del VectorObjeto que
-// contiene al dato Objeto cuyo campo clave coincide con el string.
+// Versión 5: [string] && [VectorProfesor]
+// Devuelve un int con el indice del VectorProfesor que
+// contiene al dato Profesor cuyo campo clave coincide con el string.
 // Si no está contenido, devuelve 0.
 int operator&& (const string &cadena,\
-                        const VectorObjeto &v_obj)
+                        const VectorProfesor &v_obj)
 {
     return v_obj && cadena;
 }
 /***************************************************************************/
 // Operator +=
-// Versión 1: [VectorObjeto] += [VectorObjeto]
-// Todos los valores del objeto explícito se añaden (en el mismo orden en
-// el que están en el objeto explícito) al objeto implícito 
-// no se añadirá Objeto a VectorObjeto si ya está dentro
-VectorObjeto & VectorObjeto :: operator+= (const VectorObjeto & v_obj)
+// Versión 1: [VectorProfesor] += [VectorProfesor]
+// Todos los valores del Profesor explícito se añaden (en el mismo orden en
+// el que están en el Profesor explícito) al Profesor implícito 
+// no se añadirá Profesor a VectorProfesor si ya está dentro
+VectorProfesor & VectorProfesor :: operator+= (const VectorProfesor & v_obj)
 {
    *this = *this + v_obj;
     
     return *this;
 }
 
-// Versión 2: [VectorObjeto] += [Objeto]
-//Añade un dato Objeto al final del objeto implícito.
-// no se añadirá Objeto a VectorObjeto si ya está dentro
-VectorObjeto & VectorObjeto :: operator+= (const Objeto & obj)
+// Versión 2: [VectorProfesor] += [Profesor]
+//Añade un dato Profesor al final del Profesor implícito.
+// no se añadirá Profesor a VectorProfesor si ya está dentro
+VectorProfesor & VectorProfesor :: operator+= (const Profesor & obj)
 {
-    (*this).AniadeObjeto(obj);
+    (*this).AniadeProfesor(obj);
     return (*this);
 }
 
 /***************************************************************************/
 // Operador -=:
-// Versión 1: [VectorObjeto] -= [VectorObjeto]
-//Elimina del objeto implícito los datos Objeto que
-// esté presente en los datos Objeto del objeto
+// Versión 1: [VectorProfesor] -= [VectorProfesor]
+//Elimina del Profesor implícito los datos Profesor que
+// esté presente en los datos Profesor del Profesor
 //explícito.
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto & VectorObjeto :: operator-= (const VectorObjeto & v_obj)
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor & VectorProfesor :: operator-= (const VectorProfesor & v_obj)
 {
 
     for (int i = 1; i <= v_obj.Totalutilizados(); i++)
@@ -374,35 +485,35 @@ VectorObjeto & VectorObjeto :: operator-= (const VectorObjeto & v_obj)
     return *this;
 }
 
-//Versión 2: [VectorObjeto] -= [Objeto]
-//Elimina del objeto implícito el dato Objeto
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto & VectorObjeto :: operator-= (const Objeto & obj)
+//Versión 2: [VectorProfesor] -= [Profesor]
+//Elimina del Profesor implícito el dato Profesor
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor & VectorProfesor :: operator-= (const Profesor & obj)
 {
     (*this) -= ((*this) && obj);
 
     return *this;
 }
 
-//Versión 3: [VectorObjeto] -= [string]
-//Elimina del objeto implícito el dato Objeto cuyo campo clave
+//Versión 3: [VectorProfesor] -= [string]
+//Elimina del Profesor implícito el dato Profesor cuyo campo clave
 //sea igual al string dado
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto & VectorObjeto :: operator-= (const string & obj)
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor & VectorProfesor :: operator-= (const string & obj)
 {
     (*this) -= ((*this) && obj);
 
     return *this;
 }
 
-//Versión 4: [VectorObjeto] -= [int]
-//Elimina del objeto implícito el dato Objeto cuyo indice sea int
-//si Objeto no se encuentra en el objeto implícito no se hará nada 
-VectorObjeto & VectorObjeto :: operator-= (const int & indice)
+//Versión 4: [VectorProfesor] -= [int]
+//Elimina del Profesor implícito el dato Profesor cuyo indice sea int
+//si Profesor no se encuentra en el Profesor implícito no se hará nada 
+VectorProfesor & VectorProfesor :: operator-= (const int & indice)
 {
     if (indice_valido_usados(indice))
     {
-        EliminaObjeto(indice);
+        EliminaProfesor(indice);
     }
 
     return *this;
@@ -410,18 +521,18 @@ VectorObjeto & VectorObjeto :: operator-= (const int & indice)
 
 
 /***************************************************************************/
-// INSERTAObjeto
-// Inserta Objeto en el vector
-// Parámetros: Objeto a insertar y posición en la que insertarlo
+// INSERTAProfesor
+// Inserta Profesor en el vector
+// Parámetros: Profesor a insertar y posición en la que insertarlo
 // PRE: 1 <= indice <= Totalutilizados()
-// PRE: El Objeto no existe en el vector
-void VectorObjeto :: InsertaObjeto(Objeto &obj, int indice)
+// PRE: El Profesor no existe en el vector
+void VectorProfesor :: InsertaProfesor(Profesor &obj, int indice)
 {
     // Realmente el método set ya hace esta comprobación, pero hasta llegar a
     // el se altera por completo el vector, asi que hago la comprobación por dos
     if ((*this) && obj)
     {
-        cerr << "Error: Se ha intentado insertar un Objeto que ya existe"\
+        cerr << "Error: Se ha intentado insertar un Profesor que ya existe"\
              << endl;
         exit(1);
     }
@@ -434,7 +545,8 @@ void VectorObjeto :: InsertaObjeto(Objeto &obj, int indice)
         (*this)[i] = (*this)[i-1];
     }
 
-    setObjeto(indice, obj);
+    // Inserto el elemento
+    (*this)[indice] = obj;
 
     Redimensionar();
 
@@ -442,8 +554,8 @@ void VectorObjeto :: InsertaObjeto(Objeto &obj, int indice)
 
 
 /***************************************************************************/
-// Elimina todos los Objetos del vector
-void VectorObjeto :: EliminaTodos()
+// Elimina todos los Profesors del vector
+void VectorProfesor :: EliminaTodos()
 {
     LiberarMemoria();
 
@@ -452,13 +564,13 @@ void VectorObjeto :: EliminaTodos()
 }
 
 /***************************************************************************/
-// EXTRAEObjeto
-// Extrae Objeto del vector
-// Elimina el Objeto indice del vector y lo devuelve
+// EXTRAEProfesor
+// Extrae Profesor del vector
+// Elimina el Profesor indice del vector y lo devuelve
 // PRE: 1 <= indice <= Totalutilizados()
-Objeto VectorObjeto :: ExtraeObjeto(int indice)
+Profesor VectorProfesor :: ExtraeProfesor(int indice)
 {
-    Objeto obj((*this)[indice]);
+    Profesor obj((*this)[indice]);
 
     (*this) -= (*this)[indice];
 
@@ -469,11 +581,11 @@ Objeto VectorObjeto :: ExtraeObjeto(int indice)
 //----------------------------MÉTODOS PRIVADOS----------------------------//
 /*************************************************************************/
 // COPIARDATOS
-// Copiar datos desde otro Objeto de la clase
-// Parámetros: otro (referencia), Objeto que sirve de modelo. 
+// Copiar datos desde otro Profesor de la clase
+// Parámetros: otro (referencia), Profesor que sirve de modelo. 
 //
 // PRE: Se ha reservado memoria para los datos
-void VectorObjeto :: CopiarDatos(const VectorObjeto &otro)
+void VectorProfesor :: CopiarDatos(const VectorProfesor &otro)
 {
     if (this != &otro)
     {
@@ -482,8 +594,7 @@ void VectorObjeto :: CopiarDatos(const VectorObjeto &otro)
 
         for (int i = 1; i <= otro.Totalutilizados(); i++)
         {
-            setObjeto(i, otro[i]);
-            //(*this)[i] = otro[i]; <-- Más elegante, pero no hace comprobación
+            (*this)[i] = otro[i];
         }
 
         total_utilizados = otro.Totalutilizados();
@@ -494,11 +605,11 @@ void VectorObjeto :: CopiarDatos(const VectorObjeto &otro)
 }
 
 /***************************************************************************/
-// BUSCARObjeto
-// Método BuscarObjeto: Recibe un Objeto y lo busca en el vector
+// BUSCARProfesor
+// Método BuscarProfesor: Recibe un Profesor y lo busca en el vector
 // Si está, devuelve el índice donde está almacenado, sino, devuelve 0
-// Versión 1: Busca el Objeto dado un objeto Objeto
-int VectorObjeto :: BuscarObjeto(const Objeto &obj) const
+// Versión 1: Busca el Profesor dado un Profesor Profesor
+int VectorProfesor :: BuscarProfesor(const Profesor &obj) const
 {
     int indice = 0;
 
@@ -513,13 +624,13 @@ int VectorObjeto :: BuscarObjeto(const Objeto &obj) const
     return indice;
 }
 
-// Versión 2: Busca el Objeto según el campo clave ********
-int VectorObjeto :: BuscarObjeto(const string &cadena) const
+// Versión 2: Busca el Profesor según el campo clave ********
+int VectorProfesor :: BuscarProfesor(const string &cadena) const
 {
     int indice = 0;
     for (int i = 1; i <= Totalutilizados(); i++)
     {
-        if ((*this)[i].CAMPOCLAVE() == cadena)
+        if ((*this)[i].getDni() == cadena)
         {
             indice = i;
         }
@@ -529,32 +640,38 @@ int VectorObjeto :: BuscarObjeto(const string &cadena) const
 }
 
 /***************************************************************************/
-// ANIADEObjeto
-// Aniade Objeto al final del vector 
-// Dicho Objeto no puede estar repetido
-// Parámetros: obj (referencia), Objeto que se va a añadir.
-void VectorObjeto :: AniadeObjeto(const Objeto &obj)
+// ANIADEProfesor
+// Aniade Profesor al final del vector 
+// Dicho Profesor no puede estar repetido
+// Parámetros: obj (referencia), Profesor que se va a añadir.
+void VectorProfesor :: AniadeProfesor(const Profesor &obj)
 {
+    if ((*this) && obj)
+    {
+        cerr << "Error: El Profesor ya existe" << endl;
+        exit(1);
+    }
+
     total_utilizados++;
-    // SetObjeto comprueba si está repetido
-    setObjeto(Totalutilizados(), obj);
+
+    (*this)[Totalutilizados()] = obj;
 
     Redimensionar();
 }
 
 /***************************************************************************/
-// ELIMINAObjeto
-// Elimina Objeto del vector
-// Parámetros: indice, int que indica el índice del Objeto
+// ELIMINAProfesor
+// Elimina Profesor del vector
+// Parámetros: indice, int que indica el índice del Profesor
 // PRE: 1 <= indice <= Totalutilizados()
-void VectorObjeto :: EliminaObjeto(int indice)
+void VectorProfesor :: EliminaProfesor(int indice)
 {
     if(indice_valido_usados(indice))
     {
         // "Desplazar" los valores desde la casilla siguiente a "indice" 
         // hasta el final una posición a la izquierda
 		memmove (&(*this)[indice-1], &(*this)[indice], 
-                 (Totalutilizados()-indice)*sizeof(Objeto));
+                 (Totalutilizados()-indice)*sizeof(Profesor));
 
         total_utilizados--;
         Redimensionar();
@@ -566,7 +683,7 @@ void VectorObjeto :: EliminaObjeto(int indice)
 // Pide memoria para guardar una copia de los datos de "otro"
 // Parámetros: num_casillas: Número de casillas que se desean reservar. 
 // PRE: num_casillas > 0
-void VectorObjeto :: ReservaMemoria(const int num_casillas)
+void VectorProfesor :: ReservaMemoria(const int num_casillas)
 {
     if (num_casillas < 0)
     {
@@ -574,14 +691,14 @@ void VectorObjeto :: ReservaMemoria(const int num_casillas)
         exit(1);
     }
     
-	vector_privado = new Objeto[num_casillas]; 
+	vector_privado = new Profesor[num_casillas]; 
 	capacidad = num_casillas; 
 }
 
 /***********************************************************************/
 // LIBERARMEMORIA
 // Libera la memoria dinámica reservada para el vector
-void VectorObjeto :: LiberarMemoria()
+void VectorProfesor :: LiberarMemoria()
 {
     if (!EstaVacia())
 	{ 
@@ -597,13 +714,13 @@ void VectorObjeto :: LiberarMemoria()
 // REAJUSTAR
 // Iguala capacidad a total_utilizados (no recomendable, mejor usar redimensionar,
 // (Más que nada para no tener total_utilizados siempre "pegado" a capacidad)
-void VectorObjeto :: Reajustar()
+void VectorProfesor :: Reajustar()
 {
     if (Totalutilizados() < Capacidad())
     {
         capacidad = Totalutilizados();
         // Copio el vector en uno temporal
-        Objeto *tmp = new Objeto[Totalutilizados()];
+        Profesor *tmp = new Profesor[Totalutilizados()];
 
         // Borro el original
         delete [] vector_privado;
@@ -628,7 +745,7 @@ void VectorObjeto :: Reajustar()
 	El número de casillas finales no será fijo, sino que será un "PORC_EXTRA" 
 	superior a la ocupación de la secuencia después de la eliminación. 
 */
-void VectorObjeto :: Redimensionar (void)
+void VectorProfesor :: Redimensionar (void)
 {
     bool haceralgo = true;
 
@@ -668,7 +785,7 @@ void VectorObjeto :: Redimensionar (void)
 
         // Pedir memoria para el nuevo almacen 
         // Versión Antigua: (por si acaso)
-        Objeto * tmp = new Objeto[capacidad];
+        Profesor * tmp = new Profesor[capacidad];
 
         for (int i = 1; i <= Totalutilizados() && Totalutilizados(); i++)
         {
@@ -681,11 +798,11 @@ void VectorObjeto :: Redimensionar (void)
 }
 
 /***********************************************************************/
-// VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+// VALOR: Devuelve el valor de la Profesor en la posición "indice"
 // Puede funcionar como lvalue y como rvalue
 // Es el único método que usa y debe usar el índice "real" (desde 0)
 // PRE: 0 <= indice < total_utilizados
-Objeto & VectorObjeto :: Valor(int indice) const
+Profesor & VectorProfesor :: Valor(int indice) const
 {
     return vector_privado[indice];
 }
@@ -694,7 +811,7 @@ Objeto & VectorObjeto :: Valor(int indice) const
 // comprobacion_indice: Comprueba si el índice es válido
 // En caso que lo sea, devuelve un mensaje de error y termina el programa
 // PRE: 1 <= indice <= total_utilizados
-void VectorObjeto :: comprobacion_indice_totalutilizados(const int indice) const
+void VectorProfesor :: comprobacion_indice_totalutilizados(const int indice) const
 {
     if (!indice_valido_usados(indice))
     {
@@ -709,7 +826,7 @@ void VectorObjeto :: comprobacion_indice_totalutilizados(const int indice) const
 // comprobacion_indice: Comprueba si el índice es válido
 // En caso que lo sea, devuelve un mensaje de error y termina el programa
 // PRE: 1 <= indice <= capacidad
-void VectorObjeto :: comprobacion_indice_capacidad(const int indice) const
+void VectorProfesor :: comprobacion_indice_capacidad(const int indice) const
 {
     if (!indice_valido_capacidad(indice))
     {
@@ -724,7 +841,7 @@ void VectorObjeto :: comprobacion_indice_capacidad(const int indice) const
 // Indice_valido_usados: Comprueba si el índice es válido
 // Devuelve true si el índice está entre 1 y total_utilizados
 // Devuelve false en caso contrario
-bool VectorObjeto ::  indice_valido_usados(const int indice) const
+bool VectorProfesor ::  indice_valido_usados(const int indice) const
 {
     return (indice >= 1 && indice <= Totalutilizados());
 }
@@ -733,7 +850,7 @@ bool VectorObjeto ::  indice_valido_usados(const int indice) const
 // Indice_valido_capacidad: Comprueba si el índice es válido
 // Devuelve true si el índice está entre 1 y capacidad
 // Devuelve false en caso contrario
-bool VectorObjeto ::  indice_valido_capacidad(const int indice) const
+bool VectorProfesor ::  indice_valido_capacidad(const int indice) const
 {
     return (indice >= 1 && indice <= Capacidad());
 }

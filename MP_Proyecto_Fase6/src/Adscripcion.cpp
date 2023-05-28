@@ -18,8 +18,6 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <cstring>
-#include "utils.h"
 #include "Adscripcion.h"
 
 using namespace std;
@@ -45,24 +43,18 @@ using namespace std;
     Adscripcion :: Adscripcion(string linea, char delimitador)
                         : DNI(nullptr), Id_depto(nullptr)
     {
-        string tmp = "";
-        int i = 0;
-        
-        // Leo el primer elemento del string (dni)
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
+        string dni, id;
+        istringstream flujo(linea);
 
-        // Guardo tmp en el atributo dni de la clase
-        string dni = tmp;
-        tmp = ""; i++;
+        // Leo el primer elemento del string (dni)
+        getline(flujo, dni, delimitador);
 
         //.....................................................................
         // Leo el segundo elemento del string (id_dtpo)
+        getline(flujo, id, delimitador);
 
-        while(linea[i] != delimitador)  { tmp += linea[i]; i++; }
-
-        // Guardo tmp en el atributo id_dpto de la clase
-        string id = tmp;
-
+        //.....................................................................ç
+        // Asigno los valores a los atributos
         setDniProfesor(dni);
         setIdDepartamento(id);
     }
@@ -123,10 +115,49 @@ using namespace std;
 
 
 /***************************************************************************/
+// OPERATOR >> 
+// Lee un dato Adscripcion desde un flujo de entrada.
+// Parámetros: flujo, referencia a un flujo de entrada.
+//             otro, referencia a un objeto de la clase Adscripcion. 
+
+    istream & operator >> (istream & flujo, Adscripcion & otro)
+    {
+        string linea;
+        bool continua = true;
+
+        while(getline(flujo, linea) && continua)
+        {
+            if (linea[0] != '#')
+            {
+                otro = Adscripcion(linea);
+                continua = false;
+            }
+            else
+            {
+                continua = true;
+            }
+        }
+        
+
+        return flujo;
+    }
+
+/***************************************************************************/
+// OPERATOR <<
+// Escribe un dato Adscripcion en un flujo de salida.
+// Parámetros: flujo, referencia a un flujo de salida.
+//             otro, referencia a un objeto de la clase Adscripcion. 
+
+    ostream & operator << (ostream & flujo, const Adscripcion & otro)
+    {
+        flujo << otro.ToString();
+        return flujo;
+    }
+
 /***************************************************************************/
 // Método ToString
 
-    string Adscripcion :: ToString(string cadena_inicial)
+    string Adscripcion :: ToString(string cadena_inicial, char delimitador) const
     {   
         string cadena = cadena_inicial;
         
@@ -135,8 +166,8 @@ using namespace std;
             if (strlen(DNI) && strlen(Id_depto))
             {
                 cadena += (string) DNI;
-                cadena += " ";
-                cadena += (string) Id_depto + "\n";
+                cadena += delimitador;
+                cadena += (string) Id_depto + delimitador + "\n";
             }
             else    {cadena += "ADSCRIPCIÓN VACIA\n";}
         }

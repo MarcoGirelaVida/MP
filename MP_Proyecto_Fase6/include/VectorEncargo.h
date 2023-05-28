@@ -13,9 +13,6 @@
 #ifndef VECTOR_Encargo
 #define VECTOR_Encargo
 
-#include <iostream>
-#include <string>
-#include <cstring>
 #include "Encargo.h"
 
 using namespace std;
@@ -65,7 +62,7 @@ public:
 
     /************************************************************************/
     // Constructor de copia
-    // Crea un objeto copia del objeto proporcionado como argumento ("otro")
+    // Crea un Encargo copia del Encargo proporcionado como argumento ("otro")
     // Parámetros: otro (referencia), Encargo que sirve de modelo. 
     VectorEncargo(const VectorEncargo &otro);
 
@@ -74,7 +71,14 @@ public:
     // Recibe como parámetro un Encargo que servirá para inicializar
     // el vector con un único elemento.
     VectorEncargo(const Encargo &obj);
-
+ 
+    /************************************************************************/
+    //Constructor.Construye un Encargo VectorEncargo a partir de la información guardada en un
+    //fichero de texto llamado nombre.
+    //Son válidas las mismas consideraciones que en el método de lectura: si el fichero
+    //indicado no fuera del tipo esperado, el vector quedará vacío
+    VectorEncargo (const string & nombre);
+ 
     /************************************************************************/
     // Destructor
     ~VectorEncargo();
@@ -92,22 +96,61 @@ public:
 
    /***************************************************************************/
     // Métodos set
-    // Sustituye el elemento "indice" del vector por el objeto proporcionado
+    // Sustituye el elemento "indice" del vector por el Encargo proporcionado
     // Difiere de la sobrecarga = de la clase Encargo en que este método
-    // comprueba que el objeto proporcionado no se encuentre en la cadena
+    // comprueba que el Encargo proporcionado no se encuentre en la cadena
     // Es el método que recomiendo usar a la hora de alterar los elementos del vector
     // PRE: 1 <= indice <= totalutilizados
     void setEncargo(int indice, const Encargo &obj);
 
+
     /***************************************************************************/
+    // OPERATOR >>:
+    // Lee del flujo de entrada los datos de un VectorEncargo
+    // Parámetros: flujo (referencia), flujo de entrada desde el que se leen los datos
+    //             v_obj (referencia), VectorEncargo en el que se guardan los datos
+    // PRE: El formato de los datos debe ser el siguiente:
+    //      - Palabra clave: "EncargoES"
+    //      - Encargoes (una por linea)
+    //      - Comentarios, deben empezar por el caracter '#'
+    //      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+    friend istream & operator>> (istream &flujo, VectorEncargo &v_obj);
+
+    /***************************************************************************/
+    // OPERATOR <<:
+    // Escribe en el flujo de salida los datos de un VectorEncargo
+    // Parámetros: flujo (referencia), flujo de salida en el que se escriben los datos
+    //             v_obj (referencia constante), VectorEncargo del que se leen los datos
+    // PRE: El formato de los datos debe ser el siguiente:
+    //      - Palabra clave: "EncargoES"
+    //      - Encargoes (una por linea)
+    //      - Comentarios, deben empezar por el caracter '#'
+    //      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+    friend ostream & operator<< (ostream &flujo, const VectorEncargo &v_obj);
+
     /***************************************************************************/
     // Método ToString
-    // Devuelve un string con la serialización de los objetos del vector implícito
+    // Devuelve un string con la serialización de los Encargos del vector implícito
     string ToString() const;
 
+    /***************************************************************************/
+    //Método de escritura. Guarda un dato Encargo en un fichero de texto llamado nombre.
+    //Notas:
+    //• Si el vector está vacío no se crea el fichero.
+    //• El vector no se modifica.
+    void GuardarVectorEncargo (const string & nombre) const;
+
+    /***************************************************************************/
+    //Método de lectura. Lee un dato Encargo de un fichero de texto llamado nombre.
+    //Notas:
+    //• El vector siempre se modifica.
+    //• Si el fichero indicado no fuera un fichero del tipo esperado, el vector quedará
+    //vacío.
+    void RecuperarVectorEncargo (const string & nombre);
+ 
     /***********************************************************************/
     // Sobrecarga del operador de asignación para copia profunda.
-    // Realiza una copia profunda de los datos de otro en el objeto implícito.
+    // Realiza una copia profunda de los datos de otro en el Encargo implícito.
     // Parámetros: otro (referencia), Encargo que sirve de modelo. 
     VectorEncargo &operator=(const VectorEncargo &otro);
 
@@ -156,23 +199,23 @@ public:
 
     /***************************************************************************/
     //Versioperatorón 1: [VectorEncargo] - [VectorEncargo]
-    //Elimina de una copia del objeto implícito los datos Encargo cuyo
+    //Elimina de una copia del Encargo implícito los datos Encargo cuyo
     //campo clave esté presente en los datos Encargo
-    //del objeto explícito.
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //del Encargo explícito.
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo operator- (const VectorEncargo &v_obj) const;
 
     //Versión 2: [VectorEncargo] - [Encargo]
     //Elimina de una copia del VectorEncargo el dato
     //Encargo cuyo campo clave sea igual al del
-    //valor incluido en el objeto Encargo.
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //valor incluido en el Encargo Encargo.
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo operator- (const Encargo &obj) const;
 
     //Versión 3: [VectorEncargo] - [string]
     //Elimina de una copia del VectorEncargo el dato
     //Encargo cuyo campo clave sea igual al string dado.
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo operator- (const string &obj) const;
 
     /***************************************************************************/
@@ -204,55 +247,55 @@ public:
     friend int operator&& (const Encargo &obj,\
                             const VectorEncargo &v_obj);
 
-    // Versión 4: [VectorEncargo] && [int]
+    // Versión 4: [VectorEncargo] && [string]
     // Devuelve un int con el indice del VectorEncargo que
     // contiene al dato Encargo cuyo campo clave coincide con el int.
     // Si no está contenido, devuelve 0.
     friend int operator&& (const VectorEncargo &v_obj,\
-                            const int &numero);
+                            const string &numero);
 
     // Versión 5: [string] && [VectorEncargo]
     // Devuelve un int con el indice del VectorEncargo que
     // contiene al dato Encargo cuyo campo clave coincide con el string.
     // Si no está contenido, devuelve 0.
-    friend int operator&& (const int &numero,\
+    friend int operator&& (const string &numero,\
                             const VectorEncargo &v_obj);
     /***************************************************************************/
     // Operator +=
     // Versión 1: [VectorEncargo] += [VectorEncargo]
-    // Todos los valores del objeto explícito se añaden (en el mismo orden en
-    // el que están en el objeto explícito) al objeto implícito 
+    // Todos los valores del Encargo explícito se añaden (en el mismo orden en
+    // el que están en el Encargo explícito) al Encargo implícito 
     // no se añadirá Encargo a VectorEncargo si ya está dentro
     VectorEncargo & operator+= (const VectorEncargo & v_obj);
 
     // Versión 2: [VectorEncargo] += [Encargo]
-    //Añade un dato Encargo al final del objeto implícito.
+    //Añade un dato Encargo al final del Encargo implícito.
     // no se añadirá Encargo a VectorEncargo si ya está dentro
     VectorEncargo & operator+= (const Encargo & obj);
 
     /***************************************************************************/
     // Operador -=:
     // Versión 1: [VectorEncargo] -= [VectorEncargo]
-    //Elimina del objeto implícito los datos Encargo que
-    // esté presente en los datos Encargo del objeto
+    //Elimina del Encargo implícito los datos Encargo que
+    // esté presente en los datos Encargo del Encargo
     //explícito.
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo & operator-= (const VectorEncargo & v_obj);
 
     //Versión 2: [VectorEncargo] -= [Encargo]
-    //Elimina del objeto implícito el dato Encargo
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //Elimina del Encargo implícito el dato Encargo
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo & operator-= (const Encargo & obj);
 
     //Versión 3: [VectorEncargo] -= [string]
-    //Elimina del objeto implícito el dato Encargo cuyo campo clave
+    //Elimina del Encargo implícito el dato Encargo cuyo campo clave
     //sea igual al string dado
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo & operator-= (const string & obj);
 
     //Versión 4: [VectorEncargo] -= [int]
-    //Elimina del objeto implícito el dato Encargo cuyo indice sea int
-    //si Encargo no se encuentra en el objeto implícito no se hará nada 
+    //Elimina del Encargo implícito el dato Encargo cuyo indice sea int
+    //si Encargo no se encuentra en el Encargo implícito no se hará nada 
     VectorEncargo & operator-= (const int & indice);
 
 
@@ -296,7 +339,7 @@ private:
     /***************************************************************************/
     // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
     // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
-    // Versión 1: Busca el Encargo dado un objeto Encargo
+    // Versión 1: Busca el Encargo dado un Encargo Encargo
     int BuscarEncargo(const Encargo &obj) const;
 
     // Versión 2: Busca el Encargo según el campo clave

@@ -38,7 +38,7 @@ VectorDepartamento :: VectorDepartamento(int la_capacidad)
 
 /************************************************************************/
 // Constructor de copia
-// Crea un objeto copia del objeto proporcionado como argumento ("otro")
+// Crea un Departamento copia del Departamento proporcionado como argumento ("otro")
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
 VectorDepartamento :: VectorDepartamento(const VectorDepartamento &otro)
         : capacidad(0), total_utilizados(0), vector_privado(nullptr)
@@ -56,7 +56,18 @@ VectorDepartamento :: VectorDepartamento(const Departamento &obj)
     ReservaMemoria(TAMANIO);
     AniadeDepartamento(obj);
 }
-
+  
+/************************************************************************/
+//Constructor.Construye un Departamento VectorDepartamento a partir de la información guardada en un
+//fichero de texto llamado nombre.
+//Son válidas las mismas consideraciones que en el método de lectura: si el fichero
+//indicado no fuera del tipo esperado, el vector quedará vacío
+VectorDepartamento :: VectorDepartamento(const string & nombre)
+        : capacidad(0), total_utilizados(0), vector_privado(nullptr)
+{
+    RecuperarVectorDepartamento(nombre);
+}
+ 
 /************************************************************************/
 // Destructor
 VectorDepartamento :: ~VectorDepartamento()
@@ -88,9 +99,9 @@ int VectorDepartamento :: EstaVacia() const
 
 /***************************************************************************/
 // Métodos set
-// Sustituye el elemento "indice" del vector por el objeto proporcionado
+// Sustituye el elemento "indice" del vector por el Departamento proporcionado
 // Difiere de la sobrecarga = de la clase Departamento en que este método
-// comprueba que el objeto proporcionado no se encuentre en la cadena
+// comprueba que el Departamento proporcionado no se encuentre en la cadena
 // Es el método que recomiendo usar a la hora de alterar los elementos del vector
 // PRE: 1 <= indice <= totalutilizados
 void VectorDepartamento :: setDepartamento(int indice, const Departamento &obj)
@@ -105,8 +116,65 @@ void VectorDepartamento :: setDepartamento(int indice, const Departamento &obj)
 }
 
 /***************************************************************************/
+// OPERATOR >>:
+// Lee del flujo de entrada los datos de un VectorDepartamento
+// Parámetros: flujo (referencia), flujo de entrada desde el que se leen los datos
+//             v_obj (referencia), VectorDepartamento en el que se guardan los datos
+// PRE: El formato de los datos debe ser el siguiente:
+//      - Palabra clave: "DepartamentoES"
+//      - Departamentoes (una por linea)
+//      - Comentarios, deben empezar por el caracter '#'
+//      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+istream & operator>> (istream &flujo, VectorDepartamento &v_obj)
+{
+    string linea;
+    Departamento obj;
+    getline(flujo, linea);
+
+    if (linea != "DEPARTAMENTOS")
+    {
+        cerr << "Error: No se ha encontrado lo palabra clave" << endl;
+        exit(1);
+    }
+
+    // Mientras no se encuentre el fin de los datos o un comentario
+    // se almacenan los datos
+    int i = 1;
+    while(flujo >> obj)
+    {
+        cerr << "Iteración:  " << i << " while de  operator >> VectorDepartamento"  << endl;
+        cerr << "Objeto a añadir: " << obj << endl;
+        cerr << "Vector donde añadir: " << v_obj << endl;
+        v_obj += obj;
+        i++;
+    }
+
+    return flujo;
+}
+
+/***************************************************************************/
+// OPERATOR <<:
+// Escribe en el flujo de salida los datos de un VectorDepartamento
+// Parámetros: flujo (referencia), flujo de salida en el que se escriben los datos
+//             v_obj (referencia constante), VectorDepartamento del que se leen los datos
+// PRE: El formato de los datos debe ser el siguiente:
+//      - Palabra clave: "DepartamentoES"
+//      - Departamentoes (una por linea)
+//      - Comentarios, deben empezar por el caracter '#'
+//      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+ostream & operator<< (ostream &flujo, const VectorDepartamento &v_obj)
+{
+    for (int i = 1; i <= v_obj.Totalutilizados(); i++)
+    {
+        flujo << to_string(i) << ".- " << v_obj[i] << endl;
+    }
+
+    return flujo;
+}
+
+/***************************************************************************/
 // Método ToString
-// Devuelve un string con la serialización de los objetos del vector implícito
+// Devuelve un string con la serialización de los Departamentos del vector implícito
 string VectorDepartamento :: ToString() const
 {
     string cad;
@@ -121,9 +189,57 @@ string VectorDepartamento :: ToString() const
     return cad;
 }
 
+/***************************************************************************/
+//Método de escritura. Guarda un dato Departamento en un fichero de texto llamado nombre.
+//Notas:
+//• Si el vector está vacío no se crea el fichero.
+//• El vector no se modifica.
+void VectorDepartamento :: GuardarVectorDepartamento (const string & nombre) const
+{
+    if (!EstaVacia())
+    {
+        ofstream fo(nombre);
+
+        if (!fo)
+        {
+            cerr << "Error: No se pudo crear o abrir el archivo: " << nombre
+                 << endl;
+            exit(1);
+        }
+        
+        fo << "DEPARTAMENTOS" << endl;
+        for (int i = 1; i <= Totalutilizados(); i++)
+        {
+            fo << (*this)[i].ToString("", '*') << endl;
+        }
+        
+    }
+}
+
+/***************************************************************************/
+//Método de lectura. Lee un dato Departamento de un fichero de texto llamado nombre.
+//Notas:
+//• El vector siempre se modifica.
+//• Si el fichero indicado no fuera un fichero del tipo esperado, el vector quedará
+//vacío.
+void VectorDepartamento :: RecuperarVectorDepartamento (const string & nombre)
+{
+    ifstream fi(nombre);
+
+    if (!fi)
+    {
+        cerr << "Error: No se pudo abrir el archivo: " << nombre << endl;
+        exit(1);
+    }
+
+    (*this).EliminaTodos();
+
+    fi >> (*this);
+}
+ 
 /***********************************************************************/
 // Sobrecarga del operador de asignación para copia profunda.
-// Realiza una copia profunda de los datos de otro en el objeto implícito.
+// Realiza una copia profunda de los datos de otro en el Departamento implícito.
 // Parámetros: otro (referencia), Departamento que sirve de modelo. 
 VectorDepartamento & VectorDepartamento :: operator=(const VectorDepartamento &otro)
 { 
@@ -208,10 +324,10 @@ VectorDepartamento operator+ (const Departamento &obj, \
 
 /***************************************************************************/
 //Versioperatorón 1: [VectorDepartamento] - [VectorDepartamento]
-//Elimina de una copia del objeto implícito los datos Departamento cuyo
+//Elimina de una copia del Departamento implícito los datos Departamento cuyo
 //campo clave esté presente en los datos Departamento
-//del objeto explícito.
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//del Departamento explícito.
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento VectorDepartamento :: operator-
                                     (const VectorDepartamento &v_obj) const
 {
@@ -224,8 +340,8 @@ VectorDepartamento VectorDepartamento :: operator-
 //Versión 2: [VectorDepartamento] - [Departamento]
 //Elimina de una copia del VectorDepartamento el dato
 //Departamento cuyo campo clave sea igual al del
-//valor incluido en el objeto Departamento.
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//valor incluido en el Departamento Departamento.
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento VectorDepartamento :: operator-
                                             (const Departamento &obj) const
 {
@@ -239,7 +355,7 @@ VectorDepartamento VectorDepartamento :: operator-
 //Versión 3: [VectorDepartamento] - [string]
 //Elimina de una copia del VectorDepartamento el dato
 //Departamento cuyo campo clave sea igual al string dado.
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento VectorDepartamento :: operator- (const string &cadena) const
 {
     VectorDepartamento copia(*this);
@@ -337,8 +453,8 @@ int operator&& (const string &cadena,\
 /***************************************************************************/
 // Operator +=
 // Versión 1: [VectorDepartamento] += [VectorDepartamento]
-// Todos los valores del objeto explícito se añaden (en el mismo orden en
-// el que están en el objeto explícito) al objeto implícito 
+// Todos los valores del Departamento explícito se añaden (en el mismo orden en
+// el que están en el Departamento explícito) al Departamento implícito 
 // no se añadirá Departamento a VectorDepartamento si ya está dentro
 VectorDepartamento & VectorDepartamento :: operator+= (const VectorDepartamento & v_obj)
 {
@@ -348,7 +464,7 @@ VectorDepartamento & VectorDepartamento :: operator+= (const VectorDepartamento 
 }
 
 // Versión 2: [VectorDepartamento] += [Departamento]
-//Añade un dato Departamento al final del objeto implícito.
+//Añade un dato Departamento al final del Departamento implícito.
 // no se añadirá Departamento a VectorDepartamento si ya está dentro
 VectorDepartamento & VectorDepartamento :: operator+= (const Departamento & obj)
 {
@@ -359,10 +475,10 @@ VectorDepartamento & VectorDepartamento :: operator+= (const Departamento & obj)
 /***************************************************************************/
 // Operador -=:
 // Versión 1: [VectorDepartamento] -= [VectorDepartamento]
-//Elimina del objeto implícito los datos Departamento que
-// esté presente en los datos Departamento del objeto
+//Elimina del Departamento implícito los datos Departamento que
+// esté presente en los datos Departamento del Departamento
 //explícito.
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const VectorDepartamento & v_obj)
 {
 
@@ -375,8 +491,8 @@ VectorDepartamento & VectorDepartamento :: operator-= (const VectorDepartamento 
 }
 
 //Versión 2: [VectorDepartamento] -= [Departamento]
-//Elimina del objeto implícito el dato Departamento
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//Elimina del Departamento implícito el dato Departamento
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const Departamento & obj)
 {
     (*this) -= ((*this) && obj);
@@ -385,9 +501,9 @@ VectorDepartamento & VectorDepartamento :: operator-= (const Departamento & obj)
 }
 
 //Versión 3: [VectorDepartamento] -= [string]
-//Elimina del objeto implícito el dato Departamento cuyo campo clave
+//Elimina del Departamento implícito el dato Departamento cuyo campo clave
 //sea igual al string dado
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const string & obj)
 {
     (*this) -= ((*this) && obj);
@@ -396,8 +512,8 @@ VectorDepartamento & VectorDepartamento :: operator-= (const string & obj)
 }
 
 //Versión 4: [VectorDepartamento] -= [int]
-//Elimina del objeto implícito el dato Departamento cuyo indice sea int
-//si Departamento no se encuentra en el objeto implícito no se hará nada 
+//Elimina del Departamento implícito el dato Departamento cuyo indice sea int
+//si Departamento no se encuentra en el Departamento implícito no se hará nada 
 VectorDepartamento & VectorDepartamento :: operator-= (const int & indice)
 {
     if (indice_valido_usados(indice))
@@ -434,7 +550,7 @@ void VectorDepartamento :: InsertaDepartamento(Departamento &obj, int indice)
         (*this)[i] = (*this)[i-1];
     }
 
-    setDepartamento(indice, obj);
+    (*this)[indice] = obj;
 
     Redimensionar();
 
@@ -482,8 +598,7 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 
         for (int i = 1; i <= otro.Totalutilizados(); i++)
         {
-            setDepartamento(i, otro[i]);
-            //(*this)[i] = otro[i]; <-- Más elegante, pero no hace comprobación
+            (*this)[i] = otro[i];
         }
 
         total_utilizados = otro.Totalutilizados();
@@ -497,7 +612,7 @@ void VectorDepartamento :: CopiarDatos(const VectorDepartamento &otro)
 // BUSCARDEPARTAMENTO
 // Método BuscarDepartamento: Recibe un Departamento y lo busca en el vector
 // Si está, devuelve el índice donde está almacenado, sino, devuelve 0
-// Versión 1: Busca el Departamento dado un objeto Departamento
+// Versión 1: Busca el Departamento dado un Departamento Departamento
 int VectorDepartamento :: BuscarDepartamento(const Departamento &obj) const
 {
     int indice = 0;
@@ -535,9 +650,14 @@ int VectorDepartamento :: BuscarDepartamento(const string &cadena) const
 // Parámetros: obj (referencia), Departamento que se va a añadir.
 void VectorDepartamento :: AniadeDepartamento(const Departamento &obj)
 {
+    if ((*this) && obj)
+    {
+        cerr << "Error: El Departamento ya existe" << endl;
+        exit(1);
+    }
     total_utilizados++;
-    // SetDepartamento comprueba si está repetido
-    setDepartamento(Totalutilizados(), obj);
+
+    (*this)[Totalutilizados()] = obj;
 
     Redimensionar();
 }
@@ -585,6 +705,10 @@ void VectorDepartamento :: LiberarMemoria()
 {
     if (!EstaVacia())
 	{ 
+        cerr << "Totalutilizados: " << Totalutilizados() << endl;
+        cerr << "Capacidad: " << Capacidad() << endl;
+        cerr << "vector_privado == nullptr: " << (vector_privado == nullptr) << endl;
+
 		delete [] vector_privado;
 
 		vector_privado = nullptr;
@@ -681,7 +805,7 @@ void VectorDepartamento :: Redimensionar (void)
 }
 
 /***********************************************************************/
-// VALOR: Devuelve el valor de la Adscripcion en la posición "indice"
+// VALOR: Devuelve el valor de la Departamento en la posición "indice"
 // Puede funcionar como lvalue y como rvalue
 // Es el único método que usa y debe usar el índice "real" (desde 0)
 // PRE: 0 <= indice < total_utilizados

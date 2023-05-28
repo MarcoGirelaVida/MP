@@ -18,12 +18,8 @@
 /***************************************************************************/
 /***************************************************************************/
 
-#include <cstring>
-#include <string>
-#include <iostream>
-
 #include "Departamento.h"
-#include "utils.h"
+
 
 using namespace std;
 
@@ -71,27 +67,15 @@ using namespace std;
     Departamento :: Departamento(string linea, char delimitador)
                         : Id_depto(nullptr), Nombre(nullptr)
     {
-        string tmp = "";
-        int i = 0;
+        string id, nombre;
+        istringstream flujo(linea);
 
-        // Almaceno la clave primaria en el string temporal
-        tmp += "(";
+        // Leo el primer elemento del string (id)
+        getline(flujo, id, delimitador);
 
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
-        
-        tmp += ")"; i++;
-
-        // Reformateo el string temporal y lo guardo en el atributo de la clase
-        string id = tmp;
-        id = FormatString(id, 6);
-
-        //.......................................................................
-        // Almaceno la clave secundaria en el string temporal
-        tmp = "";
-        while(linea[i] != delimitador)  {tmp += linea[i]; i++;}
-
-        // Guardo la clave secundaria en el atributo de la clase
-        string nombre = tmp;
+        //.....................................................................
+        // Leo el segundo elemento del string (nombre)
+        getline(flujo, nombre, delimitador);
 
         SetId_Dpto(id);
         SetNombre(nombre);
@@ -110,11 +94,27 @@ using namespace std;
 // Métodos get, dado que no quiero modificarlos, los declaro como const
 
     string Departamento :: GetNombre() const
-    {return Nombre;}
+    {
+        string nombre = "SIN_NOMBRE";
+        if (Nombre != nullptr)
+        {
+            nombre = Nombre;
+        }
+        
+        return nombre;
+    }
 
 
     string Departamento :: GetId_Dpto() const
-    {return Id_depto;}
+    {
+        string id = "SIN_ID";
+        if (Id_depto != nullptr)
+        {
+            id = Id_depto;
+        }
+
+        return id;
+    }
 
 /***************************************************************************/
 // Métodos set
@@ -127,9 +127,51 @@ using namespace std;
     {stoptr(id, Id_depto);}
 
 /***************************************************************************/
+// OPERATOR >> 
+// Lee un dato Departamento desde un flujo de entrada.
+// Parámetros: flujo, referencia a un flujo de entrada.
+//             otro, referencia a un objeto de la clase Departamento. 
+
+    istream & operator >> (istream & flujo, Departamento & otro)
+    {
+        cerr << "Estoy en operator>> de Departamento" << endl;
+        string linea;
+        bool continua = true;
+        int i = 0;
+
+        while(getline(flujo, linea) && continua)
+        {
+            i++;
+            if (linea[0] != '#')
+            {
+                otro = Departamento(linea);
+                continua = false;
+            }
+            else
+            {
+                continua = true;
+            }
+        }
+        cerr << "He salido de operator>> de Departamento" << endl;
+        return flujo;
+    }
+
+/***************************************************************************/
+// OPERATOR <<
+// Escribe un dato Departamento en un flujo de salida.
+// Parámetros: flujo, referencia a un flujo de salida.
+//             otro, referencia a un objeto de la clase Departamento. 
+
+    ostream & operator << (ostream & flujo, const Departamento & otro)
+    {
+        flujo << otro.ToString();
+        return flujo;
+    }
+
+/***************************************************************************/
 // Método ToString
 
-    string Departamento :: ToString(string cadena_inicial) const
+    string Departamento :: ToString(string cadena_inicial, char delimitador) const
     {   
         string cadena = cadena_inicial;
 
@@ -137,8 +179,8 @@ using namespace std;
         {
             if (strlen(Id_depto) || strlen(Nombre))
             {
-                cadena += (string) Id_depto + "    ";
-                cadena += (string) Nombre + "\n";
+                cadena += (string) Id_depto + delimitador;
+                cadena += (string) Nombre + delimitador + "\n";
             }
             else    {cadena += "DEPARTAMENTO VACIO\n";}
         }

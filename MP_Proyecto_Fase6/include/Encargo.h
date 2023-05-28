@@ -13,7 +13,12 @@
 #ifndef ENCARGO_H
 #define ENCARGO_H
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include <string>
+#include <cstring>
+#include "utils.h"
 
 using namespace std;
 
@@ -81,9 +86,25 @@ class Encargo
     void setCreditos(double cred);
 
     /***************************************************************************/
+    // OPERATOR >> 
+    // Lee un dato Encargo desde un flujo de entrada.
+    // Parámetros: flujo, referencia a un flujo de entrada.
+    //             otro, referencia a un objeto de la clase Encargo. 
+
+    friend istream & operator >> (istream & flujo, Encargo & otro);
+
+    /***************************************************************************/
+    // OPERATOR <<
+    // Escribe un dato Encargo en un flujo de salida.
+    // Parámetros: flujo, referencia a un flujo de salida.
+    //             otro, referencia a un objeto de la clase Encargo. 
+
+    friend ostream & operator << (ostream & flujo, const Encargo & otro);
+    
+    /***************************************************************************/
     // Método ToString
 
-    string ToString(string cadena_inicial = "") const;
+    string ToString(string cadena_inicial = "", char delimitador = ' ') const;
 
     /***********************************************************************/
 	// Sobrecarga del operador de asignación para copia profunda.

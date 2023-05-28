@@ -13,7 +13,12 @@
 #ifndef ADSCRIPCION_H
 #define ADSCRIPCION_H
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include <string>
+#include <cstring>
+#include "utils.h"
 
 using namespace std;
 
@@ -82,10 +87,26 @@ public:
 
         void setIdDepartamento(string id = "");
 
+        /***************************************************************************/
+        // OPERATOR >> 
+        // Lee un dato Adscripcion desde un flujo de entrada.
+        // Parámetros: flujo, referencia a un flujo de entrada.
+        //             otro, referencia a un objeto de la clase Adscripcion. 
+
+        friend istream & operator >> (istream & flujo, Adscripcion & otro);
+
+        /***************************************************************************/
+        // OPERATOR <<
+        // Escribe un dato Adscripcion en un flujo de salida.
+        // Parámetros: flujo, referencia a un flujo de salida.
+        //             otro, referencia a un objeto de la clase Adscripcion. 
+
+        friend ostream & operator << (ostream & flujo, const Adscripcion & otro);
+        
         /*********************************************************************/
         // Método ToString
 
-        string ToString(string cadena_inical = "");
+        string ToString(string cadena_inical = "", char delimitador = ' ') const;
 
         /***********************************************************************/
         // Sobrecarga del operador == para comprobar si un Adscripcion es igual 

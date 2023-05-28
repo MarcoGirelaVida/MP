@@ -1,0 +1,8 @@
+PROFESORES
+#Fichero de profesores con los datos de las fases iniciales.   
+12345678A*Laureano Amadeo*Abad Arrabal*01/01/1970*1*
+24680135B*Braulio*Buendia Bueno*02/02/1971*2*
+13579246C*Carmen*Cortes Cruz*03/03/1972*1*
+11223344D*Dionisio*Durante Diaz*02/02/1970*3*
+99887766E*Estrella*Narvaez Luz*04/04/1965*4*
+19283746F*Nicolas*Valero Pedros*05/05/1973*2*

@@ -1,0 +1,4 @@
+DEPARTAMENTOS
+#Fichero de departamentos con los datos de las fases iniciales.    
+CCIA*Ciencias de la Computacion e Inteligencia Artificial* 
+LSI*Lenguajes y Sistemas Informaticos*

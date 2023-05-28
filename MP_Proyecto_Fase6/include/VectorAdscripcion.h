@@ -13,9 +13,6 @@
 #ifndef VECTOR_Adscripcion
 #define VECTOR_Adscripcion
 
-#include <iostream>
-#include <string>
-#include <cstring>
 #include "Adscripcion.h"
 
 using namespace std;
@@ -65,7 +62,7 @@ public:
 
     /************************************************************************/
     // Constructor de copia
-    // Crea un objeto copia del objeto proporcionado como argumento ("otro")
+    // Crea un Adscripcion copia del Adscripcion proporcionado como argumento ("otro")
     // Parámetros: otro (referencia), Adscripcion que sirve de modelo. 
     VectorAdscripcion(const VectorAdscripcion &otro);
 
@@ -74,7 +71,14 @@ public:
     // Recibe como parámetro un Adscripcion que servirá para inicializar
     // el vector con un único elemento.
     VectorAdscripcion(const Adscripcion &obj);
-
+ 
+    /************************************************************************/
+    //Constructor.Construye un Adscripcion VectorAdscripcion a partir de la información guardada en un
+    //fichero de texto llamado nombre.
+    //Son válidas las mismas consideraciones que en el método de lectura: si el fichero
+    //indicado no fuera del tipo esperado, el vector quedará vacío
+    VectorAdscripcion (const string & nombre);
+ 
     /************************************************************************/
     // Destructor
     ~VectorAdscripcion();
@@ -92,22 +96,60 @@ public:
 
    /***************************************************************************/
     // Métodos set
-    // Sustituye el elemento "indice" del vector por el objeto proporcionado
+    // Sustituye el elemento "indice" del vector por el Adscripcion proporcionado
     // Difiere de la sobrecarga = de la clase Adscripcion en que este método
-    // comprueba que el objeto proporcionado no se encuentre en la cadena
+    // comprueba que el Adscripcion proporcionado no se encuentre en la cadena
     // Es el método que recomiendo usar a la hora de alterar los elementos del vector
     // PRE: 1 <= indice <= totalutilizados
     void setAdscripcion(int indice, const Adscripcion &obj);
 
     /***************************************************************************/
+    // OPERATOR >>:
+    // Lee del flujo de entrada los datos de un VectorAdscripcion
+    // Parámetros: flujo (referencia), flujo de entrada desde el que se leen los datos
+    //             v_obj (referencia), VectorAdscripcion en el que se guardan los datos
+    // PRE: El formato de los datos debe ser el siguiente:
+    //      - Palabra clave: "ADSCRIPCIONES"
+    //      - Adscripciones (una por linea)
+    //      - Comentarios, deben empezar por el caracter '#'
+    //      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+    friend istream & operator>> (istream &flujo, VectorAdscripcion &v_obj);
+
+    /***************************************************************************/
+    // OPERATOR <<:
+    // Escribe en el flujo de salida los datos de un VectorAdscripcion
+    // Parámetros: flujo (referencia), flujo de salida en el que se escriben los datos
+    //             v_obj (referencia constante), VectorAdscripcion del que se leen los datos
+    // PRE: El formato de los datos debe ser el siguiente:
+    //      - Palabra clave: "AdscripcionES"
+    //      - Adscripciones (una por linea)
+    //      - Comentarios, deben empezar por el caracter '#'
+    //      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
+    friend ostream & operator<< (ostream &flujo, const VectorAdscripcion &v_obj);
+
     /***************************************************************************/
     // Método ToString
-    // Devuelve un string con la serialización de los objetos del vector implícito
+    // Devuelve un string con la serialización de los Adscripcions del vector implícito
     string ToString() const;
 
+    /***************************************************************************/
+    //Método de escritura. Guarda un dato Adscripcion en un fichero de texto llamado nombre.
+    //Notas:
+    //• Si el vector está vacío no se crea el fichero.
+    //• El vector no se modifica.
+    void GuardarVectorAdscripcion (const string & nombre) const;
+
+    /***************************************************************************/
+    //Método de lectura. Lee un dato Adscripcion de un fichero de texto llamado nombre.
+    //Notas:
+    //• El vector siempre se modifica.
+    //• Si el fichero indicado no fuera un fichero del tipo esperado, el vector quedará
+    //vacío.
+    void RecuperarVectorAdscripcion (const string & nombre);
+ 
     /***********************************************************************/
     // Sobrecarga del operador de asignación para copia profunda.
-    // Realiza una copia profunda de los datos de otro en el objeto implícito.
+    // Realiza una copia profunda de los datos de otro en el Adscripcion implícito.
     // Parámetros: otro (referencia), Adscripcion que sirve de modelo. 
     VectorAdscripcion &operator=(const VectorAdscripcion &otro);
 
@@ -156,23 +198,23 @@ public:
 
     /***************************************************************************/
     //Versioperatorón 1: [VectorAdscripcion] - [VectorAdscripcion]
-    //Elimina de una copia del objeto implícito los datos Adscripcion cuyo
+    //Elimina de una copia del Adscripcion implícito los datos Adscripcion cuyo
     //campo clave esté presente en los datos Adscripcion
-    //del objeto explícito.
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //del Adscripcion explícito.
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion operator- (const VectorAdscripcion &v_obj) const;
 
     //Versión 2: [VectorAdscripcion] - [Adscripcion]
     //Elimina de una copia del VectorAdscripcion el dato
     //Adscripcion cuyo campo clave sea igual al del
-    //valor incluido en el objeto Adscripcion.
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //valor incluido en el Adscripcion Adscripcion.
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion operator- (const Adscripcion &obj) const;
 
     //Versión 3: [VectorAdscripcion] - [string]
     //Elimina de una copia del VectorAdscripcion el dato
     //Adscripcion cuyo campo clave sea igual al string dado.
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion operator- (const string &obj) const;
 
     /***************************************************************************/
@@ -220,39 +262,39 @@ public:
     /***************************************************************************/
     // Operator +=
     // Versión 1: [VectorAdscripcion] += [VectorAdscripcion]
-    // Todos los valores del objeto explícito se añaden (en el mismo orden en
-    // el que están en el objeto explícito) al objeto implícito 
+    // Todos los valores del Adscripcion explícito se añaden (en el mismo orden en
+    // el que están en el Adscripcion explícito) al Adscripcion implícito 
     // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
     VectorAdscripcion & operator+= (const VectorAdscripcion & v_obj);
 
     // Versión 2: [VectorAdscripcion] += [Adscripcion]
-    //Añade un dato Adscripcion al final del objeto implícito.
+    //Añade un dato Adscripcion al final del Adscripcion implícito.
     // no se añadirá Adscripcion a VectorAdscripcion si ya está dentro
     VectorAdscripcion & operator+= (const Adscripcion & obj);
 
     /***************************************************************************/
     // Operador -=:
     // Versión 1: [VectorAdscripcion] -= [VectorAdscripcion]
-    //Elimina del objeto implícito los datos Adscripcion que
-    // esté presente en los datos Adscripcion del objeto
+    //Elimina del Adscripcion implícito los datos Adscripcion que
+    // esté presente en los datos Adscripcion del Adscripcion
     //explícito.
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion & operator-= (const VectorAdscripcion & v_obj);
 
     //Versión 2: [VectorAdscripcion] -= [Adscripcion]
-    //Elimina del objeto implícito el dato Adscripcion
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //Elimina del Adscripcion implícito el dato Adscripcion
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion & operator-= (const Adscripcion & obj);
 
     //Versión 3: [VectorAdscripcion] -= [string]
-    //Elimina del objeto implícito el dato Adscripcion cuyo campo clave
+    //Elimina del Adscripcion implícito el dato Adscripcion cuyo campo clave
     //sea igual al string dado
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion & operator-= (const string & obj);
 
     //Versión 4: [VectorAdscripcion] -= [int]
-    //Elimina del objeto implícito el dato Adscripcion cuyo indice sea int
-    //si Adscripcion no se encuentra en el objeto implícito no se hará nada 
+    //Elimina del Adscripcion implícito el dato Adscripcion cuyo indice sea int
+    //si Adscripcion no se encuentra en el Adscripcion implícito no se hará nada 
     VectorAdscripcion & operator-= (const int & indice);
 
 
@@ -296,7 +338,7 @@ private:
     /***************************************************************************/
     // Método BuscarDepto: Recibe una clave primaria y la busca en el vector
     // Si está, devuelve el índice donde está almacenado, sino, devuelve -1
-    // Versión 1: Busca el Adscripcion dado un objeto Adscripcion
+    // Versión 1: Busca el Adscripcion dado un Adscripcion Adscripcion
     int BuscarAdscripcion(const Adscripcion &obj) const;
 
     // Versión 2: Busca el Adscripcion según el campo clave

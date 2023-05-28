@@ -13,7 +13,12 @@
 #ifndef DEPARTAMENTO
 #define DEPARTAMENTO
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include <string>
+#include <cstring>
+#include "utils.h"
 
 using namespace std;
 
@@ -98,10 +103,26 @@ public :
 
 	bool operator == (const Departamento & otro) const;
 
+	/***************************************************************************/
+	// OPERATOR >> 
+	// Lee un dato Departamento desde un flujo de entrada.
+	// Parámetros: flujo, referencia a un flujo de entrada.
+	//             otro, referencia a un objeto de la clase Departamento. 
+
+    friend istream & operator >> (istream & flujo, Departamento & otro);
+
+	/***************************************************************************/
+	// OPERATOR <<
+	// Escribe un dato Departamento en un flujo de salida.
+	// Parámetros: flujo, referencia a un flujo de salida.
+	//             otro, referencia a un objeto de la clase Departamento. 
+
+    friend ostream & operator << (ostream & flujo, const Departamento & otro);
+
 	/***********************************************************************/
 	// Serializa un dato "Departamento"
 
-	string ToString (string cadena_inicial = "") const; 
+	string ToString (string cadena_inicial = "", char delimitador = ' ') const; 
 
 
 private: 	
