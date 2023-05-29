@@ -197,11 +197,6 @@ TipoAlineacion alineacion, char relleno)
 
 void stoptr(string &str, char * &atributo)
 {
-    cerr << "..................................." << endl;
-    cerr << "EL PROBLEMA ESTÁ EN STOPTR (RecuperarVectorDepartamento -> operator >> (VectorDepartamento) -> operator += -> AniadeDepartamento -> operator = (Departamento) -> CopiarDatos -> setIdDepartamento -> Stoptr (utils.cpp))" << endl;
-    cerr << "..................................." << endl;
-    cerr << "Atributo == nullptr: " << (atributo == nullptr) << endl << endl;
-
     if (atributo != nullptr)
     {
         delete [] atributo;

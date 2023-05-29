@@ -134,25 +134,14 @@ using namespace std;
 
     istream & operator >> (istream & flujo, Departamento & otro)
     {
-        cerr << "Estoy en operator>> de Departamento" << endl;
         string linea;
         bool continua = true;
-        int i = 0;
 
-        while(getline(flujo, linea) && continua)
+        if(getline(flujo, linea))
         {
-            i++;
-            if (linea[0] != '#')
-            {
-                otro = Departamento(linea);
-                continua = false;
-            }
-            else
-            {
-                continua = true;
-            }
+            otro = Departamento(linea);
         }
-        cerr << "He salido de operator>> de Departamento" << endl;
+        
         return flujo;
     }
 

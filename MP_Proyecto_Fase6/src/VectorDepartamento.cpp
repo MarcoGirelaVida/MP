@@ -129,24 +129,13 @@ istream & operator>> (istream &flujo, VectorDepartamento &v_obj)
 {
     string linea;
     Departamento obj;
-    getline(flujo, linea);
-
-    if (linea != "DEPARTAMENTOS")
-    {
-        cerr << "Error: No se ha encontrado lo palabra clave" << endl;
-        exit(1);
-    }
 
     // Mientras no se encuentre el fin de los datos o un comentario
     // se almacenan los datos
-    int i = 1;
+
     while(flujo >> obj)
     {
-        cerr << "Iteración:  " << i << " while de  operator >> VectorDepartamento"  << endl;
-        cerr << "Objeto a añadir: " << obj << endl;
-        cerr << "Vector donde añadir: " << v_obj << endl;
         v_obj += obj;
-        i++;
     }
 
     return flujo;
@@ -225,6 +214,7 @@ void VectorDepartamento :: GuardarVectorDepartamento (const string & nombre) con
 void VectorDepartamento :: RecuperarVectorDepartamento (const string & nombre)
 {
     ifstream fi(nombre);
+    string linea;
 
     if (!fi)
     {
@@ -232,7 +222,24 @@ void VectorDepartamento :: RecuperarVectorDepartamento (const string & nombre)
         exit(1);
     }
 
-    (*this).EliminaTodos();
+    EliminaTodos();
+
+    getline(fi, linea);
+
+    if (linea != "DEPARTAMENTOS")
+    {
+        cerr << "Error: No se ha encontrado lo palabra clave" << endl;
+        exit(1);
+    }
+
+    char inicial;
+    inicial = fi.peek();
+
+    if (inicial == '#')
+    {
+        getline(fi, linea);
+    }
+    
 
     fi >> (*this);
 }
@@ -564,7 +571,7 @@ void VectorDepartamento :: EliminaTodos()
     LiberarMemoria();
 
     // Redimensionar hace que se ajuste capacidad al tamaño mínimo
-    Redimensionar();
+    ReservaMemoria(TAMANIO);
 }
 
 /***************************************************************************/
@@ -703,12 +710,8 @@ void VectorDepartamento :: ReservaMemoria(const int num_casillas)
 // Libera la memoria dinámica reservada para el vector
 void VectorDepartamento :: LiberarMemoria()
 {
-    if (!EstaVacia())
+    if (vector_privado != nullptr)
 	{ 
-        cerr << "Totalutilizados: " << Totalutilizados() << endl;
-        cerr << "Capacidad: " << Capacidad() << endl;
-        cerr << "vector_privado == nullptr: " << (vector_privado == nullptr) << endl;
-
 		delete [] vector_privado;
 
 		vector_privado = nullptr;

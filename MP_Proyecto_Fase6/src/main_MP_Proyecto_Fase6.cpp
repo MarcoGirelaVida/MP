@@ -52,7 +52,7 @@ int main()
 	//................................................................
 	// DEPARTAMENTOS
 
-	VectorDepartamento departamentos ("departamentos.txt");
+	VectorDepartamento departamentos ("./datos/departamentos.txt");
 
 	cout << endl; 
 	cout << Cabecera ("DEPARTAMENTOS:");
@@ -60,9 +60,9 @@ int main()
 	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
-	departamentos.GuardarVectorDepartamento ("copia_departamentos.txt");
+	departamentos.GuardarVectorDepartamento ("./datos/copia_departamentos.txt");
 
-	VectorDepartamento copia_departamentos ("copia_departamentos.txt");
+	VectorDepartamento copia_departamentos ("./datos/copia_departamentos.txt");
 
 	cout << endl; 
 	cout << Cabecera ("COPIA DEPARTAMENTOS:");
@@ -79,7 +79,7 @@ int main()
 	cout << departamentos.ToString() << endl;
 	cout << endl; 
 
-	departamentos.RecuperarVectorDepartamento("departamentos.txt");
+	departamentos.RecuperarVectorDepartamento("./datos/departamentos.txt");
 
 	cout << endl; 
 	cout << Cabecera ("DEPARTAMENTOS ORIGINAL");
@@ -91,7 +91,7 @@ int main()
 	//................................................................
 	// PROFESORES
 
-	VectorProfesor profesores ("profesores.txt");
+	VectorProfesor profesores ("./datos/profesores.txt");
 
 	cout << endl; 
 	cout << Cabecera ("PROFESORES:");
@@ -99,9 +99,9 @@ int main()
 	cout << profesores.ToString() << endl;
 	cout << endl; 
 
-	profesores.GuardarVectorProfesor ("copia_profesores.txt");
+	profesores.GuardarVectorProfesor ("./datos/copia_profesores.txt");
 
-	VectorProfesor copia_profesores ("copia_profesores.txt");
+	VectorProfesor copia_profesores ("./datos/copia_profesores.txt");
 
 	cout << endl; 
 	cout << Cabecera ("COPIA PROFESORES:");
@@ -118,7 +118,7 @@ int main()
 	cout << profesores.ToString() << endl;
 	cout << endl; 
 
-	profesores.RecuperarVectorProfesor("profesores.txt");
+	profesores.RecuperarVectorProfesor("./datos/profesores.txt");
 
 	cout << endl; 
 	cout << Cabecera ("PROFESORES ORIGINAL");
@@ -130,7 +130,7 @@ int main()
 	//................................................................
 	// ENCARGOS
 
-	VectorEncargo encargos ("encargos.txt");
+	VectorEncargo encargos ("./datos/encargos.txt");
 
 	cout << endl; 
 	cout << Cabecera ("ENCARGOS:");
@@ -138,9 +138,9 @@ int main()
 	cout << encargos.ToString() << endl;
 	cout << endl; 
 
-	encargos.GuardarVectorEncargo ("copia_encargos.txt");
+	encargos.GuardarVectorEncargo ("./datos/copia_encargos.txt");
 
-	VectorEncargo copia_encargos ("copia_encargos.txt");
+	VectorEncargo copia_encargos ("./datos/copia_encargos.txt");
 
 	cout << endl; 
 	cout << Cabecera ("COPIA ENCARGOS:");
@@ -157,7 +157,7 @@ int main()
 	cout << encargos.ToString() << endl;
 	cout << endl; 
 
-	encargos.RecuperarVectorEncargo ("encargos.txt");
+	encargos.RecuperarVectorEncargo ("./datos/encargos.txt");
 
 	cout << endl; 
 	cout << Cabecera ("ENCARGOS ORIGINAL");
@@ -169,7 +169,7 @@ int main()
 	//................................................................
 	// ADSCRIPCIONES
 
-	VectorAdscripcion adscripciones ("adscripciones.txt");
+	VectorAdscripcion adscripciones ("./datos/adscripciones.txt");
 
 	cout << endl; 
 	cout << Cabecera ("ADSCRIPCIONES:");
@@ -177,9 +177,9 @@ int main()
 	cout << adscripciones.ToString() << endl;
 	cout << endl; 
 
-	adscripciones.GuardarVectorAdscripcion ("copia_adscripciones.txt");
+	adscripciones.GuardarVectorAdscripcion ("./datos/copia_adscripciones.txt");
 
-	VectorAdscripcion copia_adscripciones ("copia_adscripciones.txt");
+	VectorAdscripcion copia_adscripciones ("./datos/copia_adscripciones.txt");
 
 	cout << endl; 
 	cout << Cabecera ("COPIA ADSCRIPCIONES:");
@@ -196,7 +196,7 @@ int main()
 	cout << adscripciones.ToString() << endl;
 	cout << endl; 
 
-	adscripciones.RecuperarVectorAdscripcion ("adscripciones.txt");
+	adscripciones.RecuperarVectorAdscripcion ("./datos/adscripciones.txt");
 
 	cout << endl; 
 	cout << Cabecera ("ADSCRIPCIONES ORIGINAL");

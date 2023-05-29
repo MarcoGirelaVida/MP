@@ -1,5 +1,5 @@
 ADSCRIPCIONES
-#Fichero de adscripciones con los datos de las fases iniciales.   
+#Fichero de adscripciones con los datos de las fases iniciales. 
 19283746F*CCIA*
 12345678A*CCIA*
 11223344D*LSI*
