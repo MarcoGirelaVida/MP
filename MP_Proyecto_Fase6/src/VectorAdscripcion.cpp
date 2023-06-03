@@ -72,7 +72,7 @@ VectorAdscripcion :: VectorAdscripcion(const string & nombre)
 // Destructor
 VectorAdscripcion :: ~VectorAdscripcion()
 {
-    EliminaTodos();
+    LiberarMemoria();
 }
 
 /*************************************************************************/
@@ -121,7 +121,7 @@ void VectorAdscripcion :: setAdscripcion(int indice, const Adscripcion &obj)
 // Parámetros: flujo (referencia), flujo de entrada desde el que se leen los datos
 //             v_obj (referencia), VectorAdscripcion en el que se guardan los datos
 // PRE: El formato de los datos debe ser el siguiente:
-//      - Palabra clave: "ADSCRIPCIONES"
+//      - Palabra clave: "AdscripcionES"
 //      - Adscripciones (una por linea)
 //      - Comentarios, deben empezar por el caracter '#'
 //      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
@@ -129,16 +129,10 @@ istream & operator>> (istream &flujo, VectorAdscripcion &v_obj)
 {
     string linea;
     Adscripcion obj;
-    getline(flujo, linea);
-
-    if (linea != "ADSCRIPCIONES")
-    {
-        cerr << "Error: No se ha encontrado lo palabra clave" << endl;
-        exit(1);
-    }
 
     // Mientras no se encuentre el fin de los datos o un comentario
     // se almacenan los datos
+
     while(flujo >> obj)
     {
         v_obj += obj;
@@ -153,7 +147,7 @@ istream & operator>> (istream &flujo, VectorAdscripcion &v_obj)
 // Parámetros: flujo (referencia), flujo de salida en el que se escriben los datos
 //             v_obj (referencia constante), VectorAdscripcion del que se leen los datos
 // PRE: El formato de los datos debe ser el siguiente:
-//      - Palabra clave: "ADSCRIPCIONES"
+//      - Palabra clave: "AdscripcionES"
 //      - Adscripciones (una por linea)
 //      - Comentarios, deben empezar por el caracter '#'
 //      - Fin de datos, se sobreentenderá por el fin del flujo de entrada
@@ -202,7 +196,7 @@ void VectorAdscripcion :: GuardarVectorAdscripcion (const string & nombre) const
             exit(1);
         }
         
-        fo << "ADSCRIPCIONES" << endl;
+        fo << "AdscripcionS" << endl;
         for (int i = 1; i <= Totalutilizados(); i++)
         {
             fo << (*this)[i].ToString("", '*') << endl;
@@ -220,6 +214,7 @@ void VectorAdscripcion :: GuardarVectorAdscripcion (const string & nombre) const
 void VectorAdscripcion :: RecuperarVectorAdscripcion (const string & nombre)
 {
     ifstream fi(nombre);
+    string linea;
 
     if (!fi)
     {
@@ -227,8 +222,25 @@ void VectorAdscripcion :: RecuperarVectorAdscripcion (const string & nombre)
         exit(1);
     }
 
-    (*this).EliminaTodos();
+    EliminaTodos();
+
+    getline(fi, linea);
+
+    if (linea != "AdscripcionS")
+    {
+        cerr << "Error: No se ha encontrado lo palabra clave" << endl;
+        exit(1);
+    }
+
+    char inicial;
+    inicial = fi.peek();
+
+    if (inicial == '#')
+    {
+        getline(fi, linea);
+    }
     
+
     fi >> (*this);
 }
  
@@ -545,7 +557,6 @@ void VectorAdscripcion :: InsertaAdscripcion(Adscripcion &obj, int indice)
         (*this)[i] = (*this)[i-1];
     }
 
-    // Inserto el elemento
     (*this)[indice] = obj;
 
     Redimensionar();
@@ -558,6 +569,9 @@ void VectorAdscripcion :: InsertaAdscripcion(Adscripcion &obj, int indice)
 void VectorAdscripcion :: EliminaTodos()
 {
     LiberarMemoria();
+
+    // Redimensionar hace que se ajuste capacidad al tamaño mínimo
+    ReservaMemoria(TAMANIO);
 }
 
 /***************************************************************************/
@@ -586,7 +600,7 @@ void VectorAdscripcion :: CopiarDatos(const VectorAdscripcion &otro)
 {
     if (this != &otro)
     {
-        EliminaTodos();
+        LiberarMemoria();
         ReservaMemoria(otro.Capacidad());
 
         for (int i = 1; i <= otro.Totalutilizados(); i++)
@@ -643,16 +657,13 @@ int VectorAdscripcion :: BuscarAdscripcion(const string &cadena) const
 // Parámetros: obj (referencia), Adscripcion que se va a añadir.
 void VectorAdscripcion :: AniadeAdscripcion(const Adscripcion &obj)
 {
-    // Compruebo que el objeto no esté ya contenido en el vector
     if ((*this) && obj)
     {
         cerr << "Error: El Adscripcion ya existe" << endl;
         exit(1);
     }
-
     total_utilizados++;
 
-    // SetAdscripcion comprueba si está repetido
     (*this)[Totalutilizados()] = obj;
 
     Redimensionar();
@@ -667,11 +678,10 @@ void VectorAdscripcion :: EliminaAdscripcion(int indice)
 {
     if(indice_valido_usados(indice))
     {
-        while (indice < Totalutilizados())
-        {
-            (*this)[indice] = (*this)[indice+1];
-            indice++;
-        }
+        // "Desplazar" los valores desde la casilla siguiente a "indice" 
+        // hasta el final una posición a la izquierda
+		memmove (&(*this)[indice-1], &(*this)[indice], 
+                 (Totalutilizados()-indice)*sizeof(Adscripcion));
 
         total_utilizados--;
         Redimensionar();
@@ -700,7 +710,7 @@ void VectorAdscripcion :: ReservaMemoria(const int num_casillas)
 // Libera la memoria dinámica reservada para el vector
 void VectorAdscripcion :: LiberarMemoria()
 {
-    if (!EstaVacia())
+    if (vector_privado != nullptr)
 	{ 
 		delete [] vector_privado;
 
