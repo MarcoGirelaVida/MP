@@ -67,11 +67,26 @@ using namespace std;
     Departamento :: Departamento(string linea, char delimitador)
                         : Id_depto(nullptr), Nombre(nullptr)
     {
-        string id, nombre;
+        string id, nombre, hasta_salto_de_linea;
         istringstream flujo(linea);
 
-        // Leo el primer elemento del string (id)
-        getline(flujo, id, delimitador);
+        // Tomo la linea hasta el primer salto de linea
+        // Porque los datos deben estar en una única linea
+        if (getline(flujo, hasta_salto_de_linea))
+        {
+            
+            istringstream flujo2(hasta_salto_de_linea);
+            // Leo hasta el primer delimitador (presunto id)
+            if(getline(flujo2, id, delimitador))
+            {
+                // A continuación compruebo
+                // no haya delimitadores en el id
+
+                SetId_Dpto(id);
+            }
+        }
+        
+        
 
         //.....................................................................
         // Leo el segundo elemento del string (nombre)
@@ -120,7 +135,12 @@ using namespace std;
 // Métodos set
 
     void Departamento :: SetNombre(string nombre)
-    {stoptr(nombre, Nombre);}
+    {
+        if (contiene_delimitadores(nombre))
+        {
+            stoptr(nombre, Nombre);
+        }
+    }
 
 
     void Departamento :: SetId_Dpto(string id)
@@ -171,9 +191,11 @@ using namespace std;
                 cadena += (string) Id_depto + delimitador;
                 cadena += (string) Nombre + delimitador + "\n";
             }
-            else    {cadena += "DEPARTAMENTO VACIO\n";}
+            else    {cadena = (string) "VACIO" + delimitador +\
+                              (string) "VACIO" + delimitador + "\n";}
         }
-        else    {cadena += "DEPARTAMENTO NO INICALIZADO\n";}
+        else    {cadena = (string) "NULO" + delimitador +\
+                          (string) "NULO" + delimitador + "\n";}
         
 
         return cadena;

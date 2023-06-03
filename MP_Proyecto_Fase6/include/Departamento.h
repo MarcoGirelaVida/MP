@@ -122,7 +122,7 @@ public :
 	/***********************************************************************/
 	// Serializa un dato "Departamento"
 
-	string ToString (string cadena_inicial = "", char delimitador = ' ') const; 
+	string ToString (string cadena_inicial = "", char delimitador = DELIMITADOR_DEPARTAMENTO) const; 
 
 
 private: 	

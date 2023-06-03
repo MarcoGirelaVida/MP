@@ -18,7 +18,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-
+#include <sstream>
 #include "utils.h"
 
 using namespace std;
@@ -213,5 +213,25 @@ void stoptr(string &str, char * &atributo)
     atributo[str.size()] = '\0';
 }
 
+
+/***************************************************************************/
+/***************************************************************************/
+// Método contiene_delimitadores: Comprueba si un string contiene delimitadores
+// Recibe una referencia a un string
+bool contiene_delimitadores(string &str)
+{
+    bool contiene = false;
+    istringstream iss(str);
+    string palabra;
+
+    iss >> palabra;
+
+    if (iss >> palabra)
+    {
+        contiene = true;
+    }
+
+    return contiene;
+}
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////

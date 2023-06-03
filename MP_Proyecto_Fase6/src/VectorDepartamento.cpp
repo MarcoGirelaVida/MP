@@ -109,10 +109,13 @@ void VectorDepartamento :: setDepartamento(int indice, const Departamento &obj)
     if ((*this) && obj)
     {
         cerr << "Error: El Departamento ya existe" << endl;
-        exit(1);
     }
+    else
+    {
+        (*this)[indice] = obj;
+    }
+    
 
-    (*this)[indice] = obj;
 }
 
 /***************************************************************************/
@@ -155,7 +158,7 @@ ostream & operator<< (ostream &flujo, const VectorDepartamento &v_obj)
 {
     for (int i = 1; i <= v_obj.Totalutilizados(); i++)
     {
-        flujo << to_string(i) << ".- " << v_obj[i] << endl;
+        flujo << v_obj[i] << endl;
     }
 
     return flujo;
@@ -172,7 +175,7 @@ string VectorDepartamento :: ToString() const
     {
         int numero = i;
         string cadena_inicial = to_string(numero) + ".- ";
-        cad += (*this)[i].ToString(cadena_inicial) + "\n";
+        cad += (*this)[i].ToString(cadena_inicial, ' ') + "\n";
     }
 
     return cad;
@@ -197,10 +200,7 @@ void VectorDepartamento :: GuardarVectorDepartamento (const string & nombre) con
         }
         
         fo << "DEPARTAMENTOS" << endl;
-        for (int i = 1; i <= Totalutilizados(); i++)
-        {
-            fo << (*this)[i].ToString("", '*') << endl;
-        }
+        fo << (*this);
         
     }
 }
@@ -660,13 +660,15 @@ void VectorDepartamento :: AniadeDepartamento(const Departamento &obj)
     if ((*this) && obj)
     {
         cerr << "Error: El Departamento ya existe" << endl;
-        exit(1);
     }
-    total_utilizados++;
+    else
+    {
+        total_utilizados++;
 
-    (*this)[Totalutilizados()] = obj;
+        (*this)[Totalutilizados()] = obj;
 
-    Redimensionar();
+        Redimensionar();
+    }
 }
 
 /***************************************************************************/
