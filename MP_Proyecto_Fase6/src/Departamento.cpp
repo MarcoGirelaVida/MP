@@ -146,8 +146,8 @@ using namespace std;
     void Departamento :: SetId_Dpto(string id)
     {stoptr(id, Id_depto);}
 
-/***************************************************************************/
-// OPERATOR >> 
+/***************************************************************************/               /*SE COPIA IGUAL*/
+// OPERATOR >>  
 // Lee un dato Departamento desde un flujo de entrada.
 // Parámetros: flujo, referencia a un flujo de entrada.
 //             otro, referencia a un objeto de la clase Departamento. 
@@ -165,7 +165,7 @@ using namespace std;
         return flujo;
     }
 
-/***************************************************************************/
+/***************************************************************************/           /*SE COPIA IGUAL*/
 // OPERATOR <<
 // Escribe un dato Departamento en un flujo de salida.
 // Parámetros: flujo, referencia a un flujo de salida.
