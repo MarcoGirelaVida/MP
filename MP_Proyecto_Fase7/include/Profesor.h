@@ -35,10 +35,10 @@ private:
     char * Nombre;
     char * Apellidos;
     Fecha FechaNacimiento;
-    int Categoria;
+    char Categoria;
 
     // Delimitador del final de un campo en una línea de datos
-	static const char DELIMITADOR_PROFESOR = '*';
+	static const char DELIMITADOR_PROFESOR = '|';
 
 public:
 
@@ -66,7 +66,7 @@ public:
     //             la_categoria, int con la categoria.
 
     Profesor (string el_DNI, string el_nombre, string el_apellidos,
-              string la_fecha="1/1/2000", int la_categoria=1); 
+              string la_fecha="1/1/2000", char la_categoria='A'); 
 
     /************************************************************************/
     // Constructor desde un string.
@@ -91,7 +91,7 @@ public:
     string getNombre() const;
     string getApellidos() const;
     string getFechaNacimiento() const;
-    int getCategoria() const;
+    char getCategoria() const;
 
     /***************************************************************************/
     // Métodos set
@@ -100,7 +100,7 @@ public:
     void setNombre(string arg_Nombre = "");
     void setApellidos(string arg_Apellidos = "");
     void setFechaNacimiento(string arg_fechanacimiento = "");
-    void setCategoria(int arg_categoria);
+    void setCategoria(char arg_categoria);
 
     /***************************************************************************/
     // OPERATOR >> 

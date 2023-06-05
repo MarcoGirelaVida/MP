@@ -1,8 +1,20 @@
 PROFESORES
-#Fichero de profesores con los datos de las fases iniciales.
-12345678A*Laureano Amadeo*Abad Arrabal*01/01/1970*1*
-24680135B*Braulio*Buendia Bueno*02/02/1971*2*
-13579246C*Carmen*Cortes Cruz*03/03/1972*1*
-11223344D*Dionisio*Durante Diaz*02/02/1970*3*
-99887766E*Estrella*Narvaez Luz*04/04/1965*4*
-19283746F*Nicolas*Valero Pedros*05/05/1973*2*
+# NUEVO fichero de profesores con los datos de las fases iniciales.
+# EL FORMATO DE ESTE FICHERO HA CAMBIADO
+12345678A|A|Laureano Amadeo|Abad Arrabal|01/01/1970|
+24680135B|B|Braulio|Buendia Bueno|02/02/1971|
+13579246C|A|Carmen|Cortes Cruz|03/03/1972|
+11223344D|C|Dionisio|Durante Diaz|02/02/1970|
+99887766E|D|Estrella|Narvaez Luz|04/04/1965|
+19283746F|B|Nicolas|Valero Pedros|05/05/1973|
+11111111A|A|Antonio|Perez Perez|01/01/1970|
+22222222B|B|Manuela|Garcia Garcia|02/02/1971|
+33333333C|C|Maria Jose|Valeron Tamayo de Arriba|03/03/1972|
+44444444C|D|Jose Maria|Cortes Gutierrez|04/04/1973|
+55555555C|B|Aurora|Boreal del Norte|05/05/1975|
+66666666C|A|Estrella|Polar|06/06/1976|
+77777777C|A|Leon|de la Sabana Africana|07/07/1977|
+88888888C|A|Manuel|Nogal del Peral|08/08/1978|
+99999999C|B|Purificacion|Alba Blanca|09/09/1979|
+10101010C|A|Manuel|Albacete Real|10/10/1980|
+12121212C|C|Alvaro|Valencia Teruel|12/12/1982|

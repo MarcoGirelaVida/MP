@@ -28,10 +28,10 @@ using namespace std;
 class Encargo
 {
     private:
-        int categoria;  // Categoría del profesor (valor entre 1 y 5)
+        char categoria;  // Categoría del profesor (valor entre 1 y 5)
         double creditos; // Créditos asociados a la categoría
 
-        static const char DELIMITADOR_ENCARGO = '*';
+        static const char DELIMITADOR_ENCARGO = '|';
 
     public:
         /*********************************************************************/
@@ -76,13 +76,13 @@ class Encargo
 	/*************************************************************************/
     // Métodos get
 
-    int getCategoria() const;
-    int getCreditos() const;
+    char getCategoria() const;
+    double getCreditos() const;
 
     /***************************************************************************/
     // Métodos set
 
-    void setCategoria(int cat);
+    void setCategoria(char cat);
     void setCreditos(double cred);
 
     /***************************************************************************/

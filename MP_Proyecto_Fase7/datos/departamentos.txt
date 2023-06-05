@@ -1,4 +1,8 @@
 DEPARTAMENTOS
-#Fichero de departamentos con los datos de las fases iniciales.
-CCIA*Ciencias de la Computacion e Inteligencia Artificial*
-LSI*Lenguajes y Sistemas Informaticos*
+# Fichero de departamentos con los datos de las fases iniciales. 
+# TIENE EL FORMATO ORIGINAL.   
+DEP1*Departamento primero* 
+DEP2*Departamento numero dos*
+DEP3*Departamento tercero*
+DEP4*Departamento cuatro*
+DEP5*Quinto Departamento*

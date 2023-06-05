@@ -1,7 +1,8 @@
 ENCARGOS
-#Fichero de categorias con los datos de las fases iniciales.
-1*24.0*
-2*20.5*
-3*16.5*
-4*12.0*
-5*6.0*
+# Nuevo fichero de categorias con los datos de las fases iniciales.
+# EL FORMATO DE ESTE FICHERO HA CAMBIADO
+A|24.0|
+B|20.5|
+C|16.5|
+D|12.0|
+E|6.0|  

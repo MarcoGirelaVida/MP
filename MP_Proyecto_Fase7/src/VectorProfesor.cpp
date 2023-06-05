@@ -235,12 +235,12 @@ void VectorProfesor :: RecuperarVectorProfesor (const string & nombre)
     char inicial;
     inicial = fi.peek();
 
-    if (inicial == '#')
+    while (inicial == '#')
     {
         getline(fi, linea);
+	inicial = fi.peek();
     }
     
-
     fi >> (*this);
 }
  

@@ -1,3 +1,0 @@
-DEPARTAMENTOS
-CCIA*Ciencias de la Computacion e Inteligencia Artificial*
-LSI*Lenguajes y Sistemas Informaticos*

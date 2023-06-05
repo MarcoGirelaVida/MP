@@ -54,7 +54,7 @@ using namespace std;
             if  (getline(flujo2, cred, delimitador)){
 
                 // Si todo ha ido bien, guardo los datos
-                setCategoria(stoi(cat));
+                setCategoria(cat[0]);
                 setCreditos(stod(cred));
             }
             else{
@@ -112,19 +112,19 @@ using namespace std;
 /*************************************************************************/
 // Métodos get, ya que no quiero modificarlos los declaro como const
 
-    int Encargo :: getCategoria() const
+    char Encargo :: getCategoria() const
     {return categoria;}
 
 
-    int Encargo :: getCreditos() const
+    double Encargo :: getCreditos() const
     {return creditos;}
 
 /***************************************************************************/
 // Métodos set
 
-    void Encargo :: setCategoria(int cat)
+    void Encargo :: setCategoria(char cat)
     {
-        if (cat < 1 || cat > 5)
+        if (cat < (int) 'A' || cat > (int) 'E')
         {
             //cerr << "Error: La categoria debe estar entre 1 y 5" << endl;
             TodoNulo();

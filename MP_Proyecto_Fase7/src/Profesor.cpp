@@ -29,7 +29,7 @@ using namespace std;
 
     Profesor :: Profesor()
                     : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
-                      Categoria(0)
+                      Categoria('A')
     {
         setDni();
         setNombre();
@@ -43,7 +43,7 @@ using namespace std;
 
     Profesor :: Profesor(const Profesor & otro)
                     : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
-                      Categoria(0)
+                      Categoria('A')
     {
         // Copiar datos ya reserva/libera memoria
         CopiarDatos(otro);
@@ -58,9 +58,9 @@ using namespace std;
 //             la_categoria, int con la categoria.
 
     Profesor :: Profesor(string el_DNI, string el_nombre, string el_apellidos,\
-                                string la_fecha, int la_categoria)
+                                string la_fecha, char la_categoria)
                     : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
-                      Categoria(0)
+                      Categoria('A')
     {
         setDni(el_DNI);
         setNombre(el_nombre);
@@ -77,7 +77,7 @@ using namespace std;
         
     Profesor :: Profesor(string linea, char delimitador)
                     : DNI(nullptr), Nombre(nullptr), Apellidos(nullptr),\
-                      Categoria(0)
+                      Categoria('A')
     {
         string dni, nombre, apellidos, fechanacimiento, categoria;
         string hasta_salto_de_linea;
@@ -91,17 +91,18 @@ using namespace std;
 
             // Leo los datos separados por los delimitadores
             if (getline(flujo2, dni, delimitador)){
+            if (getline(flujo2, categoria, delimitador)){
             if (getline(flujo2, nombre, delimitador)){
             if (getline(flujo2, apellidos, delimitador)){
             if (getline(flujo2, fechanacimiento, delimitador)){
-            if (getline(flujo2, categoria, delimitador))
-            {
+
                 // Si todo ha ido bien, guardo los datos
                 setDni(dni);
                 setNombre(nombre);
                 setApellidos(apellidos);
                 setFechaNacimiento(fechanacimiento);
-                setCategoria(stoi(categoria));
+		char categoria_char = categoria[0];
+                setCategoria(categoria_char);
             }
             else{
                 cerr << "Error: No se ha guardado el Profesor porque"
@@ -216,7 +217,7 @@ using namespace std;
     }
 
 //...........................................................................
-    int Profesor :: getCategoria() const
+    char Profesor :: getCategoria() const
     {
         return Categoria;
     }
@@ -264,11 +265,11 @@ using namespace std;
     }
 
 //...........................................................................
-    void Profesor :: setCategoria(int arg_Categoria)
+    void Profesor :: setCategoria(char arg_Categoria)
     {
-        if (arg_Categoria < 1 || arg_Categoria > 5)
+        if (arg_Categoria < (int) 'A' || arg_Categoria > (int) 'E')
         {
-            cerr << "Error: La categoria debe estar entre 1 y 5" << endl;
+            cerr << "Error: La categoria debe estar entre A y E" << endl;
             TodoNulo();
         }
         
@@ -318,15 +319,15 @@ using namespace std;
         // si son \0 se mostrará como "" sin más.
         if (DNI && Nombre && Apellidos)
         {
-            if (strlen(DNI) || strlen(Nombre) || strlen(Apellidos) || Categoria ||
+            if (strlen(DNI) || strlen(Nombre) || strlen(Apellidos) ||
             FechaNacimiento.getMes() || FechaNacimiento.getDia())
 
             {
                 cadena += (string) DNI + delimitador;
+                cadena += delimitador + Categoria;
                 cadena += FormatString(((string)Nombre + delimitador \
                             + (string)Apellidos),32);
                 cadena += delimitador +FechaNacimiento.ToString(mes_string);
-                cadena += delimitador + to_string(Categoria);
                 cadena += delimitador + "\n";
             }
 
@@ -456,7 +457,7 @@ using namespace std;
         stoptr(nulo, DNI);
         stoptr(nulo, Nombre);
         stoptr(nulo, Apellidos);
-        Categoria = 0;
+        Categoria = 'A';
         FechaNacimiento = Fecha();
     }
 /////////////////////////////////////////////////////////////////////////////
